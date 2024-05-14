@@ -7,11 +7,12 @@ return {
             sources = {
                 null_ls.builtins.formatting.stylua,
                 null_ls.builtins.formatting.prettier,
+                null_ls.builtins.formatting.markdownlint,
+
                 -- null_ls.builtins.formatting.goimports-reviser,
                 -- null_ls.builtins.formatting.clang-format,
                 null_ls.builtins.formatting.autopep8,
                 null_ls.builtins.formatting.latexindent,
-                null_ls.builtins.formatting.markdownlint,
                 null_ls.builtins.formatting.sqlfmt,
                 null_ls.builtins.formatting.yamlfmt,
                 null_ls.builtins.diagnostics.eslint,
