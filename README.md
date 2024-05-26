@@ -15,3 +15,9 @@ gd -> Go to Definition
 Space - ca -> Code Action
 
 Space - gf -> Format Code
+
+### Markdown Preview
+
+:MarkdownPreview -> Open Markdown Preview
+
+:MarkdownPreviewStop -> Close Markdown Preview
