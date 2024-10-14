@@ -2,16 +2,7 @@ return {
 	"nvimdev/dashboard-nvim",
 	event = "VimEnter",
 	opts = function()
-            --[=====[ local logo = [[
- _______    ___       ______ .___________.    _______. _______ .___________.
-|   ____|  /   \     /      ||           |   /       ||   ____||           |
-|  |__    /  ^  \   |  ,----'`---|  |----`  |   (----`|  |__   `---|  |----`
-|   __|  /  /_\  \  |  |         |  |        \   \    |   __|      |  |     
-|  |    /  _____  \ |  `----.    |  |    .----)   |   |  |____     |  |     
-|__|   /__/     \__\ \______|    |__|    |_______/    |_______|    |__|     
-                                                                            
-    ]] --]=====]
-            local logo = [[  
+           local logo = [[  
     ⣴⣶⣤⡤⠦⣤⣀⣤⠆     ⣈⣭⣿⣶⣿⣦⣼⣆          
     ⠉⠻⢿⣿⠿⣿⣿⣶⣦⠤⠄⡠⢾⣿⣿⡿⠋⠉⠉⠻⣿⣿⡛⣦       
           ⠈⢿⣿⣟⠦ ⣾⣿⣿⣷    ⠻⠿⢿⣿⣧⣄     
@@ -24,8 +15,6 @@ return {
       ⢻⣿⣿⣄   ⠈⠻⣿⣿⣿⣷⣿⣿⣿⣿⣿⡟ ⠫⢿⣿⡆     
        ⠻⣿⣿⣿⣿⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⢀⣀⣤⣾⡿⠃     
 ]]
-
-
 
 		logo = string.rep("\n", 5) .. logo .. "\n\n"
 
@@ -44,11 +33,11 @@ return {
           { action = "Telescope find_files",                                     desc = " find file",       icon = " ", key = "<space>f" },
           { action = "Telescope oldfiles",                                       desc = " recent files",    icon = " ", key = "<space>r" },
           { action = "Telescope live_grep",                                      desc = " find text",       icon = " ", key = "<space>g" },
-          { action = [[lua require("lazyvim.util").telescope.config_files()()]], desc = " config",          icon = " ", key = "<space>c" },
-          { action = 'lua require("persistence").load()',                        desc = " restore session", icon = " ", key = "<space>s" },
+          -- { action = [[lua require("lazyvim.util").telescope.config_files()()]], desc = " config",          icon = " ", key = "<space>c" },
+          -- { action = 'lua require("persistence").load()',                        desc = " restore session", icon = " ", key = "<space>s" },
           -- { action = "LazyExtras",                                               desc = " lazy extras",     icon = " ", key = "<space>x" },
           -- { action = "Lazy",                                                     desc = " lazy",            icon = "󰒲 ", key = "<space>l" },
-          { action = "qa",                                                       desc = " quit",            icon = " ", key = "q" },
+          -- { action = "qa",                                                       desc = " quit",            icon = " ", key = "q" },
         },
 				footer = function()
 					local stats = require("lazy").stats()
