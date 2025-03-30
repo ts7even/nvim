@@ -40,7 +40,7 @@ return {
 			local lspconfig = require("lspconfig")
 
 			-- Setup for Ruff
-			lspconfig.ruff_lsp.setup({
+			lspconfig.ruff.setup({
 				init_options = {
 					settings = {
 						-- Ruff language server settings go here
