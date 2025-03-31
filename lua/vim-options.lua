@@ -6,5 +6,4 @@ vim.g.mapleader = " "
 vim.wo.relativenumber = true
 vim.api.nvim_set_option("clipboard", "unnamedplus")
 vim.cmd("set textwidth=80") -- Automatically wrap text at 80 characters
-
-
+vim.cmd("set formatoptions+=a") -- Auto-wrap paragraphs in Insert mode

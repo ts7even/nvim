@@ -21,7 +21,7 @@ return {
 					"ts_ls",
 					"ltex",
 					"marksman",
-					"pyright",
+					"ruff_lsp",
 					"svelte",
 					"sqlls",
 					"taplo",
@@ -58,7 +58,6 @@ return {
 			lspconfig.ts_ls.setup({ capabilities = capabilities })
 			lspconfig.ltex.setup({ capabilities = capabilities })
 			lspconfig.marksman.setup({ capabilities = capabilities })
-			lspconfig.pyright.setup({ capabilities = capabilities })
 			lspconfig.svelte.setup({ capabilities = capabilities })
 			lspconfig.taplo.setup({ capabilities = capabilities })
 			lspconfig.vuels.setup({ capabilities = capabilities })
