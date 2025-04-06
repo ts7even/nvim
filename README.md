@@ -1,6 +1,7 @@
 # Nvim Config
 
 <!--toc:start-->
+
 - [Nvim Config](#nvim-config)
   - [vim option's (vim-options.lua)](#vim-options-vim-optionslua)
   - [Plugins](#plugins)
@@ -13,12 +14,8 @@
     - [treesitter.lua](#treesitterlua)
     - [markdown-preview.lua](#markdown-previewlua)
     - [obsidian.lua](#obsidianlua)
-  - [Commands](#commands)
-    - [Linter Commands](#linter-commands)
-    - [vim-keymaps.lua (Error Warning Suggestion's)](#vim-keymapslua-error-warning-suggestions)
-    - [Markdown Preview](#markdown-preview)
-    - [Obsidian](#obsidian)
-<!--toc:end-->
+  - [Commands](#commands) - [Linter Commands](#linter-commands) - [vim-keymaps.lua (Error Warning Suggestion's)](#vim-keymapslua-error-warning-suggestions) - [Markdown Preview](#markdown-preview) - [Obsidian](#obsidian)
+  <!--toc:end-->
 
 ## vim option's (vim-options.lua)
 
@@ -97,7 +94,7 @@ the graphical editior for visualizaitons.
 
 normal mode: Shift K -> Show Linter Warnings
 
-normal mode: gd -> Go to Definition __I Might remove this__
+normal mode: gd -> Go to Definition **I Might remove this**
 
 '<leader>ca' -> Code Action
 
@@ -117,5 +114,16 @@ normal mode: gd -> Go to Definition __I Might remove this__
 
 :MarkdownPreviewStop -> Close Markdown Preview
 
-
 ### Obsidian
+
+I created a C executible that opens an Obsisdian directory to take notes.
+
+1. You would need to adjust the C file global variable for the path of the vault
+   directory.
+
+2. Then compile the file using `gcc -o ob ob.c` which `ob` is the executable.
+
+3. Change the permission and create an executable using `chmod +x ob`
+
+4. Move `ob` executable to `~/.local/bin` and make sure `~/.local/bin` is in
+   your path (zsh or bash rc file)
