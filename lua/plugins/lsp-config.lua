@@ -19,9 +19,8 @@ return {
 					"gopls",
 					"html",
 					"ts_ls",
-					"ltex",
 					"marksman",
-					"ruff_lsp",
+					"ruff",
 					"svelte",
 					"sqlls",
 					"taplo",
@@ -56,7 +55,6 @@ return {
 			lspconfig.gopls.setup({ capabilities = capabilities })
 			lspconfig.html.setup({ capabilities = capabilities })
 			lspconfig.ts_ls.setup({ capabilities = capabilities })
-			lspconfig.ltex.setup({ capabilities = capabilities })
 			lspconfig.marksman.setup({ capabilities = capabilities })
 			lspconfig.svelte.setup({ capabilities = capabilities })
 			lspconfig.taplo.setup({ capabilities = capabilities })

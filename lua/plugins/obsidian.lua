@@ -21,29 +21,13 @@ return {
     opts = {
         workspaces = {
             {
-                name = "personal",
-                path = "~/notes/personal",
+                name = "neuron",
+                path = "~/notes/obsidian/vaults/neuron",
             },
 
             {
-                name = "compsci",
-                path = "~/notes/compsci",
-            },
-            {
-                name = "finance",
-                path = "~/notes/finance",
-            },
-            {
-                name = "stats",
-                path = "~/notes/stats",
-            },
-            {
-                name = "math",
-                path = "~/notes/math",
-            },
-            {
                 name = "work",
-                path = "~/notes/work",
+                path = "~/notes/obsidian/vaults/work",
             },
         },
 
@@ -178,7 +162,7 @@ return {
 
         -- Optional, for templates (see below).
         templates = {
-            folder = "templates",
+            folder = "/home/bourbon/notes/obsidian/templates",
             date_format = "%Y-%m-%d",
             time_format = "%H:%M",
             -- A map for custom variables, the key should be the variable and the value a function
@@ -190,19 +174,20 @@ return {
         ---@param url string
         follow_url_func = function(url)
             -- Open the URL in the default web browser.
-            vim.fn.jobstart({ "open", url }) -- Mac OS
-            -- vim.fn.jobstart({"xdg-open", url})  -- linux
-            -- vim.cmd(':silent exec "!start ' .. url .. '"') -- Windows
-            -- vim.ui.open(url) -- need Neovim 0.10.0+
+            -- vim.fn.jobstart({ "open", url }) -- Mac OS
+            vim.fn.jobstart({"xdg-open", url})  -- linux vim.cmd(':silent exec
+            --"!start ' .. url .. '"') -- Windows vim.ui.open(url) -- need
+            --Neovim 0.10.0+
         end,
 
         -- Optional, by default when you use `:ObsidianFollowLink` on a link to an image
         -- file it will be ignored but you can customize this behavior here.
         ---@param img string
         follow_img_func = function(img)
-            vim.fn.jobstart({ "qlmanage", "-p", img }) -- Mac OS quick look preview
-            -- vim.fn.jobstart({"xdg-open", url})  -- linux
-            -- vim.cmd(':silent exec "!start ' .. url .. '"') -- Windows
+            --vim.fn.jobstart({ "qlmanage", "-p", img }) -- Mac OS quick look
+            --preview 
+            vim.fn.jobstart({"xdg-open", url})  -- linux vim.cmd(':silent exec
+            --"!start ' .. url .. '"') -- Windows
         end,
 
         -- Optional, set to true if you use the Obsidian Advanced URI plugin.
