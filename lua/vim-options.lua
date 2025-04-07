@@ -11,8 +11,8 @@ vim.cmd("set textwidth=80") -- Automatically wrap text at 80 characters
 vim.opt.conceallevel = 1 -- This is for obsidian.lua -- Wired stuff happening
 -- Auto format on save
 vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = { "*.lua", "*.js", "*.ts", "*.md","*.rs","*.c","*.toml","*.yaml","*.py"}, -- add filetypes as needed
-  callback = function()
-    vim.lsp.buf.format({ async = false })
-  end,
+    pattern = { "*.lua", "*.js", "*.ts", "*.md", "*.rs", "*.c", "*.toml", "*.yaml", "*.py" }, -- add filetypes as needed
+    callback = function()
+        vim.lsp.buf.format({ async = false })
+    end,
 })

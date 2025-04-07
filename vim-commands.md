@@ -39,6 +39,10 @@
 
 :10,20s/old/new/g
 
+### Markdown format
+
+:%!mdformat -
+
 ## Open and create new files
 
 ### Create new file
