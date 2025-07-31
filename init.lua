@@ -30,7 +30,7 @@ vim.opt.shiftwidth = 4        -- Number of spaces for each step of autoindent
 vim.opt.relativenumber = true         -- Show relative line numbers
 vim.opt.number = true                 -- Show absolute line number on current line
 vim.opt.clipboard = "unnamedplus"     -- Use system clipboard
-vim.opt.textwidth = 80                -- Automatically wrap text at 80 characters
+vim.opt.textwidth = 120                -- Automatically wrap text at 120 characters
 vim.opt.conceallevel = 1              -- Conceal level for special characters
 vim.opt.ignorecase = true             -- Ignore case in search patterns
 vim.opt.smartcase = true              -- Override ignorecase if search contains uppercase
@@ -168,7 +168,6 @@ require("lazy").setup({
         config = {
           header = vim.split(logo, "\n"),
           center = {
-            { action = "ene | startinsert", desc = "new file", icon = " ", key = "e" },
             { action = "Telescope find_files", desc = "find file", icon = " ", key = "<space>ff" },
             { action = "Telescope oldfiles", desc = "recent files", icon = " ", key = "<space>fr" },
             { action = "Telescope buffers", desc = "buffers", icon = " ", key = "<space>fb" },
@@ -205,12 +204,11 @@ require("lazy").setup({
 
   -- Color scheme/theme
   {
-    "folke/tokyonight.nvim",
+    "olimorris/onedarkpro.nvim",
     lazy = false,
     priority = 1000,
-    opts = {},
     config = function()
-      vim.cmd("colorscheme tokyonight")
+      vim.cmd("colorscheme onedark")
     end,
   },
 
@@ -331,6 +329,7 @@ require("lazy").setup({
           "vuels",       -- Vue
           "yamlls",      -- YAML
         },
+        automatic_installation = true,  -- Auto-install missing servers
       })
     end,
   },
@@ -389,7 +388,18 @@ require("lazy").setup({
       -- Setup other language servers
       lspconfig.lua_ls.setup({ capabilities = capabilities })
       lspconfig.bashls.setup({ capabilities = capabilities })
-      lspconfig.clangd.setup({ capabilities = capabilities })
+      lspconfig.clangd.setup({ 
+        capabilities = capabilities,
+        cmd = {
+          "clangd",
+          "--background-index",
+          "--clang-tidy",
+          "--header-insertion=iwyu",
+          "--completion-style=detailed",
+          "--function-arg-placeholders",
+          "--fallback-style=llvm",
+        },
+      })
       lspconfig.cssls.setup({ capabilities = capabilities })
       lspconfig.dockerls.setup({ capabilities = capabilities })
       lspconfig.gopls.setup({ capabilities = capabilities })
@@ -582,6 +592,13 @@ require("lazy").setup({
           -- Lua formatter
           null_ls.builtins.formatting.stylua,
           
+          -- C/C++ formatter
+          null_ls.builtins.formatting.clang_format.with({
+            extra_args = { 
+              "--style={IndentWidth: 4, UseTab: Never, TabWidth: 4, BreakBeforeBraces: Allman, ColumnLimit: 100, IndentCaseLabels: true, AlignConsecutiveAssignments: false, AlignConsecutiveDeclarations: false}"
+            },
+          }),
+          
           -- JavaScript/TypeScript formatter
           null_ls.builtins.formatting.prettier.with({
             filetypes = { "javascript", "typescript", "json" },
@@ -590,7 +607,7 @@ require("lazy").setup({
           -- Markdown formatters
           null_ls.builtins.formatting.mdformat.with({
             filetypes = { "markdown" },
-            extra_args = { "--wrap", "80" },
+            extra_args = { "--wrap", "100" },
           }),
           null_ls.builtins.formatting.markdownlint,
           null_ls.builtins.diagnostics.markdownlint,
