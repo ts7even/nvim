@@ -1,6 +1,7 @@
 # Vim Commands Reference
 
 <!--toc:start-->
+
 - [Vim Commands Reference](#vim-commands-reference)
   - [Basic Commands](#basic-commands)
   - [Command Line Operations](#command-line-operations)
@@ -16,23 +17,19 @@
   - [Advanced Text Objects](#advanced-text-objects)
   - [Macros](#macros)
   - [Marks and Jumps](#marks-and-jumps)
+
 <!--toc:end-->
 
 ## Basic Commands
 
-| Command | Description |
-|---------|-------------|
-| `:w` | Save file |
-| `:q` | Quit |
-| `:wq` or `:x` | Save and quit |
-| `:q!` | Quit without saving |
-| `:e filename` | Open/create file |
-| `:pwd` | Show current directory |
-| `:cd path` | Change directory |
+| Command | Description | |---------|-------------| | `:w` | Save file | | `:q` | Quit | | `:wq` or
+`:x` | Save and quit | | `:q!` | Quit without saving | | `:e filename` | Open/create file | | `:pwd`
+| Show current directory | | `:cd path` | Change directory |
 
 ## Command Line Operations
 
 ### Tab Completion
+
 - `Tab` - Complete command/filename
 - `Ctrl+d` - Show all completions
 - `Ctrl+a` - Move to beginning of line
@@ -41,6 +38,7 @@
 - `Ctrl+u` - Delete to beginning of line
 
 ### Command History
+
 - `↑` / `↓` - Navigate command history
 - `:history` - Show command history
 - `q:` - Open command history window
@@ -49,6 +47,7 @@
 ## Multiple Cursors & Mass Editing
 
 ### Column/Block Selection
+
 ```vim
 Ctrl+v         " Enter visual block mode
 j/k            " Select multiple lines
@@ -62,6 +61,7 @@ Esc            " Apply changes
 ```
 
 ### Mass Operations
+
 ```vim
 " Delete at end of multiple lines
 Ctrl+v         " Visual block mode
@@ -78,6 +78,7 @@ x              " Delete character at end of each line
 ```
 
 ### Move to Middle of Lines
+
 ```vim
 Ctrl+v         " Visual block mode
 j/k            " Select lines
@@ -88,6 +89,7 @@ I              " Insert at that position
 ## Repeat Operations
 
 ### Numeric Multipliers
+
 ```vim
 10i            " Enter insert mode, type text, press Esc
                " Repeats the insertion 10 times
@@ -106,12 +108,14 @@ I              " Insert at that position
 ```
 
 ### Dot Command (.)
+
 ```vim
 .              " Repeat last change
 10.            " Repeat last change 10 times
 ```
 
 ### Example: Insert Text 10 Times
+
 ```vim
 10i Hello World! Esc
 " Results in: Hello World! Hello World! Hello World! ... (10 times)
@@ -120,6 +124,7 @@ I              " Insert at that position
 ## Find and Replace
 
 ### Basic Find/Replace
+
 ```vim
 :s/old/new/           " Replace first occurrence in current line
 :s/old/new/g          " Replace all in current line
@@ -129,6 +134,7 @@ I              " Insert at that position
 ```
 
 ### Advanced Find/Replace
+
 ```vim
 :%s/\<word\>/new/g    " Replace whole word only
 :%s/old/new/gi        " Case insensitive replace
@@ -138,6 +144,7 @@ I              " Insert at that position
 ```
 
 ### Visual Selection Replace
+
 ```vim
 gv             " Reselect last visual selection
 :'<,'>s/old/new/g  " Replace in visual selection
@@ -171,6 +178,7 @@ Ctrl+6         " Switch between last two buffers
 ## Navigation Between Functions
 
 ### Programming Navigation
+
 ```vim
 ]]             " Jump to next function/class
 [[             " Jump to previous function/class
@@ -183,6 +191,7 @@ K              " Show documentation (LSP)
 ```
 
 ### Tag Navigation (with ctags)
+
 ```vim
 Ctrl+]         " Jump to tag definition
 Ctrl+t         " Jump back from tag
@@ -207,6 +216,7 @@ ip             " Select inner paragraph
 ## Command Line Completion
 
 ### File/Directory Completion
+
 ```vim
 :e <Tab>       " Complete filenames
 :cd <Tab>      " Complete directory names
@@ -214,6 +224,7 @@ ip             " Select inner paragraph
 ```
 
 ### Command Completion
+
 ```vim
 :se<Tab>       " Completes to :set
 :setl<Tab>     " Completes to :setlocal
@@ -221,6 +232,7 @@ ip             " Select inner paragraph
 ```
 
 ### Buffer/Window Completion
+
 ```vim
 :b <Tab>       " Complete buffer names
 :sb <Tab>      " Complete buffer names for split
@@ -229,6 +241,7 @@ ip             " Select inner paragraph
 ## Settings (:set commands)
 
 ### Display Settings
+
 ```vim
 :set number            " Show line numbers
 :set nonumber          " Hide line numbers
@@ -241,6 +254,7 @@ ip             " Select inner paragraph
 ```
 
 ### Search Settings
+
 ```vim
 :set ignorecase        " Case insensitive search
 :set noignorecase      " Case sensitive search
@@ -251,6 +265,7 @@ ip             " Select inner paragraph
 ```
 
 ### Indentation Settings
+
 ```vim
 :set expandtab         " Use spaces instead of tabs
 :set noexpandtab       " Use tabs instead of spaces
@@ -262,6 +277,7 @@ ip             " Select inner paragraph
 ```
 
 ### File Settings
+
 ```vim
 :set fileformat=unix   " Unix line endings
 :set encoding=utf-8    " UTF-8 encoding
@@ -271,6 +287,7 @@ ip             " Select inner paragraph
 ```
 
 ### Show Current Settings
+
 ```vim
 :set                   " Show all non-default settings
 :set all               " Show all settings
@@ -281,6 +298,7 @@ ip             " Select inner paragraph
 ## Advanced Text Objects
 
 ### Inside/Around Objects
+
 ```vim
 ciw            " Change inner word
 caw            " Change a word (including space)
@@ -295,6 +313,7 @@ cat            " Change around HTML/XML tag
 ```
 
 ### Paragraph and Sentence Objects
+
 ```vim
 cip            " Change inner paragraph
 cap            " Change a paragraph
@@ -305,6 +324,7 @@ cas            " Change a sentence
 ## Macros
 
 ### Recording and Playing Macros
+
 ```vim
 qa             " Start recording macro in register 'a'
 q              " Stop recording
@@ -314,6 +334,7 @@ q              " Stop recording
 ```
 
 ### Macro Example
+
 ```vim
 qa             " Start recording
 I"<Esc>        " Insert quote at beginning
@@ -327,6 +348,7 @@ q              " Stop recording
 ## Marks and Jumps
 
 ### Local Marks (per buffer)
+
 ```vim
 ma             " Set mark 'a' at current position
 'a             " Jump to mark 'a'
@@ -335,12 +357,14 @@ ma             " Set mark 'a' at current position
 ```
 
 ### Global Marks (across files)
+
 ```vim
 mA             " Set global mark 'A'
 'A             " Jump to global mark 'A'
 ```
 
 ### Automatic Marks
+
 ```vim
 ''             " Jump to last position before jump
 '.             " Jump to last change
@@ -350,6 +374,7 @@ mA             " Set global mark 'A'
 ```
 
 ### Jump List
+
 ```vim
 Ctrl+o         " Jump to older position
 Ctrl+i         " Jump to newer position
@@ -364,5 +389,5 @@ Ctrl+i         " Jump to newer position
 
 :e !mkdir -p notes
 
-The -p flag is usefull because it prevents errors if the directory already
-exisits and create parent directories as needed.
+The -p flag is usefull because it prevents errors if the directory already exisits and create parent
+directories as needed.

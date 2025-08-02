@@ -1,6 +1,7 @@
 # Vim Motions & Movement Commands
 
 <!--toc:start-->
+
 - [Vim Motions & Movement Commands](#vim-motions--movement-commands)
   - [Basic Movement](#basic-movement)
   - [Word Movement](#word-movement)
@@ -16,6 +17,7 @@
   - [Movement with Operations](#movement-with-operations)
   - [Text Objects](#text-objects)
   - [Visual Mode Movements](#visual-mode-movements)
+
 <!--toc:end-->
 
 ## Basic Movement
@@ -43,7 +45,9 @@
 | `gE` | Jump backward to end of WORD |
 
 ### Word vs WORD
+
 - **word**: delimited by punctuation and whitespace (`hello-world` = 3 words)
+
 - **WORD**: delimited only by whitespace (`hello-world` = 1 WORD)
 
 ## Line Movement
@@ -99,6 +103,7 @@
 | `g#` | Search backward for partial word under cursor |
 
 ### Advanced Search
+
 | Motion | Description |
 |--------|-------------|
 | `f{char}` | Find next character on line |
@@ -115,8 +120,8 @@
 | `Space` | Move right (same as `l`) |
 | `Backspace` | Move left (same as `h`) |
 | `Enter` | Move to start of next line |
-| `|` | Move to column 1 |
-| `5|` | Move to column 5 |
+| `\|` | Move to column 1 |
+| `5\|` | Move to column 5 |
 
 ## Paragraph and Sentence Movement
 
@@ -146,6 +151,7 @@
 ## Window and Tab Movement
 
 ### Window Movement
+
 | Motion | Description |
 |--------|-------------|
 | `Ctrl+w h` | Move to left window |
@@ -156,6 +162,7 @@
 | `Ctrl+w p` | Move to previous window |
 
 ### Tab Movement
+
 | Motion | Description |
 |--------|-------------|
 | `gt` | Go to next tab |
@@ -165,6 +172,7 @@
 ## Advanced Movement Combinations
 
 ### Line Numbers with Motions
+
 | Motion | Description |
 |--------|-------------|
 | `5j` | Move down 5 lines |
@@ -173,7 +181,9 @@
 | `4}` | Move forward 4 paragraphs |
 
 ### Relative Line Numbers
+
 With `relativenumber` set:
+
 | Motion | Description |
 |--------|-------------|
 | `5j` | Move to line 5 below current |
@@ -183,6 +193,7 @@ With `relativenumber` set:
 ## Movement with Operations
 
 ### Delete with Movement
+
 | Command | Description |
 |---------|-------------|
 | `dw` | Delete word |
@@ -194,6 +205,7 @@ With `relativenumber` set:
 | `dt.` | Delete until (not including) `.` |
 
 ### Yank with Movement
+
 | Command | Description |
 |---------|-------------|
 | `yw` | Yank word |
@@ -202,6 +214,7 @@ With `relativenumber` set:
 | `y}` | Yank to end of paragraph |
 
 ### Change with Movement
+
 | Command | Description |
 |---------|-------------|
 | `cw` | Change word |
@@ -212,10 +225,12 @@ With `relativenumber` set:
 ## Text Objects
 
 ### Inner vs Around
+
 - **i** = inner (excluding delimiters)
 - **a** = around (including delimiters)
 
 ### Word Objects
+
 | Object | Description |
 |--------|-------------|
 | `iw` | Inner word |
@@ -224,16 +239,18 @@ With `relativenumber` set:
 | `aW` | A WORD |
 
 ### Quote Objects
+
 | Object | Description |
 |--------|-------------|
 | `i"` | Inside double quotes |
 | `a"` | Around double quotes |
 | `i'` | Inside single quotes |
 | `a'` | Around single quotes |
-| `i` ` | Inside backticks |
-| `a` ` | Around backticks |
+| `i\`` | Inside backticks |
+| `a\`` | Around backticks |
 
 ### Bracket Objects
+
 | Object | Description |
 |--------|-------------|
 | `i(` or `i)` | Inside parentheses |
@@ -246,6 +263,7 @@ With `relativenumber` set:
 | `a<` or `a>` | Around angle brackets |
 
 ### Block Objects
+
 | Object | Description |
 |--------|-------------|
 | `ip` | Inner paragraph |
@@ -258,6 +276,7 @@ With `relativenumber` set:
 ## Visual Mode Movements
 
 ### Visual Selection
+
 | Command | Description |
 |---------|-------------|
 | `v` | Character-wise visual mode |
@@ -266,13 +285,16 @@ With `relativenumber` set:
 | `gv` | Reselect last visual selection |
 
 ### Visual Mode Motions
+
 All normal mode motions work in visual mode:
+
 - `vw` - Select word
 - `v$` - Select to end of line
 - `V}` - Select to end of paragraph
 - `Ctrl+v3j` - Select block 3 lines down
 
 ### Visual Mode Text Objects
+
 | Command | Description |
 |---------|-------------|
 | `viw` | Select inner word |
@@ -283,6 +305,7 @@ All normal mode motions work in visual mode:
 | `vap` | Select a paragraph |
 
 ### Advanced Visual Selections
+
 | Command | Description |
 |---------|-------------|
 | `o` | Go to other end of selection |
@@ -292,6 +315,7 @@ All normal mode motions work in visual mode:
 ## Examples and Common Patterns
 
 ### Quick Line Operations
+
 ```vim
 dd             " Delete line
 yy             " Copy line
@@ -301,6 +325,7 @@ cc             " Change line
 ```
 
 ### Quick Word Operations
+
 ```vim
 dw             " Delete word
 yw             " Copy word
@@ -310,6 +335,7 @@ ciw            " Change inner word
 ```
 
 ### Navigate and Edit
+
 ```vim
 /function      " Search for 'function'
 n              " Go to next occurrence
@@ -317,6 +343,7 @@ ciw            " Change the word
 ```
 
 ### Block Editing Example
+
 ```vim
 Ctrl+v         " Start block selection
 3j             " Select 4 lines

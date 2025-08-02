@@ -1,6 +1,7 @@
 # Neovim Configuration
 
 <!--toc:start-->
+
 - [Neovim Configuration](#neovim-configuration)
   - [Overview](#overview)
   - [Installation](#installation)
@@ -20,29 +21,35 @@
     - [Utility Plugins](#utility-plugins)
   - [Language Support](#language-support)
   - [Formatters and Linters](#formatters-and-linters)
+
 <!--toc:end-->
 
 ## Overview
 
-A consolidated Neovim configuration with all plugins, options, and keymaps in a single `init.lua` file for easy management and portability. This configuration provides a modern, feature-rich development environment with LSP support, AI assistance, and comprehensive tooling.
+A consolidated Neovim configuration with all plugins, options, and keymaps in a single `init.lua`
+file for easy management and portability. This configuration provides a modern, feature-rich
+development environment with LSP support, AI assistance, and comprehensive tooling.
 
-**Author:** bourbon  
+**Author:** bourbon\
 **Date:** July 30, 2025
 
 ## Installation
 
 1. Backup your existing Neovim configuration (if any):
+
    ```bash
    mv ~/.config/nvim ~/.config/nvim.bak
    ```
 
-2. Clone or copy this configuration:
+1. Clone or copy this configuration:
+
    ```bash
    git clone <your-repo> ~/.config/nvim
    # OR copy the init.lua file to ~/.config/nvim/
    ```
 
-3. Start Neovim and let lazy.nvim install all plugins:
+1. Start Neovim and let lazy.nvim install all plugins:
+
    ```bash
    nvim
    ```
@@ -81,70 +88,64 @@ vim.opt.sidescrolloff = 8      -- Keep 8 columns visible left/right
 
 ### Leader Key Mappings
 
-| Keymap | Mode | Description |
-|--------|------|-------------|
-| `<Space>` | - | Leader key |
-| `<leader>e` | Normal | Toggle file explorer (nvim-tree) |
-| `<leader>fc` | Normal | Format code |
-| `<leader>dl` | Normal | Show line diagnostics |
-| `<leader>df` | Normal | Show all diagnostics in quickfix |
+| Keymap | Mode | Description | |--------|------|-------------| | `<Space>` | - | Leader key | |
+`<leader>e` | Normal | Toggle file explorer (nvim-tree) | | `<leader>fc` | Normal | Format code | |
+`<leader>dl` | Normal | Show line diagnostics | | `<leader>df` | Normal | Show all diagnostics in
+quickfix |
 
 ### LSP Key Mappings
 
-| Keymap | Mode | Description |
-|--------|------|-------------|
-| `K` | Normal | Hover documentation |
-| `gd` | Normal | Go to definition |
-| `<leader>ca` | Normal/Visual | Code actions |
-| `<leader>a` | Normal | Rust hover actions |
+| Keymap | Mode | Description | |--------|------|-------------| | `K` | Normal | Hover documentation
+| | `gd` | Normal | Go to definition | | `<leader>ca` | Normal/Visual | Code actions | | `<leader>a`
+| Normal | Rust hover actions |
 
 ### Telescope Key Mappings
 
-| Keymap | Mode | Description |
-|--------|------|-------------|
-| `<leader>ff` | Normal | Find files |
-| `<leader>fg` | Normal | Live grep (search text) |
-| `<leader>fr` | Normal | Recent files (project only) |
-| `<leader>fb` | Normal | Find buffers |
+| Keymap | Mode | Description | |--------|------|-------------| | `<leader>ff` | Normal | Find files
+| | `<leader>fg` | Normal | Live grep (search text) | | `<leader>fr` | Normal | Recent files
+(project only) | | `<leader>fb` | Normal | Find buffers |
 
 ### Copilot Key Mappings
 
-| Keymap | Mode | Description |
-|--------|------|-------------|
-| `<leader>ce` | Normal | Enable Copilot |
-| `<leader>cd` | Normal | Disable Copilot |
-| `<leader>cc` | Normal | Toggle Copilot Chat |
-| `<leader>cq` | Normal | Open Copilot Chat |
-| `<leader>cq` | Visual | Ask Copilot about selection |
+| Keymap | Mode | Description | |--------|------|-------------| | `<leader>ce` | Normal | Enable
+Copilot | | `<leader>cd` | Normal | Disable Copilot | | `<leader>cc` | Normal | Toggle Copilot Chat
+| | `<leader>cq` | Normal | Open Copilot Chat | | `<leader>cq` | Visual | Ask Copilot about
+selection |
 
 ## Plugins
 
 ### File Management
+
 - **nvim-tree.lua** - File tree explorer with icons
 - **dashboard-nvim** - Beautiful startup screen with ASCII art
 
 ### UI Components
+
 - **tokyonight.nvim** - Modern dark theme
 - **lualine.nvim** - Statusline with theme integration
 - **nvim-web-devicons** - File type icons
 
 ### Language Server Protocol (LSP)
+
 - **mason.nvim** - LSP installer and manager
 - **mason-lspconfig.nvim** - Bridge between mason and lspconfig
 - **nvim-lspconfig** - LSP configurations
 - **rustaceanvim** - Enhanced Rust support
 
 ### Auto-completion
+
 - **nvim-cmp** - Completion engine
 - **cmp-nvim-lsp** - LSP completion source
 - **LuaSnip** - Snippet engine
 - **friendly-snippets** - Collection of snippets
 
 ### AI Assistance
+
 - **copilot.vim** - GitHub Copilot AI completion
 - **CopilotChat.nvim** - Copilot chat interface
 
 ### Utility Plugins
+
 - **telescope.nvim** - Fuzzy finder for files, text, etc.
 - **nvim-treesitter** - Advanced syntax highlighting
 - **nvim-surround** - Surround text with quotes, brackets
@@ -187,6 +188,7 @@ The configuration includes LSP support for:
 ## Auto-format on Save
 
 The configuration automatically formats code on save for these file types:
+
 - `*.lua`
 - `*.js`, `*.ts`
 - `*.md`
@@ -200,24 +202,23 @@ This is the bottom comfiguation line that shows the status of the program.
 
 ### lsp-config.lua
 
-This is the language server configuration. For some languages, you will have to
-do additional installations for your system.
+This is the language server configuration. For some languages, you will have to do additional
+installations for your system.
 
 ### none-ls.lua
 
-This allows you to use code formating by using '<leader>fc' with the installed
-and configured linter
+This allows you to use code formating by using '<leader>fc' with the installed and configured linter
 
 ### telescope.lua
 
-This allows you to fuzzy find or have a search box with different methods such
-as recent files, open buffers, text, or project files
+This allows you to fuzzy find or have a search box with different methods such as recent files, open
+buffers, text, or project files
 
 ### treesitter.lua
 
-Tree-sitter is a parsing library and tool that provides efficient, incremental
-parsing for programming languages. It is widely used in modern code editor's
-for syntax highlighting, code navigation, and structural editing.
+Tree-sitter is a parsing library and tool that provides efficient, incremental parsing for
+programming languages. It is widely used in modern code editor's for syntax highlighting, code
+navigation, and structural editing.
 
 ### markdown-preview.lua
 
@@ -225,8 +226,8 @@ This allows you to open rendered markdown files in the browser.
 
 ### obsidian.lua
 
-This allows you to open and take obsidian notes inside neovim. Then you can use
-the graphical editior for visualizaitons.
+This allows you to open and take obsidian notes inside neovim. Then you can use the graphical
+editior for visualizaitons.
 
 ## Commands
 
@@ -255,23 +256,3 @@ normal mode: gd -> Go to Definition **I Might remove this**
 '<leader>dl' -> code diagnostics total list
 
 '<leader>a' -> rust hover action
-
-### Markdown Preview
-
-:MarkdownPreview -> Open Markdown Preview
-
-:MarkdownPreviewStop -> Close Markdown Preview
-
-### Obsidian
-
-I created a C executible that opens an Obsisdian directory to take notes.
-
-1. You would need to adjust the C file global variable for the path of the vault
-   directory.
-
-2. Then compile the file using `gcc -o ob ob.c` which `ob` is the executable.
-
-3. Change the permission and create an executable using `chmod +x ob`
-
-4. Move `ob` executable to `~/.local/bin` and make sure `~/.local/bin` is in
-   your path (zsh or bash rc file)
