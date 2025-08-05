@@ -1,258 +1,407 @@
-# Neovim Configuration
+# Neovim Configuration - Custom Keymaps Reference
 
 <!--toc:start-->
 
-- [Neovim Configuration](#neovim-configuration)
-  - [Overview](#overview)
-  - [Installation](#installation)
-  - [Configuration Structure](#configuration-structure)
-  - [Vim Options](#vim-options)
-  - [Key Mappings](#key-mappings)
-    - [Leader Key Mappings](#leader-key-mappings)
-    - [LSP Key Mappings](#lsp-key-mappings)
-    - [Telescope Key Mappings](#telescope-key-mappings)
-    - [Copilot Key Mappings](#copilot-key-mappings)
-  - [Plugins](#plugins)
-    - [File Management](#file-management)
-    - [UI Components](#ui-components)
-    - [Language Server Protocol (LSP)](#language-server-protocol-lsp)
-    - [Auto-completion](#auto-completion)
-    - [AI Assistance](#ai-assistance)
-    - [Utility Plugins](#utility-plugins)
-  - [Language Support](#language-support)
-  - [Formatters and Linters](#formatters-and-linters)
+- [Neovim Configuration - Custom Keymaps Reference](#neovim-configuration---custom-keymaps-reference)
+  - [Leader Key](#leader-key)
+  - [File Operations](#file-operations)
+  - [Fuzzy Finding (Telescope)](#fuzzy-finding-telescope)
+  - [LSP (Language Server Protocol)](#lsp-language-server-protocol)
+  - [Diagnostics](#diagnostics)
+  - [AI Assistance (GitHub Copilot)](#ai-assistance-github-copilot)
+  - [Markdown](#markdown)
+  - [Org-Mode](#org-mode)
+  - [Terminal](#terminal)
+  - [Database Management](#database-management)
+  - [Language-Specific](#language-specific)
+  - [Completion System](#completion-system)
+  - [Auto-formatting](#auto-formatting)
+  - [Default Vim Keymaps (Reference)](#default-vim-keymaps-reference)
+  - [Plugin-Specific Features](#plugin-specific-features)
+  - [Quick Reference Card](#quick-reference-card)
+## Leader Key
 
-<!--toc:end-->
+**Leader key is set to `Space`**
 
-## Overview
+All custom keymaps use `<leader>` which means you press `Space` followed by the key combination.
 
-A consolidated Neovim configuration with all plugins, options, and keymaps in a single `init.lua`
-file for easy management and portability. This configuration provides a modern, feature-rich
-development environment with LSP support, AI assistance, and comprehensive tooling.
+## File Operations
 
-**Author:** bourbon\
-**Date:** July 30, 2025
+| Keymap | Mode | Action | Description |
+|--------|------|--------|-------------|
+| `<leader>e` | Normal | `<cmd>Yazi<cr>` | Open yazi file manager |
+| `<leader>-` | Normal, Visual | `<cmd>Yazi<cr>` | Open yazi at current file |
+| `<leader>cw` | Normal | `<cmd>Yazi cwd<cr>` | Open yazi in working directory |
+| `<C-up>` | Normal | `<cmd>Yazi toggle<cr>` | Resume last yazi session |
 
-## Installation
+### Yazi File Manager
 
-1. Backup your existing Neovim configuration (if any):
+Yazi is a modern terminal file manager with vim-like keybindings:
 
-   ```bash
-   mv ~/.config/nvim ~/.config/nvim.bak
-   ```
+**Navigation:**
+- `h/j/k/l` - Navigate files and directories
+- `<CR>` - Enter directory or open file
+- `<Backspace>` - Go to parent directory
+- `q` - Quit yazi
 
-1. Clone or copy this configuration:
+**File Operations:**
+- `d` - Delete file/directory
+- `r` - Rename file/directory
+- `c` - Copy file/directory
+- `x` - Cut file/directory
+- `p` - Paste file/directory
+- `n` - Create new file
+- `N` - Create new directory
 
-   ```bash
-   git clone <your-repo> ~/.config/nvim
-   # OR copy the init.lua file to ~/.config/nvim/
-   ```
+**View Options:**
+- `z` - Toggle hidden files
+- `s` - Sort files
+- `v` - Toggle preview panel
+- `t` - Toggle dual pane mode
 
-1. Start Neovim and let lazy.nvim install all plugins:
+**Selection:**
+- `<Space>` - Select/deselect file
+- `a` - Select all files
+- `A` - Deselect all files
+- `v` - Enter visual mode for multi-selection
 
-   ```bash
-   nvim
-   ```
+## Fuzzy Finding (Telescope)
 
-## Configuration Structure
+| Keymap | Mode | Action | Description |
+|--------|------|--------|-------------|
+| `<leader>ff` | Normal | `find_files` | Find files in current directory |
+| `<leader>fg` | Normal | `live_grep` | Search text across all files |
+| `<leader>fr` | Normal | `oldfiles` | Recent files (project only) |
+| `<leader>fb` | Normal | `buffers` | Find open buffers |
 
-- `init.lua` - Single configuration file containing everything
-- All plugins, options, and keymaps are organized in logical sections
-- Comprehensive documentation within the file
+### Telescope Navigation
 
-## Vim Options
+When telescope is open:
+- `<C-j>` / `<C-k>` - Move up/down in results
+- `<CR>` - Open selected file
+- `<C-x>` - Open in horizontal split
+- `<C-v>` - Open in vertical split
+- `<C-t>` - Open in new tab
+- `<Esc>` - Close telescope
 
-```lua
--- Leader key
-vim.g.mapleader = " "
+## LSP (Language Server Protocol)
 
--- Indentation (4 spaces, no tabs)
-vim.opt.expandtab = true      -- Use spaces instead of tabs
-vim.opt.tabstop = 4           -- Tab appears as 4 characters
-vim.opt.softtabstop = 4       -- Tab key inserts 4 spaces
-vim.opt.shiftwidth = 4        -- Auto-indent uses 4 spaces
+| Keymap | Mode | Action | Description |
+|--------|------|--------|-------------|
+| `K` | Normal | `vim.lsp.buf.hover` | Show hover documentation |
+| `gd` | Normal | `vim.lsp.buf.definition` | Go to definition |
+| `<leader>ca` | Normal, Visual | `vim.lsp.buf.code_action` | Show code actions |
+| `<leader>fc` | Normal | `vim.lsp.buf.format` | Format current file |
 
--- Editor behavior
-vim.opt.relativenumber = true  -- Relative line numbers
-vim.opt.number = true          -- Show current line number
-vim.opt.clipboard = "unnamedplus"  -- System clipboard
-vim.opt.textwidth = 80         -- Auto-wrap at 80 characters
-vim.opt.conceallevel = 1       -- Conceal special characters
-vim.opt.ignorecase = true      -- Case-insensitive search
-vim.opt.smartcase = true       -- Smart case (if uppercase used)
-vim.opt.scrolloff = 8          -- Keep 8 lines visible above/below cursor
-vim.opt.sidescrolloff = 8      -- Keep 8 columns visible left/right
+### Additional LSP Navigation
+
+Default LSP keymaps that work automatically:
+- `gr` - Go to references
+- `gi` - Go to implementation
+- `<C-k>` - Signature help (in insert mode)
+
+## Diagnostics
+
+| Keymap | Mode | Action | Description |
+|--------|------|--------|-------------|
+| `<leader>dl` | Normal | `vim.diagnostic.open_float` | Show line diagnostics |
+| `<leader>df` | Normal | `vim.diagnostic.setqflist` | Show all diagnostics in quickfix |
+
+### Default Diagnostic Navigation
+
+- `[d` - Previous diagnostic
+- `]d` - Next diagnostic
+
+## AI Assistance (GitHub Copilot)
+
+| Keymap | Mode | Action | Description |
+|--------|------|--------|-------------|
+| `<leader>ce` | Normal | `:Copilot enable` | Enable Copilot |
+| `<leader>cd` | Normal | `:Copilot disable` | Disable Copilot |
+| `<leader>cc` | Normal | `:CopilotChatToggle` | Toggle Copilot Chat |
+| `<leader>cq` | Normal | `:CopilotChat` | Open Copilot Chat |
+| `<leader>cq` | Visual | `:CopilotChatVisual` | Ask Copilot about selection |
+
+### Copilot Completion
+
+In insert mode:
+- `<Tab>` - Accept Copilot suggestion
+- `<C-]>` - Dismiss suggestion
+- `<C-[>` - Previous suggestion
+- `<C-\>` - Next suggestion
+
+## Markdown
+
+| Keymap | Mode | Action | Description |
+|--------|------|--------|-------------|
+| `<leader>mp` | Normal | `:PeekOpen` | Open markdown preview |
+| `<leader>mc` | Normal | `:PeekClose` | Close markdown preview |
+
+### Markdown Features
+
+- Automatic rendering in normal/visual mode
+- Live preview with Peek
+- Auto-formatting on save
+- Syntax highlighting with Treesitter
+
+## Org-Mode
+
+| Keymap | Mode | Action | Description |
+|--------|------|--------|-------------|
+| `<leader>oa` | Normal | `orgmode.action("agenda.prompt")` | Open Org Agenda |
+| `<leader>oc` | Normal | `orgmode.action("capture.prompt")` | Open Org Capture |
+
+### Org-Mode Files Location
+
+- Agenda files: `~/orgfiles/**/*`
+- Default notes file: `~/orgfiles/refile.org`
+
+For detailed org-mode commands, see the [Org-Mode Guide](./org-mode-guide.md).
+
+## Terminal
+
+| Keymap | Mode | Action | Description |
+|--------|------|--------|-------------|
+| `<leader>t` | Normal | `<cmd>ToggleTerm direction=float<cr>` | Toggle floating terminal |
+| `<C-\>` | Normal | `:ToggleTerm` | Alternative terminal toggle |
+
+### Terminal Navigation
+
+When inside the terminal:
+
+- `<Esc>` - Exit terminal mode (go to normal mode)
+- `jk` - Alternative exit terminal mode
+- `<C-h/j/k/l>` - Navigate between windows
+- `<C-w>` - Window commands
+
+The terminal will:
+- Open as a floating window with curved borders
+- Start in insert mode
+- Persist across sessions
+- Close when the shell exits
+
+## Database Management
+
+| Keymap | Mode | Action | Description |
+|--------|------|--------|-------------|
+| `<leader>db` | Normal | `:DBUIToggle` | Toggle Database UI |
+| `<leader>dc` | Normal | `:DBUIAddConnection` | Add Database Connection |
+| `<leader>dq` | Normal | `:DBUIFindBuffer` | Find Database Buffer |
+
+### Database UI Navigation
+
+When DBUI is open:
+- `<CR>` - Expand/collapse or execute
+- `S` - Select database
+- `R` - Rename connection
+- `D` - Delete connection
+
+## Language-Specific
+
+### Rust
+
+| Keymap | Mode | Action | Description |
+|--------|------|--------|-------------|
+| `<leader>a` | Normal | `RustHoverAction` | Rust hover actions |
+| `<leader>ca` | Normal | `RustLsp("codeAction")` | Rust code actions |
+
+### Auto-formatting Languages
+
+The following languages auto-format on save:
+- Lua (stylua)
+- JavaScript/TypeScript (prettier)
+- Markdown (mdformat + markdownlint)
+- C/C++ (clang-format)
+- Python (ruff)
+- Rust (rustfmt)
+- YAML (yamlfmt)
+- SQL (sqlfmt)
+- TOML (taplo)
+
+## Completion System
+
+### In Insert Mode
+
+| Keymap | Action | Description |
+|--------|--------|-------------|
+| `<Tab>` | Next completion / Expand snippet | Navigate completions or expand/jump in snippets |
+| `<S-Tab>` | Previous completion / Jump back | Navigate completions or jump back in snippets |
+| `<C-Space>` | Trigger completion | Manually trigger completion menu |
+| `<C-e>` | Abort completion | Close completion menu |
+| `<CR>` | Confirm completion | Accept selected completion |
+| `<C-b>` | Scroll docs up | Scroll completion documentation up |
+| `<C-f>` | Scroll docs down | Scroll completion documentation down |
+
+### Completion Sources
+
+1. LSP completions (highest priority)
+2. Snippet completions
+3. Buffer completions
+4. Database completions (in SQL files)
+
+## Auto-formatting
+
+Auto-formatting is enabled for these file types and runs on save:
+- `*.lua` - Lua files
+- `*.js` - JavaScript files  
+- `*.ts` - TypeScript files
+- `*.md` - Markdown files
+- `*.rs` - Rust files
+- `*.c` - C files
+- `*.toml` - TOML files
+- `*.yaml` - YAML files
+- `*.py` - Python files
+
+## Default Vim Keymaps (Reference)
+
+For comprehensive vim motion commands, see [vim-motions.md](./vim-motions.md).
+
+### Essential Commands
+
+| Keymap | Mode | Description |
+|--------|------|-------------|
+| `:w` | Command | Save file |
+| `:q` | Command | Quit |
+| `:wq` | Command | Save and quit |
+| `:q!` | Command | Quit without saving |
+| `u` | Normal | Undo |
+| `<C-r>` | Normal | Redo |
+| `dd` | Normal | Delete line |
+| `yy` | Normal | Yank (copy) line |
+| `p` | Normal | Paste after cursor |
+| `P` | Normal | Paste before cursor |
+
+## Plugin-Specific Features
+
+### Surround (nvim-surround)
+
+- `ys{motion}{char}` - Add surround
+- `ds{char}` - Delete surround  
+- `cs{old}{new}` - Change surround
+
+Examples:
+- `ysiw"` - Surround word with quotes
+- `ds"` - Delete surrounding quotes
+- `cs"'` - Change double quotes to single quotes
+
+### Autopairs
+
+Automatically closes:
+- `()` - Parentheses
+- `[]` - Brackets
+- `{}` - Braces
+- `""` - Double quotes
+- `''` - Single quotes
+- `/* */` - Block comments (C/C++/JS/TS/Rust/Go)
+
+### Comment Toggle
+
+Using treesitter-based commenting:
+- `gcc` - Toggle line comment
+- `gc{motion}` - Toggle comment for motion
+- `gbc` - Toggle block comment
+- `gb{motion}` - Toggle block comment for motion
+
+## Quick Reference Card
+
+### Most Used Keymaps
+
+| Category | Keymap | Action |
+|----------|--------|--------|
+| **Files** | `<Space>ff` | Find files |
+| **Files** | `<Space>fg` | Search in files |
+| **Files** | `<Space>e` | Yazi file manager |
+| **LSP** | `gd` | Go to definition |
+| **LSP** | `K` | Show documentation |
+| **LSP** | `<Space>ca` | Code actions |
+| **AI** | `<Space>cc` | Copilot chat |
+| **Format** | `<Space>fc` | Format code |
+| **Diagnostics** | `<Space>dl` | Show diagnostics |
+| **Terminal** | `<Space>t` | Floating terminal |
+
+### Dashboard Quick Actions
+
+When you start Neovim, the dashboard shows these quick actions:
+- `<Space>ff` - Find file
+- `<Space>fr` - Recent files  
+- `<Space>fb` - Buffers
+- `<Space>fg` - Find text
+- `<Space>e` - Yazi file manager
+
+### Plugin Installation & Management
+
+Managed by lazy.nvim:
+- `:Lazy` - Open plugin manager
+- `:Lazy update` - Update all plugins
+- `:Lazy clean` - Remove unused plugins
+- `:Lazy sync` - Sync plugins
+
+### LSP Server Management
+
+Managed by Mason:
+- `:Mason` - Open Mason UI
+- `:MasonInstall <server>` - Install LSP server
+- `:MasonUninstall <server>` - Uninstall LSP server
+
+### Installed LSP Servers
+
+- **lua_ls** - Lua
+- **bashls** - Bash
+- **clangd** - C/C++
+- **cssls** - CSS
+- **dockerls** - Docker
+- **gopls** - Go
+- **html** - HTML
+- **ts_ls** - TypeScript/JavaScript
+- **marksman** - Markdown
+- **ruff** - Python linting
+- **pyright** - Python type checking
+- **svelte** - Svelte
+- **sqlls** - SQL
+- **taplo** - TOML
+- **vuels** - Vue
+- **yamlls** - YAML
+
+### Theme and UI
+
+- **Theme**: OneDark Pro
+- **Status line**: Lualine with Everforest theme
+- **File icons**: nvim-web-devicons
+- **Dashboard**: Custom with ASCII art
+
+---
+
+## Configuration File Location
+
+Main configuration: `~/.config/nvim/init.lua`
+
+This is a single-file configuration that includes:
+- All plugin definitions
+- All keymaps
+- All LSP configurations
+- All formatting rules
+- All custom settings
+
+## Backup and Sync
+
+To backup your configuration:
+```bash
+# Backup
+cp -r ~/.config/nvim ~/nvim-backup
+
+# Or sync to git
+cd ~/.config/nvim
+git init
+git add .
+git commit -m "Initial nvim config"
 ```
 
-## Key Mappings
+## Getting Help
 
-### Leader Key Mappings
+- `:help <command>` - Vim help system
+- `:checkhealth` - Neovim health check
+- `:LspInfo` - LSP server information
+- `:Mason` - LSP server management
+- `:Lazy` - Plugin management
 
-| Keymap | Mode | Description | |--------|------|-------------| | `<Space>` | - | Leader key | |
-`<leader>e` | Normal | Toggle file explorer (nvim-tree) | | `<leader>fc` | Normal | Format code | |
-`<leader>dl` | Normal | Show line diagnostics | | `<leader>df` | Normal | Show all diagnostics in
-quickfix |
-
-### LSP Key Mappings
-
-| Keymap | Mode | Description | |--------|------|-------------| | `K` | Normal | Hover documentation
-| | `gd` | Normal | Go to definition | | `<leader>ca` | Normal/Visual | Code actions | | `<leader>a`
-| Normal | Rust hover actions |
-
-### Telescope Key Mappings
-
-| Keymap | Mode | Description | |--------|------|-------------| | `<leader>ff` | Normal | Find files
-| | `<leader>fg` | Normal | Live grep (search text) | | `<leader>fr` | Normal | Recent files
-(project only) | | `<leader>fb` | Normal | Find buffers |
-
-### Copilot Key Mappings
-
-| Keymap | Mode | Description | |--------|------|-------------| | `<leader>ce` | Normal | Enable
-Copilot | | `<leader>cd` | Normal | Disable Copilot | | `<leader>cc` | Normal | Toggle Copilot Chat
-| | `<leader>cq` | Normal | Open Copilot Chat | | `<leader>cq` | Visual | Ask Copilot about
-selection |
-
-## Plugins
-
-### File Management
-
-- **nvim-tree.lua** - File tree explorer with icons
-- **dashboard-nvim** - Beautiful startup screen with ASCII art
-
-### UI Components
-
-- **tokyonight.nvim** - Modern dark theme
-- **lualine.nvim** - Statusline with theme integration
-- **nvim-web-devicons** - File type icons
-
-### Language Server Protocol (LSP)
-
-- **mason.nvim** - LSP installer and manager
-- **mason-lspconfig.nvim** - Bridge between mason and lspconfig
-- **nvim-lspconfig** - LSP configurations
-- **rustaceanvim** - Enhanced Rust support
-
-### Auto-completion
-
-- **nvim-cmp** - Completion engine
-- **cmp-nvim-lsp** - LSP completion source
-- **LuaSnip** - Snippet engine
-- **friendly-snippets** - Collection of snippets
-
-### AI Assistance
-
-- **copilot.vim** - GitHub Copilot AI completion
-- **CopilotChat.nvim** - Copilot chat interface
-
-### Utility Plugins
-
-- **telescope.nvim** - Fuzzy finder for files, text, etc.
-- **nvim-treesitter** - Advanced syntax highlighting
-- **nvim-surround** - Surround text with quotes, brackets
-- **nvim-autopairs** - Auto-close brackets, quotes
-- **markdown-preview.nvim** - Live markdown preview
-
-## Language Support
-
-The configuration includes LSP support for:
-
-- **Lua** (lua_ls)
-- **Python** (pyright + ruff)
-- **Rust** (rustaceanvim)
-- **JavaScript/TypeScript** (ts_ls)
-- **Go** (gopls)
-- **C/C++** (clangd)
-- **HTML** (html)
-- **CSS** (cssls)
-- **Bash** (bashls)
-- **Docker** (dockerls)
-- **Markdown** (marksman)
-- **YAML** (yamlls)
-- **TOML** (taplo)
-- **SQL** (sqlls)
-- **Svelte** (svelte)
-- **Vue** (vuels)
-
-## Formatters and Linters
-
-- **stylua** - Lua formatter
-- **prettier** - JavaScript/TypeScript/JSON formatter
-- **mdformat** - Markdown formatter
-- **markdownlint** - Markdown linter
-- **cmake_format** - CMake formatter
-- **sqlfmt** - SQL formatter
-- **yamlfmt** - YAML formatter
-- **ruff** - Python linter and formatter
-- **pyright** - Python type checker
-
-## Auto-format on Save
-
-The configuration automatically formats code on save for these file types:
-
-- `*.lua`
-- `*.js`, `*.ts`
-- `*.md`
-- `*.rs`
-- `*.c`
-- `*.toml`
-- `*.yaml`
-- `*.py`
-
-This is the bottom comfiguation line that shows the status of the program.
-
-### lsp-config.lua
-
-This is the language server configuration. For some languages, you will have to do additional
-installations for your system.
-
-### none-ls.lua
-
-This allows you to use code formating by using '<leader>fc' with the installed and configured linter
-
-### telescope.lua
-
-This allows you to fuzzy find or have a search box with different methods such as recent files, open
-buffers, text, or project files
-
-### treesitter.lua
-
-Tree-sitter is a parsing library and tool that provides efficient, incremental parsing for
-programming languages. It is widely used in modern code editor's for syntax highlighting, code
-navigation, and structural editing.
-
-### markdown-preview.lua
-
-This allows you to open rendered markdown files in the browser.
-
-### obsidian.lua
-
-This allows you to open and take obsidian notes inside neovim. Then you can use the graphical
-editior for visualizaitons.
-
-## Commands
-
-'<leader>ff' -> Fuzy Finder
-
-'<leader>fg' -> Rip Grep Files
-
-'<leader>fr' -> Recent Files
-
-'<leader>fb' -> Opened Buffers
-
-### Linter Commands
-
-normal mode: Shift K -> Show Linter Warnings
-
-normal mode: gd -> Go to Definition **I Might remove this**
-
-'<leader>ca' -> Code Action
-
-'<leader>fc' -> Format Code
-
-### vim-keymaps.lua (Error Warning Suggestion's)
-
-'<leader>dl' -> code diagnostics inline (pop-up window)
-
-'<leader>dl' -> code diagnostics total list
-
-'<leader>a' -> rust hover action
+For questions about specific plugins, check their documentation or GitHub repositories.

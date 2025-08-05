@@ -17,32 +17,22 @@
   - [Movement with Operations](#movement-with-operations)
   - [Text Objects](#text-objects)
   - [Visual Mode Movements](#visual-mode-movements)
+  - [Org-Mode Commands](#org-mode-commands)
 
 <!--toc:end-->
 
 ## Basic Movement
 
-| Motion | Description |
-|--------|-------------|
-| `h` | Move left |
-| `j` | Move down |
-| `k` | Move up |
-| `l` | Move right |
-| `gj` | Move down by display line (wrapped) |
-| `gk` | Move up by display line (wrapped) |
+| Motion | Description | |--------|-------------| | `h` | Move left | | `j` | Move down | | `k` |
+Move up | | `l` | Move right | | `gj` | Move down by display line (wrapped) | | `gk` | Move up by
+display line (wrapped) |
 
 ## Word Movement
 
-| Motion | Description |
-|--------|-------------|
-| `w` | Jump to start of next word |
-| `W` | Jump to start of next WORD (space-delimited) |
-| `e` | Jump to end of current/next word |
-| `E` | Jump to end of current/next WORD |
-| `b` | Jump backward to start of word |
-| `B` | Jump backward to start of WORD |
-| `ge` | Jump backward to end of word |
-| `gE` | Jump backward to end of WORD |
+| Motion | Description | |--------|-------------| | `w` | Jump to start of next word | | `W` | Jump
+to start of next WORD (space-delimited) | | `e` | Jump to end of current/next word | | `E` | Jump to
+end of current/next WORD | | `b` | Jump backward to start of word | | `B` | Jump backward to start
+of WORD | | `ge` | Jump backward to end of word | | `gE` | Jump backward to end of WORD |
 
 ### Word vs WORD
 
@@ -52,175 +42,104 @@
 
 ## Line Movement
 
-| Motion | Description |
-|--------|-------------|
-| `0` | Go to first character of line |
-| `^` | Go to first non-blank character |
-| `$` | Go to end of line |
-| `g_` | Go to last non-blank character |
-| `+` | Go to first non-blank of next line |
-| `-` | Go to first non-blank of previous line |
+| Motion | Description | |--------|-------------| | `0` | Go to first character of line | | `^` | Go
+to first non-blank character | | `$` | Go to end of line | | `g_` | Go to last non-blank character |
+| `+` | Go to first non-blank of next line | | `-` | Go to first non-blank of previous line |
 
 ## Screen Movement
 
-| Motion | Description |
-|--------|-------------|
-| `H` | Go to top of screen (High) |
-| `M` | Go to middle of screen (Middle) |
-| `L` | Go to bottom of screen (Low) |
-| `zt` | Scroll line to top of screen |
-| `zz` | Center line on screen |
-| `zb` | Scroll line to bottom of screen |
-| `Ctrl+u` | Scroll up half page |
-| `Ctrl+d` | Scroll down half page |
-| `Ctrl+b` | Scroll up full page (back) |
-| `Ctrl+f` | Scroll down full page (forward) |
-| `Ctrl+e` | Scroll down one line |
-| `Ctrl+y` | Scroll up one line |
+| Motion | Description | |--------|-------------| | `H` | Go to top of screen (High) | | `M` | Go to
+middle of screen (Middle) | | `L` | Go to bottom of screen (Low) | | `zt` | Scroll line to top of
+screen | | `zz` | Center line on screen | | `zb` | Scroll line to bottom of screen | | `Ctrl+u` |
+Scroll up half page | | `Ctrl+d` | Scroll down half page | | `Ctrl+b` | Scroll up full page (back) |
+| `Ctrl+f` | Scroll down full page (forward) | | `Ctrl+e` | Scroll down one line | | `Ctrl+y` |
+Scroll up one line |
 
 ## File Movement
 
-| Motion | Description |
-|--------|-------------|
-| `gg` | Go to first line of file |
-| `G` | Go to last line of file |
-| `5G` or `:5` | Go to line 5 |
-| `50%` | Go to 50% through file |
-| `Ctrl+o` | Jump to older position (back) |
-| `Ctrl+i` | Jump to newer position (forward) |
+| Motion | Description | |--------|-------------| | `gg` | Go to first line of file | | `G` | Go to
+last line of file | | `5G` or `:5` | Go to line 5 | | `50%` | Go to 50% through file | | `Ctrl+o` |
+Jump to older position (back) | | `Ctrl+i` | Jump to newer position (forward) |
 
 ## Search Movement
 
-| Motion | Description |
-|--------|-------------|
-| `/pattern` | Search forward for pattern |
-| `?pattern` | Search backward for pattern |
-| `n` | Repeat search in same direction |
-| `N` | Repeat search in opposite direction |
-| `*` | Search forward for word under cursor |
-| `#` | Search backward for word under cursor |
-| `g*` | Search forward for partial word under cursor |
-| `g#` | Search backward for partial word under cursor |
+| Motion | Description | |--------|-------------| | `/pattern` | Search forward for pattern | |
+`?pattern` | Search backward for pattern | | `n` | Repeat search in same direction | | `N` | Repeat
+search in opposite direction | | `*` | Search forward for word under cursor | | `#` | Search
+backward for word under cursor | | `g*` | Search forward for partial word under cursor | | `g#` |
+Search backward for partial word under cursor |
 
 ### Advanced Search
 
-| Motion | Description |
-|--------|-------------|
-| `f{char}` | Find next character on line |
-| `F{char}` | Find previous character on line |
-| `t{char}` | Till next character (stop before) |
-| `T{char}` | Till previous character (stop before) |
-| `;` | Repeat last f/F/t/T |
-| `,` | Repeat last f/F/t/T in opposite direction |
+| Motion | Description | |--------|-------------| | `f{char}` | Find next character on line | |
+`F{char}` | Find previous character on line | | `t{char}` | Till next character (stop before) | |
+`T{char}` | Till previous character (stop before) | | `;` | Repeat last f/F/t/T | | `,` | Repeat
+last f/F/t/T in opposite direction |
 
 ## Character Movement
 
-| Motion | Description |
-|--------|-------------|
-| `Space` | Move right (same as `l`) |
-| `Backspace` | Move left (same as `h`) |
-| `Enter` | Move to start of next line |
-| `\|` | Move to column 1 |
-| `5\|` | Move to column 5 |
+| Motion | Description | |--------|-------------| | `Space` | Move right (same as `l`) | |
+`Backspace` | Move left (same as `h`) | | `Enter` | Move to start of next line | | `\|` | Move to
+column 1 | | `5\|` | Move to column 5 |
 
 ## Paragraph and Sentence Movement
 
-| Motion | Description |
-|--------|-------------|
-| `}` | Move to next paragraph |
-| `{` | Move to previous paragraph |
-| `)` | Move to next sentence |
-| `(` | Move to previous sentence |
+| Motion | Description | |--------|-------------| | `}` | Move to next paragraph | | `{` | Move to
+previous paragraph | | `)` | Move to next sentence | | `(` | Move to previous sentence |
 
 ## Code Block Movement
 
-| Motion | Description |
-|--------|-------------|
-| `%` | Jump to matching bracket/brace/parenthesis |
-| `]]` | Jump to next function/class |
-| `[[` | Jump to previous function/class |
-| `][` | Jump to end of current function |
-| `[]` | Jump to end of previous function |
-| `]m` | Jump to next method |
-| `[m` | Jump to previous method |
-| `]{` | Jump to next unmatched `{` |
-| `[{` | Jump to previous unmatched `{` |
-| `])` | Jump to next unmatched `)` |
-| `[(` | Jump to previous unmatched `(` |
+| Motion | Description | |--------|-------------| | `%` | Jump to matching bracket/brace/parenthesis
+| | `]]` | Jump to next function/class | | `[[` | Jump to previous function/class | | `][` | Jump to
+end of current function | | `[]` | Jump to end of previous function | | `]m` | Jump to next method |
+| `[m` | Jump to previous method | | `]{` | Jump to next unmatched `{` | | `[{` | Jump to previous
+unmatched `{` | | `])` | Jump to next unmatched `)` | | `[(` | Jump to previous unmatched `(` |
 
 ## Window and Tab Movement
 
 ### Window Movement
 
-| Motion | Description |
-|--------|-------------|
-| `Ctrl+w h` | Move to left window |
-| `Ctrl+w j` | Move to bottom window |
-| `Ctrl+w k` | Move to top window |
-| `Ctrl+w l` | Move to right window |
-| `Ctrl+w w` | Move to next window |
-| `Ctrl+w p` | Move to previous window |
+| Motion | Description | |--------|-------------| | `Ctrl+w h` | Move to left window | | `Ctrl+w j`
+| Move to bottom window | | `Ctrl+w k` | Move to top window | | `Ctrl+w l` | Move to right window |
+| `Ctrl+w w` | Move to next window | | `Ctrl+w p` | Move to previous window |
 
 ### Tab Movement
 
-| Motion | Description |
-|--------|-------------|
-| `gt` | Go to next tab |
-| `gT` | Go to previous tab |
-| `{n}gt` | Go to tab number n |
+| Motion | Description | |--------|-------------| | `gt` | Go to next tab | | `gT` | Go to previous
+tab | | `{n}gt` | Go to tab number n |
 
 ## Advanced Movement Combinations
 
 ### Line Numbers with Motions
 
-| Motion | Description |
-|--------|-------------|
-| `5j` | Move down 5 lines |
-| `3w` | Move forward 3 words |
-| `2f.` | Find second occurrence of `.` on line |
-| `4}` | Move forward 4 paragraphs |
+| Motion | Description | |--------|-------------| | `5j` | Move down 5 lines | | `3w` | Move forward
+3 words | | `2f.` | Find second occurrence of `.` on line | | `4}` | Move forward 4 paragraphs |
 
 ### Relative Line Numbers
 
 With `relativenumber` set:
 
-| Motion | Description |
-|--------|-------------|
-| `5j` | Move to line 5 below current |
-| `3k` | Move to line 3 above current |
-| `7G` | Still goes to absolute line 7 |
+| Motion | Description | |--------|-------------| | `5j` | Move to line 5 below current | | `3k` |
+Move to line 3 above current | | `7G` | Still goes to absolute line 7 |
 
 ## Movement with Operations
 
 ### Delete with Movement
 
-| Command | Description |
-|---------|-------------|
-| `dw` | Delete word |
-| `d$` | Delete to end of line |
-| `d0` | Delete to beginning of line |
-| `dd` | Delete entire line |
-| `d}` | Delete to end of paragraph |
-| `df.` | Delete until (and including) `.` |
-| `dt.` | Delete until (not including) `.` |
+| Command | Description | |---------|-------------| | `dw` | Delete word | | `d$` | Delete to end of
+line | | `d0` | Delete to beginning of line | | `dd` | Delete entire line | | `d}` | Delete to end
+of paragraph | | `df.` | Delete until (and including) `.` | | `dt.` | Delete until (not including)
+`.` |
 
 ### Yank with Movement
 
-| Command | Description |
-|---------|-------------|
-| `yw` | Yank word |
-| `y$` | Yank to end of line |
-| `yy` | Yank entire line |
-| `y}` | Yank to end of paragraph |
+| Command | Description | |---------|-------------| | `yw` | Yank word | | `y$` | Yank to end of
+line | | `yy` | Yank entire line | | `y}` | Yank to end of paragraph |
 
 ### Change with Movement
 
-| Command | Description |
-|---------|-------------|
-| `cw` | Change word |
-| `c$` | Change to end of line |
-| `cc` | Change entire line |
-| `c}` | Change to end of paragraph |
+| Command | Description | |---------|-------------| | `cw` | Change word | | `c$` | Change to end of
+line | | `cc` | Change entire line | | `c}` | Change to end of paragraph |
 
 ## Text Objects
 
@@ -231,58 +150,35 @@ With `relativenumber` set:
 
 ### Word Objects
 
-| Object | Description |
-|--------|-------------|
-| `iw` | Inner word |
-| `aw` | A word (includes trailing space) |
-| `iW` | Inner WORD |
-| `aW` | A WORD |
+| Object | Description | |--------|-------------| | `iw` | Inner word | | `aw` | A word (includes
+trailing space) | | `iW` | Inner WORD | | `aW` | A WORD |
 
 ### Quote Objects
 
-| Object | Description |
-|--------|-------------|
-| `i"` | Inside double quotes |
-| `a"` | Around double quotes |
-| `i'` | Inside single quotes |
-| `a'` | Around single quotes |
-| `i\`` | Inside backticks |
-| `a\`` | Around backticks |
+| Object | Description | |--------|-------------| | `i"` | Inside double quotes | | `a"` | Around
+double quotes | | `i'` | Inside single quotes | | `a'` | Around single quotes | |
+``` i\`` | Inside backticks | | ```a\`\` | Around backticks |
 
 ### Bracket Objects
 
-| Object | Description |
-|--------|-------------|
-| `i(` or `i)` | Inside parentheses |
-| `a(` or `a)` | Around parentheses |
-| `i{` or `i}` | Inside braces |
-| `a{` or `a}` | Around braces |
-| `i[` or `i]` | Inside brackets |
-| `a[` or `a]` | Around brackets |
-| `i<` or `i>` | Inside angle brackets |
-| `a<` or `a>` | Around angle brackets |
+| Object | Description | |--------|-------------| | `i(` or `i)` | Inside parentheses | | `a(` or
+`a)` | Around parentheses | | `i{` or `i}` | Inside braces | | `a{` or `a}` | Around braces | | `i[`
+or `i]` | Inside brackets | | `a[` or `a]` | Around brackets | | `i<` or `i>` | Inside angle
+brackets | | `a<` or `a>` | Around angle brackets |
 
 ### Block Objects
 
-| Object | Description |
-|--------|-------------|
-| `ip` | Inner paragraph |
-| `ap` | A paragraph |
-| `is` | Inner sentence |
-| `as` | A sentence |
-| `it` | Inner tag (HTML/XML) |
-| `at` | Around tag (HTML/XML) |
+| Object | Description | |--------|-------------| | `ip` | Inner paragraph | | `ap` | A paragraph |
+| `is` | Inner sentence | | `as` | A sentence | | `it` | Inner tag (HTML/XML) | | `at` | Around tag
+(HTML/XML) |
 
 ## Visual Mode Movements
 
 ### Visual Selection
 
-| Command | Description |
-|---------|-------------|
-| `v` | Character-wise visual mode |
-| `V` | Line-wise visual mode |
-| `Ctrl+v` | Block-wise visual mode |
-| `gv` | Reselect last visual selection |
+| Command | Description | |---------|-------------| | `v` | Character-wise visual mode | | `V` |
+Line-wise visual mode | | `Ctrl+v` | Block-wise visual mode | | `gv` | Reselect last visual
+selection |
 
 ### Visual Mode Motions
 
@@ -295,22 +191,14 @@ All normal mode motions work in visual mode:
 
 ### Visual Mode Text Objects
 
-| Command | Description |
-|---------|-------------|
-| `viw` | Select inner word |
-| `vaw` | Select a word |
-| `vi"` | Select inside quotes |
-| `va"` | Select around quotes |
-| `vip` | Select inner paragraph |
-| `vap` | Select a paragraph |
+| Command | Description | |---------|-------------| | `viw` | Select inner word | | `vaw` | Select a
+word | | `vi"` | Select inside quotes | | `va"` | Select around quotes | | `vip` | Select inner
+paragraph | | `vap` | Select a paragraph |
 
 ### Advanced Visual Selections
 
-| Command | Description |
-|---------|-------------|
-| `o` | Go to other end of selection |
-| `O` | Go to other corner (block mode) |
-| `gv` | Reselect previous selection |
+| Command | Description | |---------|-------------| | `o` | Go to other end of selection | | `O` |
+Go to other corner (block mode) | | `gv` | Reselect previous selection |
 
 ## Examples and Common Patterns
 
@@ -386,3 +274,73 @@ _You can use any lowercase letter (a-z) as a register name._
 - `V` → enter line-wise visual mode
 - `Ctrl + v` → enter visual block mode (great for column edits)
 - `:normal` → apply commands to visual selection
+
+## Org-Mode Commands
+
+### Custom Keybinds
+
+| Command | Description | |---------|-------------| | `<leader>oa` | Open Org Agenda | |
+`<leader>oc` | Open Org Capture |
+
+### Default Org-Mode Keybinds
+
+#### Navigation
+
+| Command | Description | |---------|-------------| | `Tab` | Cycle visibility (fold/unfold) | |
+`S-Tab` | Global visibility cycling | | `]]` | Next heading | | `[[` | Previous heading | | `gj` |
+Next heading (same level) | | `gk` | Previous heading (same level) | | `gh` | Parent heading | |
+`gl` | Next subtree |
+
+#### Editing
+
+| Command | Description | |---------|-------------| | `<CR>` | Insert heading/list item | | `M-<CR>`
+| Insert heading (same level) | | `M-S-<CR>` | Insert TODO heading | | `<leader>oit` | Insert TODO |
+| `<leader>oih` | Insert heading | | `<leader>ois` | Insert subtree | | `M-h` | Promote heading | |
+`M-l` | Demote heading | | `M-k` | Move subtree up | | `M-j` | Move subtree down |
+
+#### TODO Management
+
+| Command | Description | |---------|-------------| | `cit` | Change TODO state | | `<leader>ot` |
+TODO state forward | | `<leader>oT` | TODO state backward | | `<C-c><C-t>` | Cycle TODO state |
+
+#### Timestamps and Deadlines
+
+| Command | Description | |---------|-------------| | `<leader>oid` | Insert deadline | |
+`<leader>ois` | Insert scheduled | | `<leader>oit` | Insert timestamp | | `<leader>oiT` | Insert
+inactive timestamp |
+
+#### Links
+
+| Command | Description | |---------|-------------| | `<leader>oil` | Insert link | | `<leader>ols`
+| Store link | | `gx` | Open link |
+
+#### Tables
+
+| Command | Description | |---------|-------------| | `<leader>oic` | Insert table column | |
+`<leader>oir` | Insert table row | | `<leader>oih` | Insert table row above | | `M-h` | Move column
+left | | `M-l` | Move column right | | `M-k` | Move row up | | `M-j` | Move row down |
+
+#### Agenda
+
+| Command | Description | |---------|-------------| | `<leader>oaa` | Agenda | | `<leader>oat` |
+TODO list | | `<leader>oam` | Match | | `<leader>oas` | Search | | `<leader>oao` | Tags |
+
+#### Capture
+
+| Command | Description | |---------|-------------| | `<leader>occ` | Capture | | `<leader>ocr` |
+Refile |
+
+#### Clocking
+
+| Command | Description | |---------|-------------| | `<leader>oxi` | Clock in | | `<leader>oxo` |
+Clock out | | `<leader>oxr` | Clock report | | `<leader>oxj` | Clock goto |
+
+#### Export
+
+| Command | Description | |---------|-------------| | `<leader>oee` | Export | | `<leader>oep` |
+Export to PDF | | `<leader>oeh` | Export to HTML |
+
+#### Archive
+
+| Command | Description | |---------|-------------| | `<leader>oA` | Archive subtree | |
+`<leader>o$` | Archive sibling |

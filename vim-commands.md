@@ -17,6 +17,7 @@
   - [Advanced Text Objects](#advanced-text-objects)
   - [Macros](#macros)
   - [Marks and Jumps](#marks-and-jumps)
+  - [Windows, Tabs, and Buffers Navigation](#windows-tabs-and-buffers-navigation)
 
 <!--toc:end-->
 
@@ -391,3 +392,302 @@ Ctrl+i         " Jump to newer position
 
 The -p flag is usefull because it prevents errors if the directory already exisits and create parent
 directories as needed.
+
+## Windows, Tabs, and Buffers Navigation
+
+### Understanding the Hierarchy
+
+```
+Vim Instance
+├── Tab 1
+│   ├── Window 1 (Buffer A)
+│   ├── Window 2 (Buffer B)
+│   └── Window 3 (Buffer C)
+├── Tab 2
+│   ├── Window 1 (Buffer D)
+│   └── Window 2 (Buffer A)  # Same buffer in different tab
+└── Tab 3
+    └── Window 1 (Buffer E)
+
+Buffer List: [A, B, C, D, E]  # Independent of windows/tabs
+```
+
+### Window Management
+
+#### Creating Windows
+
+```vim
+:split filename        " Horizontal split with file
+:sp filename          " Short form
+:split                " Horizontal split with same buffer
+:vsplit filename      " Vertical split with file
+:vsp filename         " Short form
+:vsplit               " Vertical split with same buffer
+:new                  " New horizontal window with empty buffer
+:vnew                 " New vertical window with empty buffer
+```
+
+#### Navigating Between Windows
+
+```vim
+Ctrl+w h              " Move to left window
+Ctrl+w j              " Move to bottom window
+Ctrl+w k              " Move to top window
+Ctrl+w l              " Move to right window
+Ctrl+w w              " Move to next window (clockwise)
+Ctrl+w W              " Move to previous window (counter-clockwise)
+Ctrl+w p              " Move to previously accessed window
+Ctrl+w t              " Move to top-left window
+Ctrl+w b              " Move to bottom-right window
+```
+
+#### Window Resizing
+
+```vim
+Ctrl+w +              " Increase height
+Ctrl+w -              " Decrease height
+Ctrl+w >              " Increase width
+Ctrl+w <              " Decrease width
+Ctrl+w =              " Make all windows equal size
+Ctrl+w |              " Maximize current window width
+Ctrl+w _              " Maximize current window height
+:resize 20            " Set window height to 20 lines
+:vertical resize 80   " Set window width to 80 columns
+```
+
+#### Moving and Rearranging Windows
+
+```vim
+Ctrl+w H              " Move window to far left
+Ctrl+w J              " Move window to bottom
+Ctrl+w K              " Move window to top
+Ctrl+w L              " Move window to far right
+Ctrl+w x              " Exchange current window with next
+Ctrl+w r              " Rotate windows downward
+Ctrl+w R              " Rotate windows upward
+```
+
+#### Closing Windows
+
+```vim
+:q                    " Close current window
+:close                " Close current window (same as :q)
+Ctrl+w c              " Close current window
+Ctrl+w o              " Close all other windows (only current remains)
+:only                 " Close all other windows
+```
+
+### Tab Management
+
+#### Creating Tabs
+
+```vim
+:tabnew               " New tab with empty buffer
+:tabnew filename      " New tab with file
+:tabe filename        " Edit file in new tab (short form)
+:tabf filename        " Find and open file in new tab
+Ctrl+w T              " Move current window to new tab
+```
+
+#### Navigating Between Tabs
+
+```vim
+gt                    " Go to next tab
+gT                    " Go to previous tab
+:tabn                 " Next tab (command form)
+:tabp                 " Previous tab (command form)
+:tabfirst             " Go to first tab
+:tablast              " Go to last tab
+1gt                   " Go to tab 1
+2gt                   " Go to tab 2
+{n}gt                 " Go to tab n
+```
+
+#### Tab Information and Management
+
+```vim
+:tabs                 " List all tabs with their windows
+:tabm 0               " Move current tab to position 0 (first)
+:tabm                 " Move current tab to last position
+:tabm 3               " Move current tab to position 3
+```
+
+#### Closing Tabs
+
+```vim
+:tabc                 " Close current tab
+:tabclose             " Close current tab (full form)
+:tabo                 " Close all other tabs
+:tabonly              " Close all other tabs (full form)
+:qa                   " Quit all tabs
+```
+
+### Buffer Management
+
+#### Buffer Navigation
+
+```vim
+:ls                   " List all buffers
+:buffers              " List all buffers (full form)
+:files                " List all buffers (alternative)
+:b1                   " Switch to buffer 1
+:b filename           " Switch to buffer by name (Tab completion works)
+:buffer 2             " Switch to buffer 2 (full form)
+:bn                   " Next buffer
+:bnext                " Next buffer (full form)
+:bp                   " Previous buffer
+:bprev                " Previous buffer (full form)
+:bf                   " First buffer
+:bfirst               " First buffer (full form)
+:bl                   " Last buffer
+:blast                " Last buffer (full form)
+Ctrl+6                " Switch to alternate buffer (last accessed)
+Ctrl+^                " Switch to alternate buffer (alternative)
+```
+
+#### Buffer Status Indicators
+
+When you run `:ls`, you'll see indicators:
+
+```vim
+:ls
+  1 %a   "file1.txt"           line 1
+  2 #h   "file2.txt"           line 5
+  3      "file3.txt"           line 1
+
+% = current buffer
+# = alternate buffer
+a = active (displayed in window)
+h = hidden (loaded but not displayed)
+u = unlisted
++ = modified
+- = unmodifiable
+= = readonly
+x = read errors
+```
+
+#### Buffer Operations
+
+```vim
+:bd                   " Delete current buffer
+:bdelete              " Delete current buffer (full form)
+:bd 2                 " Delete buffer 2
+:bd file.txt          " Delete buffer by name
+:bw                   " Wipe buffer (more thorough deletion)
+:bwipeout             " Wipe buffer (full form)
+:%bd                  " Delete all buffers
+:%bd|e#               " Delete all buffers except current
+```
+
+### Advanced Navigation Patterns
+
+#### Working with Multiple Files
+
+```vim
+" Open multiple files in tabs
+vim -p file1.txt file2.txt file3.txt
+
+" Open multiple files in splits
+vim -o file1.txt file2.txt    " Horizontal splits
+vim -O file1.txt file2.txt    " Vertical splits
+
+" Add files to current session
+:tabe file1.txt
+:sp file2.txt
+:vsp file3.txt
+```
+
+#### Buffer vs Window vs Tab Usage Patterns
+
+**Buffers**: Best for managing many files
+```vim
+" Open many files as buffers
+:e file1.txt
+:e file2.txt
+:e file3.txt
+" Navigate with :bn, :bp, :b filename
+```
+
+**Windows**: Best for comparing/working with multiple files simultaneously
+```vim
+:sp file1.txt         " Compare files side by side
+:vsp file2.txt
+Ctrl+w w              " Jump between comparisons
+```
+
+**Tabs**: Best for different contexts/projects
+```vim
+" Tab 1: Main project files
+:tabe main.py
+:sp tests.py
+
+" Tab 2: Documentation
+:tabe README.md
+:sp CHANGELOG.md
+
+" Tab 3: Configuration
+:tabe config.json
+```
+
+### Useful Combinations and Workflows
+
+#### Quick File Switching
+
+```vim
+" Method 1: Buffer switching (fastest for many files)
+:b part<Tab>          " Quick switch using partial filename
+
+" Method 2: Recent files (your telescope config)
+<leader>fr            " Recent files in project
+
+" Method 3: File finder (your telescope config)
+<leader>ff            " Find files
+```
+
+#### Workspace Setup Examples
+
+```vim
+" Split workspace for development
+:e main.py            " Open main file
+:vsp tests.py         " Vertical split for tests
+:sp config.yaml       " Horizontal split for config
+Ctrl+w h              " Focus on main file
+
+" Tab-based workflow
+:tabe src/main.py     " Tab 1: Source code
+:tabe tests/          " Tab 2: Tests
+:tabe docs/           " Tab 3: Documentation
+gt                    " Switch between contexts
+```
+
+#### Session Management
+
+```vim
+" Save session with all tabs/windows/buffers
+:mksession ~/my-project.vim
+
+" Restore session
+:source ~/my-project.vim
+" or from command line:
+nvim -S ~/my-project.vim
+```
+
+### Integration with Your Custom Keymaps
+
+Your current setup already includes some of these:
+
+```vim
+" Your existing telescope keymaps work great with buffers:
+<leader>ff            " Find files (opens in current window)
+<leader>fb            " Find buffers (quick buffer switching)
+<leader>fr            " Recent files
+
+" Your yazi integration:
+<leader>e             " File manager (can open files in tabs/splits)
+
+" Combine with window/tab commands:
+<leader>ff            " Find file
+Ctrl+w v              " Open in vertical split
+<leader>ff            " Find another file
+Ctrl+w s              " Open in horizontal split
+```
