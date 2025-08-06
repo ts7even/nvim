@@ -123,11 +123,16 @@ require("lazy").setup({
 --]]
     -- Color scheme/theme
     {
-        "olimorris/onedarkpro.nvim",
-        lazy = false,
+        "catppuccin/nvim",
+        name = "catppuccin",
         priority = 1000,
         config = function()
-            vim.cmd("colorscheme onedark")
+            require("catppuccin").setup({
+                flavour = "macchiato", -- latte, frappe, macchiato, mocha
+                transparent_background = false, -- disables setting the background color
+            })
+            -- Set the color scheme to Catppuccin Mocha
+            vim.cmd.colorscheme("catppuccin")
         end,
     },
 
