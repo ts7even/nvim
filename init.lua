@@ -33,7 +33,7 @@ vim.opt.clipboard = "unnamedplus" -- Use system clipboard
 vim.opt.textwidth = 120           -- Automatically wrap text at 120 characters
 vim.opt.conceallevel = 1          -- Conceal level for special characters
 vim.opt.ignorecase = true         -- Ignore case in search patterns
-vim.opt.smartcase = true          -- Override ignorecase if search contains uppercase
+vim.opt.smartcase = true          -- Override ignore case if search contains uppercase
 vim.opt.scrolloff = 8             -- Keep 8 lines visible above/below cursor
 vim.opt.sidescrolloff = 8         -- Keep 8 columns visible left/right of cursor
 
@@ -44,6 +44,10 @@ vim.api.nvim_create_autocmd("BufWritePre", {
         vim.lsp.buf.format({ async = false })
     end,
 })
+
+-- Enable Spell checking
+vim.opt.spell = true
+vim.opt.spelllang = "en_us"
 
 --[[
 ================================================================================
@@ -855,4 +859,4 @@ require("lazy").setup({
         dependencies = { "tpope/vim-dadbod" },
         lazy = true,
     },
-})
+)
