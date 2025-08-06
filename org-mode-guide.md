@@ -26,7 +26,9 @@
 
 ## Introduction
 
-Org-mode is a powerful document editing, formatting, and organizing mode for plain text files. Originally from Emacs, this Neovim implementation brings most of org-mode's functionality to your favorite editor.
+Org-mode is a powerful document editing, formatting, and organizing mode for plain text files.
+Originally from Emacs, this Neovim implementation brings most of org-mode's functionality to your
+favorite editor.
 
 ## Setup and Configuration
 
@@ -78,6 +80,7 @@ mkdir -p ~/orgfiles
 ```
 
 Recommended file structure:
+
 ```
 ~/orgfiles/
 ├── tasks.org       # Main task file
@@ -91,6 +94,7 @@ Recommended file structure:
 ## Basic Concepts
 
 ### Outlines
+
 Org files are structured as outlines using headings:
 
 ```org
@@ -101,6 +105,7 @@ Org files are structured as outlines using headings:
 ```
 
 ### TODO Items
+
 Tasks are marked with TODO keywords:
 
 ```org
@@ -111,6 +116,7 @@ Tasks are marked with TODO keywords:
 ```
 
 ### Timestamps
+
 Various timestamp formats:
 
 ```org
@@ -125,15 +131,17 @@ Various timestamp formats:
 ## Getting Started
 
 1. **Create your first org file:**
+
    ```bash
    nvim ~/orgfiles/tasks.org
    ```
 
-2. **Start with a simple structure:**
+1. **Start with a simple structure:**
+
    ```org
    #+TITLE: My Tasks
    #+AUTHOR: Your Name
-   
+
    * TODO Learn org-mode basics
    * TODO Set up my workflow
    ** TODO Create capture templates
@@ -141,19 +149,22 @@ Various timestamp formats:
    * DONE Install org-mode plugin
    ```
 
-3. **Use the custom keybinds:**
+1. **Use the custom keybinds:**
+
    - `<leader>oa` - Open agenda
    - `<leader>oc` - Quick capture
 
 ## Headings and Structure
 
 ### Creating Headings
+
 - Type `*` followed by space for a first-level heading
 - Use `**`, `***`, etc. for deeper levels
 - Press `<CR>` to create a new heading at the same level
 - Use `M-<CR>` (Alt+Enter) to insert a heading at the same level
 
 ### Navigation
+
 - `Tab` - Cycle visibility (fold/unfold current heading)
 - `S-Tab` - Global visibility cycling
 - `]]` - Next heading
@@ -162,6 +173,7 @@ Various timestamp formats:
 - `gk` - Previous heading at same level
 
 ### Restructuring
+
 - `M-h` - Promote heading (decrease level)
 - `M-l` - Demote heading (increase level)
 - `M-k` - Move subtree up
@@ -170,16 +182,19 @@ Various timestamp formats:
 ## TODO Management
 
 ### TODO Keywords
+
 Your configuration uses: `TODO`, `WAITING`, `|`, `DONE`, `CANCELLED`
 
 The `|` separates active states from inactive states.
 
 ### Changing TODO States
+
 - `cit` - Change TODO state
 - `<leader>ot` - TODO state forward
 - `<leader>oT` - TODO state backward
 
 ### Priority Levels
+
 Add priorities to tasks:
 
 ```org
@@ -189,6 +204,7 @@ Add priorities to tasks:
 ```
 
 ### Example TODO Structure
+
 ```org
 * Projects
 ** TODO [#A] Website Redesign
@@ -205,17 +221,19 @@ Add priorities to tasks:
 ### Types of Timestamps
 
 1. **Plain timestamp:** `[2025-08-05 Mon]`
-2. **Active timestamp:** `<2025-08-05 Mon>`
-3. **Scheduled:** `SCHEDULED: <2025-08-05 Mon>`
-4. **Deadline:** `DEADLINE: <2025-08-05 Mon>`
+1. **Active timestamp:** `<2025-08-05 Mon>`
+1. **Scheduled:** `SCHEDULED: <2025-08-05 Mon>`
+1. **Deadline:** `DEADLINE: <2025-08-05 Mon>`
 
 ### Adding Timestamps
+
 - `<leader>oid` - Insert deadline
 - `<leader>ois` - Insert scheduled
 - `<leader>oit` - Insert active timestamp
 - `<leader>oiT` - Insert inactive timestamp
 
 ### Time Ranges
+
 ```org
 * Meeting
   <2025-08-05 Mon 10:00-11:30>
@@ -229,20 +247,25 @@ Add priorities to tasks:
 Your configuration includes two capture templates:
 
 ### Task Template (`t`)
+
 Creates: `* TODO %?\n  %u`
+
 - `%?` - Cursor position after capture
 - `%u` - Inactive timestamp
 
 ### Note Template (`n`)
+
 Creates: `* %?\n  %u`
 
 ### Using Capture
+
 1. Press `<leader>oc`
-2. Select template (`t` for task, `n` for note)
-3. Enter your content
-4. Save with `:w` or finish capture
+1. Select template (`t` for task, `n` for note)
+1. Enter your content
+1. Save with `:w` or finish capture
 
 ### Example Capture Workflow
+
 ```org
 # After using task capture template:
 * TODO Review quarterly reports
@@ -259,16 +282,19 @@ Creates: `* %?\n  %u`
 ## Agenda Views
 
 ### Opening Agenda
+
 - `<leader>oa` - Open agenda prompt
 - Choose from different view types
 
 ### Agenda Types
+
 1. **Daily/Weekly agenda** - Shows scheduled items and deadlines
-2. **TODO list** - All TODO items
-3. **Tags match** - Items matching specific tags
-4. **Search** - Text search across org files
+1. **TODO list** - All TODO items
+1. **Tags match** - Items matching specific tags
+1. **Search** - Text search across org files
 
 ### Navigation in Agenda
+
 - `j/k` - Move up/down
 - `<CR>` - Go to item
 - `q` - Quit agenda
@@ -277,10 +303,12 @@ Creates: `* %?\n  %u`
 ## Links
 
 ### Creating Links
+
 - `<leader>oil` - Insert link
 - `<leader>ols` - Store link (for later insertion)
 
 ### Link Types
+
 ```org
 # Web links
 [[https://example.com][Example Website]]
@@ -296,11 +324,13 @@ Creates: `* %?\n  %u`
 ```
 
 ### Following Links
+
 - `gx` - Open link under cursor
 
 ## Tables
 
 ### Creating Tables
+
 ```org
 | Name    | Age | City     |
 |---------+-----+----------|
@@ -310,6 +340,7 @@ Creates: `* %?\n  %u`
 ```
 
 ### Table Operations
+
 - `<leader>oic` - Insert column
 - `<leader>oir` - Insert row
 - `<leader>oih` - Insert row above
@@ -319,6 +350,7 @@ Creates: `* %?\n  %u`
 - `S-Tab` - Move to previous field
 
 ### Table Formulas
+
 ```org
 | Item  | Quantity | Price | Total |
 |-------+----------+-------+-------|
@@ -332,6 +364,7 @@ Creates: `* %?\n  %u`
 ## Tags and Properties
 
 ### Adding Tags
+
 ```org
 * TODO Meeting with client    :work:urgent:
 * Personal project           :personal:hobby:
@@ -339,6 +372,7 @@ Creates: `* %?\n  %u`
 ```
 
 ### Tag Inheritance
+
 ```org
 * Work Projects              :work:
 ** TODO Client presentation  :urgent:    # inherits :work:
@@ -346,6 +380,7 @@ Creates: `* %?\n  %u`
 ```
 
 ### Properties
+
 ```org
 * Project Alpha
   :PROPERTIES:
@@ -358,11 +393,13 @@ Creates: `* %?\n  %u`
 ## Export
 
 ### Export Commands
+
 - `<leader>oee` - Export menu
 - `<leader>oep` - Export to PDF
 - `<leader>oeh` - Export to HTML
 
 ### Export Settings
+
 Add to the top of your org file:
 
 ```org
@@ -376,12 +413,14 @@ Add to the top of your org file:
 ## Time Tracking (Clocking)
 
 ### Clock Commands
+
 - `<leader>oxi` - Clock in
 - `<leader>oxo` - Clock out
 - `<leader>oxr` - Clock report
 - `<leader>oxj` - Clock goto
 
 ### Example with Clocking
+
 ```org
 * TODO Write documentation
   :LOGBOOK:
@@ -394,13 +433,16 @@ Add to the top of your org file:
 ## Advanced Features
 
 ### Archive
+
 - `<leader>oA` - Archive subtree
 - `<leader>o$` - Archive sibling
 
 ### Refile
+
 - `<leader>ocr` - Refile current heading
 
 ### Custom TODO Sequences
+
 ```org
 #+TODO: TODO NEXT | DONE
 #+TODO: REPORT BUG KNOWNCAUSE | FIXED
@@ -408,6 +450,7 @@ Add to the top of your org file:
 ```
 
 ### Effort Estimation
+
 ```org
 * TODO Complex project
   :PROPERTIES:
@@ -420,6 +463,7 @@ Add to the top of your org file:
 ### Daily Planning Workflow
 
 1. **Morning Planning:**
+
    ```org
    * Daily Plan [2025-08-05 Mon]
    ** TODO Review emails               :@office:
@@ -429,10 +473,12 @@ Add to the top of your org file:
    ** TODO Grocery shopping            :@errands:
    ```
 
-2. **Use agenda to see the day:**
+1. **Use agenda to see the day:**
+
    - `<leader>oa` → Daily agenda
 
-3. **Clock time on tasks:**
+1. **Clock time on tasks:**
+
    - `<leader>oxi` when starting
    - `<leader>oxo` when finishing
 
@@ -490,16 +536,19 @@ Add to the top of your org file:
 ### File Organization
 
 1. **Keep files focused:**
+
    - `tasks.org` - Active tasks and projects
    - `notes.org` - Reference material and meeting notes
    - `someday.org` - Future ideas and projects
 
-2. **Use consistent tagging:**
+1. **Use consistent tagging:**
+
    ```org
    :work:personal:urgent:waiting:project:meeting:
    ```
 
-3. **Regular reviews:**
+1. **Regular reviews:**
+
    - Weekly: Review all TODO items
    - Monthly: Archive completed projects
    - Quarterly: Clean up tags and restructure
@@ -507,10 +556,12 @@ Add to the top of your org file:
 ### Capture Best Practices
 
 1. **Quick capture everything:**
+
    - Use `<leader>oc` frequently
    - Process captures daily
 
-2. **Template examples:**
+1. **Template examples:**
+
    ```org
    # Meeting template
    * Meeting: %? 
@@ -519,7 +570,7 @@ Add to the top of your org file:
      ** Agenda
      ** Action Items
      ** Notes
-   
+
    # Project template
    * PROJECT %?
      DEADLINE: %t
@@ -532,31 +583,29 @@ Add to the top of your org file:
 ### Agenda Workflow
 
 1. **Daily routine:**
+
    - Morning: Check agenda (`<leader>oa`)
    - Throughout day: Update TODO states
    - Evening: Plan next day
 
-2. **Weekly routine:**
+1. **Weekly routine:**
+
    - Review all TODO items
    - Reschedule overdue items
    - Archive completed projects
 
 ### Keyboard Shortcuts Summary
 
-| Action | Keybind | Description |
-|--------|---------|-------------|
-| Agenda | `<leader>oa` | Open agenda |
-| Capture | `<leader>oc` | Quick capture |
-| TODO cycle | `cit` | Change TODO state |
-| Fold/unfold | `Tab` | Toggle visibility |
-| Next heading | `]]` | Navigate to next heading |
-| Insert link | `<leader>oil` | Create link |
-| Clock in | `<leader>oxi` | Start time tracking |
-| Archive | `<leader>oA` | Archive subtree |
+| Action | Keybind | Description | |--------|---------|-------------| | Agenda | `<leader>oa` | Open
+agenda | | Capture | `<leader>oc` | Quick capture | | TODO cycle | `cit` | Change TODO state | |
+Fold/unfold | `Tab` | Toggle visibility | | Next heading | `]]` | Navigate to next heading | |
+Insert link | `<leader>oil` | Create link | | Clock in | `<leader>oxi` | Start time tracking | |
+Archive | `<leader>oA` | Archive subtree |
 
 ### Common Patterns
 
 1. **Project tracking:**
+
    ```org
    * PROJECT Website Redesign [0/3]
    ** TODO [#A] Planning [0/2]
@@ -573,7 +622,8 @@ Add to the top of your org file:
    *** TODO Deployment
    ```
 
-2. **Weekly planning:**
+1. **Weekly planning:**
+
    ```org
    * Week of [2025-08-05 Mon]
    ** Monday
@@ -593,19 +643,23 @@ Add to the top of your org file:
 ### Integration with Other Tools
 
 1. **Git integration:**
+
    ```org
    * TODO Fix bug #123
      [[https://github.com/user/repo/issues/123][GitHub Issue]]
    ```
 
-2. **Calendar sync:**
+1. **Calendar sync:**
+
    - Export agenda to ICS format
    - Import into Google Calendar or similar
 
-3. **Email integration:**
+1. **Email integration:**
+
    ```org
    * TODO Follow up with client
      [[mailto:client@example.com][Email Client]]
    ```
 
-This guide should get you started with org-mode in Neovim. Start simple with basic TODO items and gradually incorporate more advanced features as you become comfortable with the workflow.
+This guide should get you started with org-mode in Neovim. Start simple with basic TODO items and
+gradually incorporate more advanced features as you become comfortable with the workflow.
