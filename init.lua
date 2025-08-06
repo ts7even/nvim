@@ -858,5 +858,5 @@ require("lazy").setup({
         "kristijanhusak/vim-dadbod-completion",
         dependencies = { "tpope/vim-dadbod" },
         lazy = true,
-    },
-)
+    }
+})
