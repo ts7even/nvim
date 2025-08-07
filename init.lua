@@ -801,26 +801,20 @@ require("lazy").setup({
                     -- Template-based captures
                     m = {
                         description = "Meeting (from template)",
-                        template = "file",
+                        template = "* Meeting - %^{Meeting Name}\n  :PROPERTIES:\n  :ABOUT: %^{About Meeting}\n  :DATE: %t\n  :TIME: %^{Time}\n  :PARTICIPANTS: %^{Participants}\n  :END:\n\n** Notes\n*** Key Discussion Points\n%?\n\n*** Decisions Made\n\n\n*** Concerns/Issues Raised\n\n\n** Action Items\n*** TODO %^{Action Item 1} :meeting:\n    SCHEDULED: %^{Follow-up Date}T\n    - TPM: %^{Owner}\n    - Engineer: %^{Engineer}\n    - Due: %^{Due Date}T\n\n** Related Links\n- GitHub Issue: %^{GitHub Link}",
                         target = "~/orgfiles/meetings.org",
-                        template_file = "~/orgfiles/templates/meeting.org",
                     },
                     l = {
                         description = "Learning Note (from template)",
-                        template = "file",
-                        target = function()
-                            return "~/orgfiles/learn/" .. vim.fn.input("Learning topic: ") .. ".org"
-                        end,
-                        template_file = "~/orgfiles/templates/learning.org",
+                        template = "%(file)~/orgfiles/templates/learning.org",
+                        target = "~/orgfiles/refile.org",
                     },
                     
                     -- Project captures
                     p = {
                         description = "Project Task",
                         template = "* TODO %?\n  SCHEDULED: %T\n  :PROPERTIES:\n  :PROJECT: %^{Project}\n  :END:",
-                        target = function()
-                            return "~/orgfiles/projects/" .. vim.fn.input("Project file: ") .. ".org"
-                        end,
+                        target = "~/orgfiles/refile.org",
                     },
                     
                     -- Refile for organizing later
