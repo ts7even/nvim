@@ -1,0 +1,32 @@
+{
+  "task": {
+    "description": "Task",
+    "template": "* TODO %?\n  SCHEDULED: %T\n  DEADLINE: %^{Deadline}t",
+    "target": "~/orgfiles/tasks.org"
+  },
+  "note": {
+    "description": "Quick Note",
+    "template": "* %?\n  %U",
+    "target": "~/orgfiles/notes.org"
+  },
+  "meeting": {
+    "description": "Meeting (from template)",
+    "template": "* Meeting - %^{Meeting Name}\n  :PROPERTIES:\n  :ABOUT: %^{About Meeting}\n  :DATE: %t\n  :TIME: %^{Time}\n  :PARTICIPANTS: %^{Participants}\n  :END:\n\n** Notes\n*** Key Discussion Points\n%?\n\n*** Decisions Made\n\n\n*** Concerns/Issues Raised\n\n\n** Action Items\n*** TODO %^{Action Item 1} :meeting:\n - Due: %^{Due Date}T\n\n** Related Links\n- GitHub Issue: ",
+    "target": "~/orgfiles/meetings.org"
+  },
+  "learning": {
+    "description": "Learning Note (from template)",
+    "template": "* Learning Note - %^{Topic}\n  :PROPERTIES:\n  :DATE: %t\n  :SOURCE: %^{Source}\n  :END:\n\n** Summary\n%?\n\n** Key Takeaways\n\n\n** Questions/Thoughts\n\n\n** Related Resources\n- ",
+    "target": "~/orgfiles/refile.org"
+  },
+  "project": {
+    "description": "Project (from template)",
+    "template": "* Project: %^{Project Name}\n  :PROPERTIES:\n  :PROJECT: %^{Project Name}\n  :START_DATE: %^{Start Date|%t}\n  :DUE_DATE: %^{Due Date}\n  :STATUS: TODO\n  :PRIORITY: %^{Priority|Medium|High|Low}\n  :OWNER: %^{Project Owner}\n  :END:\n\n** Overview\n%?\n\n** Business Requirements\n*** Primary Objectives\n- \n\n*** Success Criteria\n- \n\n*** Stakeholders\n- \n\n** Technical Requirements\n*** Functional Requirements\n- \n\n*** Non-Functional Requirements\n- Performance: \n- Security: \n- Scalability: \n- Reliability: \n\n*** Dependencies\n- \n\n** Architecture\n*** High-Level Design\n\n\n*** Technology Stack\n- Frontend: \n- Backend: \n- Database: \n- Infrastructure: \n\n*** Integration Points\n- \n\n** Resources\n*** Team Members\n- Project Manager: \n- Tech Lead: \n- Developers: \n- QA: \n- DevOps: \n\n*** Budget & Timeline\n- Estimated Hours: \n- Budget: \n- Key Milestones:\n  - Phase 1: \n  - Phase 2: \n  - Launch: \n\n** Development\n*** TODO Setup project repository\n    SCHEDULED: %^{Repo Setup Date}\n*** TODO Create development environment\n    SCHEDULED: %^{Dev Env Date}\n*** TODO Initial architecture documentation\n    SCHEDULED: %^{Arch Doc Date}\n\n** Links & Resources\n*** Documentation\n- Requirements Doc: \n- Architecture Doc: \n- API Documentation: \n\n*** Repositories\n- Main Repo: %^{Git Repository URL}\n- Infrastructure Repo: \n\n*** External Resources\n- Design Files: \n- Third-party APIs: \n- Reference Materials: \n\n** Issues & Risks\n*** Open Issues\n- Issue Tracker: %^{Issue Tracker URL}\n\n*** Known Risks\n- \n\n*** Mitigation Strategies\n- \n\n** Notes\n*** Meeting Notes\n\n\n*** Decisions Log\n\n\n*** Lessons Learned\n",
+    "target": "~/orgfiles/refile.org"
+  },
+  "refile": {
+    "description": "Refile (organize later)",
+    "template": "* %?\n  %U\n  :PROPERTIES:\n  :CREATED: %U\n  :END:",
+    "target": "~/orgfiles/refile.org"
+  }
+}

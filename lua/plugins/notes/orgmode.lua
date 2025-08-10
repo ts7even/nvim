@@ -1,3 +1,45 @@
+-- Function to load capture templates from JSON file
+local function load_capture_templates(template_name)
+	local config_path = vim.fn.stdpath("config")
+	local templates_file = config_path .. "/snippets/org-capture-templates.json"
+	
+	local file = io.open(templates_file, "r")
+	if not file then
+		vim.notify("Could not find org capture templates file: " .. templates_file, vim.log.levels.WARN)
+		return template_name and {} or {}
+	end
+	
+	local content = file:read("*all")
+	file:close()
+	
+	local ok, templates = pcall(vim.json.decode, content)
+	if not ok then
+		vim.notify("Error parsing org capture templates JSON: " .. templates, vim.log.levels.ERROR)
+		return template_name and {} or {}
+	end
+	
+	-- If a specific template is requested, return just that one
+	if template_name then
+		return templates[template_name] or {}
+	end
+	
+	-- Convert to orgmode format with single letter keys
+	local org_templates = {}
+	org_templates.t = templates.task
+	org_templates.n = templates.note
+	org_templates.m = templates.meeting
+	org_templates.l = templates.learning
+	org_templates.p = templates.project
+	org_templates.r = templates.refile
+	
+	return org_templates
+end
+
+-- Helper function for individual template access (example usage)
+local function get_template(name)
+	return load_capture_templates(name)
+end
+
 return {
 	{
 		"nvim-orgmode/orgmode",
@@ -13,45 +55,11 @@ return {
 				org_deadline_warning_days = 14,
 				org_agenda_skip_scheduled_if_done = true,
 				org_agenda_skip_deadline_if_done = true,
-				org_capture_templates = {
-					-- Quick captures
-					t = {
-						description = "Task",
-						template = "* TODO %?\n  SCHEDULED: %T",
-						target = "~/orgfiles/tasks.org",
-					},
-					n = {
-						description = "Quick Note",
-						template = "* %?\n  %U",
-						target = "~/orgfiles/notes.org",
-					},
-
-					-- Template-based captures
-					m = {
-						description = "Meeting (from template)",
-						template = "* Meeting - %^{Meeting Name}\n  :PROPERTIES:\n  :ABOUT: %^{About Meeting}\n  :DATE: %t\n  :TIME: %^{Time}\n  :PARTICIPANTS: %^{Participants}\n  :END:\n\n** Notes\n*** Key Discussion Points\n%?\n\n*** Decisions Made\n\n\n*** Concerns/Issues Raised\n\n\n** Action Items\n*** TODO %^{Action Item 1} :meeting:\n    SCHEDULED: %^{Follow-up Date}T\n    - TPM: %^{Owner}\n    - Engineer: %^{Engineer}\n    - Due: %^{Due Date}T\n\n** Related Links\n- GitHub Issue: %^{GitHub Link}",
-						target = "~/orgfiles/meetings.org",
-					},
-					l = {
-						description = "Learning Note (from template)",
-						template = "%(file)~/orgfiles/templates/learning.org",
-						target = "~/orgfiles/refile.org",
-					},
-
-					-- Project captures
-					p = {
-						description = "Project Task",
-						template = "* TODO %?\n  SCHEDULED: %T\n  :PROPERTIES:\n  :PROJECT: %^{Project}\n  :END:",
-						target = "~/orgfiles/refile.org",
-					},
-
-					-- Refile for organizing later
-					r = {
-						description = "Refile (organize later)",
-						template = "* %?\n  %U\n  :PROPERTIES:\n  :CREATED: %U\n  :END:",
-						target = "~/orgfiles/refile.org",
-					},
-				},
+				-- Refile configuration
+				org_refile_targets = "~/orgfiles/**/*",
+				org_refile_use_outline_path = "file",
+				org_refile_allow_creating_parent_nodes = "confirm",
+				org_capture_templates = load_capture_templates(),
 			})
 
 			-- Quick file access keymaps
@@ -62,33 +70,6 @@ return {
 			vim.keymap.set("n", "<leader>om", ":edit ~/orgfiles/meetings.org<CR>", { desc = "Open meetings file" })
 			vim.keymap.set("n", "<leader>or", ":edit ~/orgfiles/refile.org<CR>", { desc = "Open refile file" })
 			vim.keymap.set("n", "<leader>op", ":edit ~/orgfiles/projects/", { desc = "Open projects directory" })
-			vim.keymap.set("n", "<leader>onp", function()
-				local project_name = vim.fn.input("Project name: ")
-				if project_name ~= "" then
-					vim.cmd("edit ~/orgfiles/projects/" .. project_name .. ".org")
-					vim.cmd("read ~/orgfiles/templates/project.org")
-					vim.cmd("1delete") -- Remove first empty line
-				end
-			end, { desc = "Create new project from template" })
-
-			vim.keymap.set("n", "<leader>onc", function()
-				local poc_name = vim.fn.input("POC name: ")
-				if poc_name ~= "" then
-					vim.cmd("edit ~/orgfiles/projects/poc-" .. poc_name .. ".org")
-					vim.cmd("read ~/orgfiles/templates/poc.org")
-					vim.cmd("1delete") -- Remove first empty line
-				end
-			end, { desc = "Create new POC from template" })
-
-			vim.keymap.set("n", "<leader>onl", function()
-				local learning_path = vim.fn.input("Learning file (e.g., python/async or kubernetes): ")
-				if learning_path ~= "" then
-					local full_path = "~/orgfiles/learn/" .. learning_path .. ".org"
-					vim.cmd("edit " .. full_path)
-					vim.cmd("read ~/orgfiles/templates/learning.org")
-					vim.cmd("1delete") -- Remove first empty line
-				end
-			end, { desc = "Create new learning file from template" })
 		end,
 	},
 }
