@@ -180,6 +180,7 @@ return {
 						{ action = "Yazi", desc = " File Manager", icon = "", key = "cw" },
 					},
 					footer = get_orgmode_todos(),
+					"It's not what you know that gets you into trouble, it's what you know for sure that just ain't so. - Mark Twain",
 				},
 			})
 		end,
