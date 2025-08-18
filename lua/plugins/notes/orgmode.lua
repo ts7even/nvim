@@ -62,6 +62,18 @@ return {
 				org_capture_templates = load_capture_templates(),
 			})
 
+			-- Set up formatexpr for table formatting
+			vim.api.nvim_create_autocmd("FileType", {
+				pattern = "org",
+				callback = function()
+					vim.bo.formatexpr = "v:lua.require'orgmode'.formatexpr()"
+					-- Set org-mode specific formatting options for <leader>fc
+					vim.bo.textwidth = 120
+					vim.bo.wrapmargin = 0
+					vim.bo.formatoptions = "tcqjn"
+				end,
+			})
+
 			-- Quick file access keymaps
 			vim.keymap.set("n", "<leader>of", ":edit ~/orgfiles/<CR>", { desc = "Open orgfiles directory" })
 			vim.keymap.set("n", "<leader>ot", ":edit ~/orgfiles/tasks.org<CR>", { desc = "Open tasks file" })

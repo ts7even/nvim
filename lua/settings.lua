@@ -20,7 +20,7 @@ vim.opt.sidescrolloff = 8 -- Keep 8 columns visible left/right of cursor
 
 -- Auto format on save for various file types
 vim.api.nvim_create_autocmd("BufWritePre", {
-	pattern = { "*.lua", "*.js", "*.ts", "*.md", "*.rs", "*.c", "*.toml", "*.yaml", "*.py" },
+	pattern = { "*.lua", "*.js", "*.ts", "*.md", "*.rs", "*.c", "*.toml", "*.yaml", "*.py", "*.org" },
 	callback = function()
 		vim.lsp.buf.format({ async = false })
 	end,
@@ -38,7 +38,7 @@ vim.keymap.set("n", "<leader>l", "<C-^>")
 
 -- Vertical Line
 vim.api.nvim_create_autocmd("FileType", {
-	pattern = { "python", "javascript", "lua", "rust" },
+	pattern = { "python", "javascript", "lua", "rust", "org" },
 	callback = function()
 		vim.opt_local.colorcolumn = "120"
 		-- More subtle with Catppuccin theme
