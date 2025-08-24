@@ -52,7 +52,17 @@ return {
             vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "Hover documentation" })
             vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "Go to definition" })
             vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "Code actions" })
-            vim.keymap.set("n", "<leader>fc", vim.lsp.buf.format, { desc = "Format code" })
+            vim.keymap.set("n", "<leader>fc", function()
+                local bufnr = vim.api.nvim_get_current_buf()
+                vim.lsp.buf.format({ 
+                    async = false,  -- Use synchronous for manual formatting
+                    bufnr = bufnr,
+                    filter = function(client)
+                        -- Allow null-ls and other formatting clients
+                        return client.supports_method("textDocument/formatting")
+                    end
+                })
+            end, { desc = "Format code" })
 
             -- Diagnostic keymaps for LSP error/warning navigation
             vim.keymap.set("n", "<leader>dl", vim.diagnostic.open_float, {

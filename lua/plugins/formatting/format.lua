@@ -1,6 +1,7 @@
 return {
 	{
 		"nvimtools/none-ls.nvim",
+		dependencies = { "nvim-lua/plenary.nvim" },
 		config = function()
 			local null_ls = require("null-ls")
 
@@ -16,9 +17,10 @@ return {
 						},
 					}),
 
-					-- JavaScript/TypeScript formatter
+					-- JavaScript/TypeScript/JSON formatter
 					null_ls.builtins.formatting.prettier.with({
-						filetypes = { "javascript", "typescript", "json" },
+						filetypes = { "javascript", "typescript", "json", "jsonc" },
+						extra_args = { "--tab-width", "2", "--use-tabs", "false" },
 					}),
 
 					-- Markdown formatters
@@ -59,6 +61,17 @@ return {
 					-- Spell checking
 					null_ls.builtins.completion.spell,
 				},
+				-- Ensure null-ls attaches to buffers
+				on_attach = function(client, bufnr)
+					if client.supports_method("textDocument/formatting") then
+						vim.api.nvim_create_autocmd("BufWritePre", {
+							buffer = bufnr,
+							callback = function()
+								vim.lsp.buf.format({ bufnr = bufnr })
+							end,
+						})
+					end
+				end,
 			})
 		end,
 	},

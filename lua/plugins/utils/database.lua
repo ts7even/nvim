@@ -45,10 +45,17 @@ return {
 				end,
 			})
 
+			-- Custom function to open DBUI in full window
+			local function open_dbui_fullscreen()
+				-- Open in a new tab to get full window
+				vim.cmd("tabnew")
+				vim.cmd("DBUI")
+			end
+
 			-- Database keymaps
-			vim.keymap.set("n", "<leader>db", ":DBUIToggle<CR>", { desc = "Toggle Database UI" })
-			vim.keymap.set("n", "<leader>dc", ":DBUIAddConnection<CR>", { desc = "Add Database Connection" })
-			vim.keymap.set("n", "<leader>dq", ":DBUIFindBuffer<CR>", { desc = "Find Database Buffer" })
+			vim.keymap.set("n", "<leader>ddb", open_dbui_fullscreen, { desc = "Open Database UI in Full Window" })
+			vim.keymap.set("n", "<leader>ddc", ":DBUIAddConnection<CR>", { desc = "Add Database Connection" })
+			vim.keymap.set("n", "<leader>ddq", ":DBUIFindBuffer<CR>", { desc = "Find Database Buffer" })
 		end,
 	},
 
