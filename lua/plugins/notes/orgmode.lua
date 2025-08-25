@@ -60,17 +60,43 @@ return {
 				org_refile_use_outline_path = "file",
 				org_refile_allow_creating_parent_nodes = "confirm",
 				org_capture_templates = load_capture_templates(),
+				
+				-- Formatting and indentation options
+				org_startup_indented = false, -- Set to true for virtual indentation
+				org_adapt_indentation = true, -- Use hard indents for content under headlines
+				org_tags_column = 80, -- Column to align tags (default: 80)
+				org_hide_leading_stars = false, -- Set to true to hide leading stars
 			})
 
-			-- Set up formatexpr for table formatting
+			-- Set up proper org-mode formatting and indentation
 			vim.api.nvim_create_autocmd("FileType", {
 				pattern = "org",
 				callback = function()
 					vim.bo.formatexpr = "v:lua.require'orgmode'.formatexpr()"
-					-- Set org-mode specific formatting options for <leader>fc
+					-- Enable proper indentation and formatting for org-mode
 					vim.bo.textwidth = 120
 					vim.bo.wrapmargin = 0
-					vim.bo.formatoptions = "tcqjn"
+					vim.bo.formatoptions = "tcroqn2"
+					-- Enable auto-indenting with org-mode aware settings
+					vim.bo.autoindent = true
+					vim.bo.smartindent = false
+					vim.bo.cindent = false
+					-- Use spaces and set proper tab settings
+					vim.bo.expandtab = true
+					vim.bo.tabstop = 2
+					vim.bo.shiftwidth = 2
+					vim.bo.softtabstop = 2
+					
+					-- Auto-format on save for org files
+					vim.api.nvim_create_autocmd("BufWritePre", {
+						buffer = vim.api.nvim_get_current_buf(),
+						callback = function()
+							-- Format the entire buffer with orgmode's formatexpr
+							vim.cmd("normal! gggqG")
+							-- Reset cursor position
+							vim.cmd("normal! ``")
+						end,
+					})
 				end,
 			})
 
