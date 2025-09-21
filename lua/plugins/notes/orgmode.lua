@@ -63,7 +63,7 @@ return {
 				
 				-- Formatting and indentation options
 				org_startup_indented = false, -- Set to true for virtual indentation
-				org_adapt_indentation = true, -- Use hard indents for content under headlines
+				org_adapt_indentation = false, -- Disable auto-indentation under headlines
 				org_tags_column = 80, -- Column to align tags (default: 80)
 				org_hide_leading_stars = false, -- Set to true to hide leading stars
 			})
@@ -74,11 +74,11 @@ return {
 				callback = function()
 					vim.bo.formatexpr = "v:lua.require'orgmode'.formatexpr()"
 					-- Enable proper indentation and formatting for org-mode
-					vim.bo.textwidth = 120
+					vim.bo.textwidth = 80
 					vim.bo.wrapmargin = 0
-					vim.bo.formatoptions = "tcroqn2"
-					-- Enable auto-indenting with org-mode aware settings
-					vim.bo.autoindent = true
+					vim.bo.formatoptions = "tcroqn2j"  -- Removed 'l' for auto-wrap while typing
+					-- Disable auto-indenting to prevent unwanted indentation
+					vim.bo.autoindent = false
 					vim.bo.smartindent = false
 					vim.bo.cindent = false
 					-- Use spaces and set proper tab settings
@@ -87,14 +87,19 @@ return {
 					vim.bo.shiftwidth = 2
 					vim.bo.softtabstop = 2
 					
-					-- Auto-format on save for org files
-					vim.api.nvim_create_autocmd("BufWritePre", {
+					-- Auto-format long lines when opening org files using external fmt command
+					vim.api.nvim_create_autocmd("BufReadPost", {
 						buffer = vim.api.nvim_get_current_buf(),
 						callback = function()
-							-- Format the entire buffer with orgmode's formatexpr
-							vim.cmd("normal! gggqG")
-							-- Reset cursor position
-							vim.cmd("normal! ``")
+							-- Wait a moment for the buffer to be fully loaded
+							vim.defer_fn(function()
+								-- Save cursor position
+								local cursor_pos = vim.api.nvim_win_get_cursor(0)
+								-- Use external fmt command to format text to 80 characters
+								vim.cmd("silent! %!fmt -w 80")
+								-- Restore cursor position
+								pcall(vim.api.nvim_win_set_cursor, 0, cursor_pos)
+							end, 100)
 						end,
 					})
 				end,
