@@ -13,6 +13,12 @@ vim.opt.rtp:prepend(lazypath)
 
 -- Setup lazy.nvim and load all plugin configurations
 require("lazy").setup({
+    -- Snacks.nvim - dashboard, picker, statusline
+    { import = "plugins.snacks" },
+    
+    -- Mini.nvim - text manipulation
+    { import = "plugins.mini" },
+    
     -- AI plugins
     { import = "plugins.ai" },
     
@@ -21,9 +27,6 @@ require("lazy").setup({
     
     -- Language plugins
     { import = "plugins.languages" },
-    
-    -- Navigation plugins
-    { import = "plugins.navigation" },
     
     -- Notes plugins
     { import = "plugins.notes" },
@@ -40,5 +43,28 @@ require("lazy").setup({
     },
     change_detection = {
         notify = false,
+    },
+    -- Increase timeout for slow connections
+    git = {
+        timeout = 300, -- 5 minutes timeout (default is 120 seconds)
+        url_format = "https://github.com/%s.git",
+    },
+    install = {
+        missing = true,
+        colorscheme = { "habamax" },
+    },
+    performance = {
+        rtp = {
+            disabled_plugins = {
+                "gzip",
+                "matchit",
+                "matchparen",
+                "netrwPlugin",
+                "tarPlugin",
+                "tohtml",
+                "tutor",
+                "zipPlugin",
+            },
+        },
     },
 })
