@@ -1,7 +1,20 @@
 return {
 	"folke/snacks.nvim",
+	priority = 1000,
+	lazy = false,
+	keys = {
+		{ "<leader>ff", function() Snacks.picker.files() end, desc = "Find Files" },
+		{ "<leader>fg", function() Snacks.picker.grep() end, desc = "Find Text (Grep)" },
+		{ "<leader>fr", function() Snacks.picker.recent() end, desc = "Recent Files" },
+		{ "<leader>fb", function() Snacks.picker.buffers() end, desc = "Find Buffers" },
+		{ "<leader>fc", function() Snacks.picker.command_history() end, desc = "Command History" },
+		{ "<leader>fs", function() Snacks.picker.git_status() end, desc = "Git Status" },
+	},
 	---@type snacks.Config
 	opts = {
+		picker = {
+			enabled = true,
+		},
 		dashboard = {
 			pane_gap = 4, -- Gap between panes
 			height = 60,
