@@ -13,8 +13,6 @@ vim.opt.rtp:prepend(lazypath)
 
 -- Setup lazy.nvim and load all plugin configurations
 require("lazy").setup({
-    -- Snacks.nvim - dashboard, picker, statusline
-    { import = "plugins.snacks" },
     
     -- Mini.nvim - text manipulation
     { import = "plugins.mini" },
