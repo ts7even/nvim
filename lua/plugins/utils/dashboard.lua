@@ -99,26 +99,93 @@ local function get_github_prs()
 	return formatted
 end
 
--- Get Pokemon ASCII - simplified version
-local function get_pokemon()
-	-- Try pokemon-colorscripts directly
-	local result = execute_command("pokemon-colorscripts -r --no-title 2>/dev/null")
+-- Get Pokemon ASCII - using proper terminal approach
+local function create_pokemon_terminal(main_buf, pokemon_row, pokemon_col)
+	-- Create a terminal buffer for Pokemon
+	local pokemon_buf = vim.api.nvim_create_buf(false, true)
 	
-	-- If we got results, return them with a limit
-	if #result >= 5 and result[1] and result[1] ~= "" then
-		local limited_result = {}
-		for j = 1, math.min(15, #result) do
-			table.insert(limited_result, result[j])
+	-- Set up buffer options for terminal
+	vim.api.nvim_buf_set_option(pokemon_buf, 'bufhidden', 'wipe')
+	vim.api.nvim_buf_set_option(pokemon_buf, 'buftype', 'nofile')
+	
+	-- Open terminal in the buffer
+	local chan = vim.api.nvim_open_term(pokemon_buf, {})
+	
+	-- Execute pokemon command and send output to terminal
+	local jid = vim.fn.jobstart({
+		"bash", "-c", "pokemon-colorscripts -r --no-title 2>/dev/null || echo -e '     ⚡ No Pokémon available\\n   Install pokemon-colorscripts\\n   for random Pokémon display!'"
+	}, {
+		pty = true,
+		width = 50,
+		height = 20,
+		on_stdout = function(_, data)
+			if data and #data > 0 then
+				for _, line in ipairs(data) do
+					if line and line ~= "" then
+						pcall(vim.api.nvim_chan_send, chan, line .. "\r\n")
+					end
+				end
+			end
+		end,
+		on_exit = function(job_id, exit_code)
+			-- Terminal output is already handled in on_stdout
+			-- Just clean up the job reference
+		end,
+	})
+	
+	-- Create floating window for Pokemon terminal
+	local main_win = vim.api.nvim_get_current_win()
+	local pokemon_win = vim.api.nvim_open_win(pokemon_buf, false, {
+		relative = 'win',
+		win = main_win,
+		row = pokemon_row,
+		col = pokemon_col,
+		width = 50,
+		height = 20,
+		style = 'minimal',
+		focusable = false,
+		zindex = 50,
+		border = 'none'
+	})
+	
+	-- Set terminal styling to blend with dashboard
+	vim.api.nvim_win_set_option(pokemon_win, 'winhighlight', 'Normal:Normal,NormalFloat:Normal,EndOfBuffer:Normal')
+	
+	-- Store cleanup function
+	local cleanup = function()
+		if jid and jid > 0 then
+			pcall(vim.fn.jobstop, jid)
 		end
-		table.insert(limited_result, "   🎮 Random Pokémon")
-		return limited_result
+		if vim.api.nvim_win_is_valid(pokemon_win) then
+			pcall(vim.api.nvim_win_close, pokemon_win, true)
+		end
+		if vim.api.nvim_buf_is_valid(pokemon_buf) then
+			pcall(vim.api.nvim_buf_delete, pokemon_buf, {force = true})
+		end
 	end
 	
-	-- Simple fallback if no pokemon-colorscripts
+	-- Clean up when main buffer is deleted
+	vim.api.nvim_create_autocmd({"BufWipeout", "BufDelete"}, {
+		buffer = main_buf,
+		callback = cleanup,
+		once = true
+	})
+	
+	-- Clean up when main buffer becomes invalid
+	vim.api.nvim_create_autocmd({"BufHidden", "WinClosed"}, {
+		buffer = main_buf,
+		callback = cleanup,
+		once = true
+	})
+	
+	return pokemon_buf, pokemon_win, cleanup
+end
+
+-- Simplified placeholder for text layout - Pokemon will be in terminal
+local function get_pokemon_placeholder()
 	return {
-		"     ⚡ No Pokémon available",
-		"   Install pokemon-colorscripts",
-		"   for random Pokémon display!"
+		"", "", "", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "", "", ""
 	}
 end-- Get system stats
 local function get_system_stats()
@@ -179,7 +246,7 @@ local function get_dashboard_content()
 	local github_notifications = get_github_notifications()
 	local github_issues = get_github_issues()
 	local github_prs = get_github_prs()
-	local pokemon = get_pokemon()
+	local pokemon_placeholder = get_pokemon_placeholder()
 	local system_stats = get_system_stats()
 	
 	-- Calculate dynamic column widths based on terminal width
@@ -254,25 +321,17 @@ local function get_dashboard_content()
 	table.insert(content, "")
 	table.insert(content, "")
 	
-	-- Add Pokemon in bottom-right with enhanced positioning
-	local pokemon_width = 0
-	for _, line in ipairs(pokemon) do
-		-- Remove ANSI color codes to get actual width for positioning
-		local clean_line = line:gsub("\27%[[0-9;]*m", "")
-		local line_width = vim.api.nvim_strwidth(clean_line)
-		if line_width > pokemon_width then
-			pokemon_width = line_width
-		end
-	end
+	-- Add Pokemon placeholder area (actual Pokemon will be in terminal overlay)
+	local pokemon_width = 50
+	local right_padding = math.max(8, width - pokemon_width - 8)
 	
-	-- Position Pokemon on the right side with perfect alignment
-	local min_padding = 8
-	local right_padding = math.max(min_padding, width - pokemon_width - min_padding)
+	-- Add extra spacing before Pokemon area to avoid overlap with system stats
+	table.insert(content, "")
+	table.insert(content, "")
 	
-	-- Add Pokemon lines with proper positioning and spacing
-	for i = 1, #pokemon do
-		local line = pokemon[i] or ""
-		table.insert(content, string.rep(" ", right_padding) .. line)
+	-- Add placeholder lines for Pokemon area
+	for i = 1, #pokemon_placeholder do
+		table.insert(content, string.rep(" ", right_padding) .. (pokemon_placeholder[i] or ""))
 	end
 	
 	-- Add footer spacing
@@ -330,6 +389,18 @@ function M.create_dashboard()
 	-- Set up window and switch to buffer
 	vim.api.nvim_set_current_buf(buf)
 	
+	-- Create Pokemon terminal overlay after a short delay to ensure main buffer is ready
+	vim.defer_fn(function()
+		if vim.api.nvim_buf_is_valid(buf) and vim.api.nvim_get_current_buf() == buf then
+			local width = vim.o.columns
+			local height = vim.o.lines
+			-- Position Pokemon at the very bottom-right corner
+			local pokemon_row = height - 22  -- Near bottom of screen, leaving space for status bar
+			local pokemon_col = width - 52   -- Right edge with small padding
+			create_pokemon_terminal(buf, pokemon_row, pokemon_col)
+		end
+	end, 100)
+	
 	-- Add enhanced syntax highlighting
 	vim.cmd([[
 		syntax clear
@@ -369,6 +440,7 @@ function M.create_dashboard()
 	
 	-- Enhanced auto-resize with better debouncing
 	local resize_timer = nil
+	
 	vim.api.nvim_create_autocmd({"VimResized", "WinResized"}, {
 		group = augroup,
 		buffer = buf,
@@ -382,6 +454,17 @@ function M.create_dashboard()
 					vim.api.nvim_buf_set_option(buf, 'modifiable', true)
 					vim.api.nvim_buf_set_lines(buf, 0, -1, false, new_content)
 					vim.api.nvim_buf_set_option(buf, 'modifiable', false)
+					
+					-- Recreate Pokemon terminal with new positioning
+					vim.defer_fn(function()
+						if vim.api.nvim_buf_is_valid(buf) then
+							local new_width = vim.o.columns
+							local new_height = vim.o.lines
+							local new_pokemon_row = new_height - 22
+							local new_pokemon_col = new_width - 52
+							create_pokemon_terminal(buf, new_pokemon_row, new_pokemon_col)
+						end
+					end, 50)
 				end
 			end)
 		end,
