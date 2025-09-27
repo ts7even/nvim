@@ -1,82 +1,70 @@
 return {
-	-- GitHub Copilot AI code completion
+	-- CodeCompanion.nvim - AI coding assistant with multiple LLM and agent support
 	{
-		"https://github.com/github/copilot.vim",
-		lazy = false,
-		config = function()
-			-- GitHub Copilot keymaps
-			vim.keymap.set("n", "<leader>cE", ":Copilot enable<CR>", { desc = "Enable Copilot" })
-			vim.keymap.set("n", "<leader>cd", ":Copilot disable<CR>", { desc = "Disable Copilot" })
-		end,
-	},
-
-	-- GitHub Copilot Chat interface
-	{
-		"CopilotC-Nvim/CopilotChat.nvim",
+		"olimorris/codecompanion.nvim",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
-			"nvim-telescope/telescope.nvim",
+			"nvim-treesitter/nvim-treesitter",
 		},
 		event = "VeryLazy",
-		config = function()
-			require("CopilotChat").setup({
-				model = "claude-sonnet-4", -- AI model to use: 'gpt-4o', 'claude-sonnet-4', 'gemini-2.0-flash'
-				temperature = 0.1, -- Lower = focused, higher = creative
-				debug = false,
-				show_help = "yes",
-				prompts = {
-					Explain = "Please explain how the following code works.",
-					Review = "Please review the following code and provide suggestions for improvement.",
-					Tests = "Please explain how the selected code works, then generate unit tests for it.",
-					Refactor = "Please refactor the following code to improve its clarity and readability.",
-					FixCode = "Please fix the following code to make it work as intended.",
+		opts = {
+			-- Default strategies for different use cases
+			strategies = {
+				chat = {
+					adapter = "copilot", -- Default to Copilot for chat
 				},
-				window = {
-					layout = "float",
-					width = 80, -- Fixed width in columns
-					height = 20, -- Fixed height in rows
-					border = "rounded", -- 'single', 'double', 'rounded', 'solid'
-					title = "🤖 AI Assistant",
-					zindex = 100, -- Ensure window stays on top
+				inline = {
+					adapter = "copilot", -- Default to Copilot for inline assistance
 				},
-				headers = {
-					user = "👤 You: ",
-					assistant = "🤖 Copilot: ",
-					tool = "🔧 Tool: ",
-				},
-				separator = "━━",
-				show_folds = false, -- Disable folding for cleaner look
-			})
+			},
 
-			-- CopilotChat keymaps
-			vim.keymap.set("n", "<leader>cc", ":CopilotChatToggle<CR>", { desc = "Toggle Copilot Chat" })
-			vim.keymap.set("n", "<leader>cq", ":CopilotChat<CR>", { desc = "Open Copilot Chat" })
+			-- Display configuration
+			display = {
+				action_palette = {
+					provider = "telescope", -- Options: 'default', 'telescope', 'mini_pick', 'snacks'
+				},
+				chat = {
+					window = {
+						layout = "float", -- Options: 'float', 'vertical', 'horizontal'
+						width = 0.8, -- Float width (0-1 for percentage, >1 for fixed)
+						height = 0.8, -- Float height
+						border = "rounded", -- Border style
+						title = "🤖 CodeCompanion Chat",
+						zindex = 100,
+					},
+					show_settings = true, -- Show settings in chat buffer
+					show_token_count = true, -- Show token count
+				},
+			},
 
-			-- CopilotChat visual mode keymaps
-			vim.keymap.set("v", "<leader>cq", function()
-				require("CopilotChat").ask(
-					vim.fn.input("Quick Chat: "),
-					{ selection = require("CopilotChat.select").visual }
-				)
-			end, { desc = "Ask Copilot about selection" })
-			vim.keymap.set("v", "<leader>cx", function()
-				require("CopilotChat").ask(
-					"Please explain how this code works.",
-					{ selection = require("CopilotChat.select").visual }
-				)
-			end, { desc = "CopilotChat - Explain code" })
-			vim.keymap.set("v", "<leader>cr", function()
-				require("CopilotChat").ask(
-					"Please review this code and provide suggestions for improvement.",
-					{ selection = require("CopilotChat.select").visual }
-				)
-			end, { desc = "CopilotChat - Review code" })
-			vim.keymap.set("v", "<leader>cf", function()
-				require("CopilotChat").ask(
-					"Please fix this code to make it work as intended.",
-					{ selection = require("CopilotChat.select").visual }
-				)
-			end, { desc = "CopilotChat - Fix code" })
+			-- Options configuration
+			opts = {
+				log_level = "INFO", -- Options: 'ERROR', 'WARN', 'INFO', 'DEBUG', 'TRACE'
+				send_code = true, -- Send code context automatically
+				use_default_actions = true, -- Enable default actions in action palette
+				use_default_prompts = true, -- Enable default prompts
+			},
+		},
+		config = function(_, opts)
+			require("codecompanion").setup(opts)
+
+			-- CodeCompanion keymaps
+			vim.keymap.set({ "n", "v" }, "<leader>cc", "<cmd>CodeCompanionChat Toggle<cr>", 
+				{ desc = "Toggle CodeCompanion Chat" })
+			vim.keymap.set({ "n", "v" }, "<leader>ca", "<cmd>CodeCompanionActions<cr>", 
+				{ desc = "Open CodeCompanion Actions" })
+			vim.keymap.set("n", "<leader>ci", "<cmd>CodeCompanion<cr>", 
+				{ desc = "Open CodeCompanion Inline" })
+			vim.keymap.set("v", "<leader>cq", "<cmd>CodeCompanion<cr>", 
+				{ desc = "Send selection to CodeCompanion" })
+
+			-- Add selection to chat buffer
+			vim.keymap.set("v", "ga", "<cmd>CodeCompanionChat Add<cr>", 
+				{ desc = "Add selection to chat" })
+
+			-- Command abbreviation for quick access
+			vim.cmd([[cab cc CodeCompanion]])
+
 		end,
 	},
 }

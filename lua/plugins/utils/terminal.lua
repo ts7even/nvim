@@ -29,7 +29,7 @@ return {
 			-- Floating terminal keymap
 			vim.keymap.set(
 				"n",
-				"<leader>t",
+				"<leader>T",
 				"<cmd>ToggleTerm direction=float<cr>",
 				{ desc = "Toggle floating terminal" }
 			)
