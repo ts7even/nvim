@@ -127,19 +127,21 @@ return {
 			},
 			dashboard = {
 				enabled = true,
+				width = 60,
+				height = vim.o.lines - 8,
 				sections = {
 					{ section = "header" },
+					{ section = "keys", gap = 1, padding = 1 },
 					{
 						pane = 2,
 						section = "terminal",
 						cmd = "colorscript -e square",
-						height = 5,
+						height = 3,
 						padding = 1,
 					},
-					{ section = "keys", gap = 1, padding = 1 },
 					{
 						pane = 2,
-						icon = " ",
+						icon = " ",
 						desc = "Browse Repo",
 						padding = 1,
 						key = "b",
@@ -150,43 +152,42 @@ return {
 					function()
 						local in_git = Snacks.git.get_root() ~= nil
 						local cmds = {
-							-- Instead add ToDo parser on Todo file from obisdian
 							{
 								title = "Notifications",
-								cmd = "gh status",
+								cmd = "gh status  ",
 								action = function()
 									vim.ui.open("https://github.com/notifications")
 								end,
 								key = "n",
-								icon = " ",
-								height = 5,
+								icon = " ",
+								height = 3,
 								enabled = true,
 							},
 							{
-								title = "Open Issues",
-								cmd = "gh issue list -L 3",
+								title = "Issues",
+								cmd = "gh issue list -L 2 --json title,number --template '{{range .}}#{{.number}} {{.title}}{{\"\\n\"}}{{end}}'",
 								key = "i",
 								action = function()
 									vim.fn.jobstart("gh issue list --web", { detach = true })
 								end,
-								icon = " ",
-								height = 7,
+								icon = " ",
+								height = 3,
 							},
 							{
-								icon = " ",
-								title = "Open PRs",
-								cmd = "gh pr list -L 3",
+								icon = " ",
+								title = "PRs",
+								cmd = "gh pr list -L 2 --json title,number --template '{{range .}}#{{.number}} {{.title}}{{\"\\n\"}}{{end}}'",
 								key = "P",
 								action = function()
 									vim.fn.jobstart("gh pr list --web", { detach = true })
 								end,
-								height = 7,
+								height = 3,
 							},
 							{
-								icon = " ",
+								icon = " ",
 								title = "Git Status",
-								cmd = "git --no-pager diff --stat -B -M -C",
-								height = 10,
+								cmd = "git --no-pager diff --stat -B -M -C | head -5",
+								height = 4,
 							},
 						}
 						return vim.tbl_map(function(cmd)
@@ -194,85 +195,175 @@ return {
 								pane = 2,
 								section = "terminal",
 								enabled = in_git,
-								padding = 1,
+								padding = 0,
 								ttl = 5 * 60,
-								indent = 3,
+								indent = 2,
 							}, cmd)
 						end, cmds)
 					end,
 					{ section = "startup" },
 				},
 			},
+			terminal = {
+				enabled = true,
+				win = {
+					style = "terminal",
+					position = "bottom",
+					height = 0.4,
+					width = 0.8,
+					border = "rounded",
+					title = " Terminal ",
+					title_pos = "center",
+					backdrop = 60,
+					keys = {
+						-- Custom terminal keybinds
+						["<C-/>"] = "hide", -- Ctrl+/ to hide terminal (common shortcut)
+						["<C-q>"] = "close", -- Ctrl+q to close terminal
+					},
+				},
+				-- Interactive settings
+				interactive = true, -- start in insert mode, auto-close on exit
+				-- Environment variables for better terminal experience
+				env = {
+					TERM = "xterm-256color",
+				},
+			},
 		},
-
-		-- NOTE: Keymaps
+		-- Keybindings defined outside of opts to avoid conflicts
 		keys = {
 			-- Snacks Picker
 			{
+				"<leader>e",
+				function()
+					Snacks.explorer()
+				end,
+				desc = "Find Files (Snacks Picker)",
+			},
+			{
 				"<leader>ff",
 				function()
-					require("snacks").picker.files()
+					Snacks.picker.files({
+						-- Only tab for up and down instead of select
+						win = {
+							input = {
+								keys = {
+									["<Tab>"] = { "list_up", mode = { "i", "n" } },
+									["<S-Tab>"] = { "list_down", mode = { "i", "n" } },
+								},
+							},
+						},
+					})
 				end,
 				desc = "Find Files (Snacks Picker)",
 			},
 			{
 				"<leader>fg",
 				function()
-					require("snacks").picker.grep()
+					Snacks.picker.grep({
+						win = {
+							input = {
+								keys = {
+									["<Tab>"] = { "list_up", mode = { "i", "n" } },
+									["<S-Tab>"] = { "list_down", mode = { "i", "n" } },
+								},
+							},
+						},
+					})
 				end,
 				desc = "Grep word",
 			},
 			{
-				"<leader>pws",
+				"<leader>fb",
 				function()
-					require("snacks").picker.grep_word()
+					Snacks.picker.buffers({
+						win = {
+							input = {
+								keys = {
+									["<Tab>"] = { "list_up", mode = { "i", "n" } },
+									["<S-Tab>"] = { "list_down", mode = { "i", "n" } },
+								},
+							},
+						},
+					})
 				end,
-				desc = "Search Visual selection or Word",
+				desc = "Find Buffers",
+			},
+			{
+				"<leader>fr",
+				function()
+					Snacks.picker.recent({
+						win = {
+							input = {
+								keys = {
+									["<Tab>"] = { "list_up", mode = { "i", "n" } },
+									["<S-Tab>"] = { "list_down", mode = { "i", "n" } },
+								},
+							},
+						},
+					})
+				end,
+				desc = "Recent Files",
+			},
+			{ -- Search instances of word
+				"<leader>sw",
+				function()
+					Snacks.picker.grep_word({
+						win = {
+							input = {
+								keys = {
+									["<Tab>"] = { "list_up", mode = { "i", "n" } },
+									["<S-Tab>"] = { "list_down", mode = { "i", "n" } },
+								},
+							},
+						},
+					})
+				end,
+				desc = "Search Visual Selection or Word",
 				mode = { "n", "x" },
 			},
 			{
 				"<leader>pk",
 				function()
-					require("snacks").picker.keymaps({ layout = "ivy" })
+					Snacks.picker.keymaps({ layout = "ivy" })
 				end,
 				desc = "Search Keymaps (Snacks Picker)",
 			},
 			{
 				"<leader>lg",
 				function()
-					require("snacks").lazygit()
+					Snacks.lazygit()
 				end,
 				desc = "Lazygit",
 			},
 			{
 				"<leader>gl",
 				function()
-					require("snacks").lazygit.log()
+					Snacks.lazygit.log()
 				end,
 				desc = "Lazygit Logs",
 			},
 			{
 				"<leader>rN",
 				function()
-					require("snacks").rename.rename_file()
+					Snacks.rename.rename_file()
 				end,
 				desc = "Fast Rename Current File",
 			},
-			{
-				"<leader>dB",
-				function()
-					require("snacks").bufdelete()
-				end,
-				desc = "Delete or Close Buffer  (Confirm)",
-			},
-
 			-- Git Stuff
 			{
 				"<leader>gbr",
 				function()
-					require("snacks").picker.git_branches({ layout = "select" })
+					Snacks.picker.git_branches({ layout = "select" })
 				end,
 				desc = "Pick and Switch Git Branches",
+			},
+			-- Utilities
+			{
+				"<leader>t",
+				function()
+					Snacks.terminal()
+				end,
+				desc = "Toggle Terminal",
 			},
 		},
 	},

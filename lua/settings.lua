@@ -11,7 +11,7 @@ vim.opt.shiftwidth = 4 -- Number of spaces for each step of autoindent
 vim.opt.relativenumber = true -- Show relative line numbers
 vim.opt.number = true -- Show absolute line number on current line
 vim.opt.clipboard = "unnamedplus" -- Use system clipboard
-vim.opt.textwidth = 120 -- Automatically wrap text at 120 characters
+vim.opt.textwidth = 81 -- Automatically wrap text at 120 characters
 vim.opt.conceallevel = 1 -- Conceal level for special characters
 vim.opt.ignorecase = true -- Ignore case in search patterns
 vim.opt.smartcase = true -- Override ignore case if search contains uppercase
@@ -30,17 +30,11 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 vim.opt.spell = true
 vim.opt.spelllang = "en_us"
 
--- File explorer keymap (netrw)
-vim.keymap.set("n", "<leader>e", ":Explore<CR>", { desc = "Open file explorer" })
-
--- Last File
-vim.keymap.set("n", "<leader>l", "<C-^>")
-
 -- Vertical Line
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = { "python", "javascript", "lua", "rust", "org" },
 	callback = function()
-		vim.opt_local.colorcolumn = "120"
+		vim.opt_local.colorcolumn = "80"
 		-- More subtle with Catppuccin theme
 		vim.cmd([[highlight ColorColumn guibg=#313244 guifg=NONE]])
 	end,
