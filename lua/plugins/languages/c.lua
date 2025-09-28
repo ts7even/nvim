@@ -1,7 +1,7 @@
 return {
     {
         "neovim/nvim-lspconfig",
-        ft = { "c", "cpp", "h", "hpp" },
+        ft = { "c", "cpp", "h", "hpp","cuda"},
         config = function()
             local capabilities = require("cmp_nvim_lsp").default_capabilities()
             local lspconfig = require("lspconfig")

@@ -207,25 +207,11 @@ return {
 			terminal = {
 				enabled = true,
 				win = {
-					style = "terminal",
-					position = "bottom",
-					height = 0.4,
-					width = 0.8,
-					border = "rounded",
-					title = " Terminal ",
-					title_pos = "center",
-					backdrop = 60,
 					keys = {
 						-- Custom terminal keybinds
 						["<C-/>"] = "hide", -- Ctrl+/ to hide terminal (common shortcut)
 						["<C-q>"] = "close", -- Ctrl+q to close terminal
 					},
-				},
-				-- Interactive settings
-				interactive = true, -- start in insert mode, auto-close on exit
-				-- Environment variables for better terminal experience
-				env = {
-					TERM = "xterm-256color",
 				},
 			},
 		},
@@ -364,6 +350,13 @@ return {
 					Snacks.terminal()
 				end,
 				desc = "Toggle Terminal",
+			},
+			{
+				"<leader>qf",
+				function()
+					Snacks.picker.qflist()
+				end,
+				desc = "Quickfix List",
 			},
 		},
 	},
