@@ -154,7 +154,7 @@ return {
 						local cmds = {
 							{
 								title = "Notifications",
-								cmd = "gh status  ",
+								cmd = "gh auth status --show-token 2>/dev/null || echo 'GitHub CLI not authenticated'",
 								action = function()
 									vim.ui.open("https://github.com/notifications")
 								end,
@@ -327,13 +327,6 @@ return {
 					Snacks.lazygit.log()
 				end,
 				desc = "Lazygit Logs",
-			},
-			{
-				"<leader>rN",
-				function()
-					Snacks.rename.rename_file()
-				end,
-				desc = "Fast Rename Current File",
 			},
 			-- Git Stuff
 			{
