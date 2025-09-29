@@ -1,45 +1,3 @@
--- Function to load capture templates from JSON file
-local function load_capture_templates(template_name)
-	local config_path = vim.fn.stdpath("config")
-	local templates_file = config_path .. "/snippets/org-capture-templates.json"
-	
-	local file = io.open(templates_file, "r")
-	if not file then
-		vim.notify("Could not find org capture templates file: " .. templates_file, vim.log.levels.WARN)
-		return template_name and {} or {}
-	end
-	
-	local content = file:read("*all")
-	file:close()
-	
-	local ok, templates = pcall(vim.json.decode, content)
-	if not ok then
-		vim.notify("Error parsing org capture templates JSON: " .. templates, vim.log.levels.ERROR)
-		return template_name and {} or {}
-	end
-	
-	-- If a specific template is requested, return just that one
-	if template_name then
-		return templates[template_name] or {}
-	end
-	
-	-- Convert to orgmode format with single letter keys
-	local org_templates = {}
-	org_templates.t = templates.task
-	org_templates.n = templates.note
-	org_templates.m = templates.meeting
-	org_templates.l = templates.learning
-	org_templates.p = templates.project
-	org_templates.r = templates.refile
-	
-	return org_templates
-end
-
--- Helper function for individual template access (example usage)
-local function get_template(name)
-	return load_capture_templates(name)
-end
-
 return {
 	{
 		"nvim-orgmode/orgmode",
@@ -59,8 +17,7 @@ return {
 				org_refile_targets = "~/orgfiles/**/*",
 				org_refile_use_outline_path = "file",
 				org_refile_allow_creating_parent_nodes = "confirm",
-				org_capture_templates = load_capture_templates(),
-				
+
 				-- Formatting and indentation options
 				org_startup_indented = false, -- Set to true for virtual indentation
 				org_adapt_indentation = false, -- Disable auto-indentation under headlines
@@ -76,7 +33,7 @@ return {
 					-- Enable proper indentation and formatting for org-mode
 					vim.bo.textwidth = 80
 					vim.bo.wrapmargin = 0
-					vim.bo.formatoptions = "tcroqn2j"  -- Removed 'l' for auto-wrap while typing
+					vim.bo.formatoptions = "tcroqn2j" -- Removed 'l' for auto-wrap while typing
 					-- Disable auto-indenting to prevent unwanted indentation
 					vim.bo.autoindent = false
 					vim.bo.smartindent = false
@@ -86,7 +43,7 @@ return {
 					vim.bo.tabstop = 2
 					vim.bo.shiftwidth = 2
 					vim.bo.softtabstop = 2
-					
+
 					-- Auto-format long lines when opening org files using external fmt command
 					vim.api.nvim_create_autocmd("BufReadPost", {
 						buffer = vim.api.nvim_get_current_buf(),

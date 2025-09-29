@@ -1,5 +1,4 @@
 return {
-	-- HACK: docs @ https://github.com/folke/snacks.nvim/blob/main/docs
 	{
 		"folke/snacks.nvim",
 		priority = 1000,
@@ -345,11 +344,11 @@ return {
 				desc = "Toggle Terminal",
 			},
 			{
-				"<leader>qf",
+				"<leader>bd",
 				function()
-					Snacks.picker.qflist()
+					Snacks.bufdelete()
 				end,
-				desc = "Quickfix List",
+				desc = "Delete Buffer",
 			},
 		},
 	},
