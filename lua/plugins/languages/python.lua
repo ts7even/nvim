@@ -4,7 +4,6 @@ return {
         ft = "python",
         config = function()
             local capabilities = require("cmp_nvim_lsp").default_capabilities()
-            local lspconfig = require("lspconfig")
             
             -- LSP attach function for Python (Ruff + Pyright setup)
             local on_attach = function(client, bufnr)
@@ -15,7 +14,7 @@ return {
             end
 
             -- Python LSP setup (dual setup for linting + type checking)
-            lspconfig.pyright.setup({
+            vim.lsp.config.pyright({
                 capabilities = capabilities,
                 on_attach = on_attach,
                 settings = {
@@ -33,7 +32,7 @@ return {
                 },
             })
 
-            lspconfig.ruff.setup({
+            vim.lsp.config.ruff({
                 capabilities = capabilities,
                 on_attach = on_attach,
                 settings = {

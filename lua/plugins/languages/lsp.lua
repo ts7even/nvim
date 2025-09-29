@@ -78,18 +78,17 @@ return {
 
             -- Setup basic language servers that don't need special configuration
             local capabilities = require("cmp_nvim_lsp").default_capabilities()
-            local lspconfig = require("lspconfig")
             
-            lspconfig.lua_ls.setup({ capabilities = capabilities })
-            lspconfig.bashls.setup({ capabilities = capabilities })
-            lspconfig.cssls.setup({ capabilities = capabilities })
-            lspconfig.dockerls.setup({ capabilities = capabilities })
-            lspconfig.html.setup({ capabilities = capabilities })
-            lspconfig.marksman.setup({ capabilities = capabilities })
-            lspconfig.svelte.setup({ capabilities = capabilities })
-            lspconfig.taplo.setup({ capabilities = capabilities })
-            lspconfig.vuels.setup({ capabilities = capabilities })
-            lspconfig.yamlls.setup({ capabilities = capabilities })
+            vim.lsp.config.lua_ls({ capabilities = capabilities })
+            vim.lsp.config.bashls({ capabilities = capabilities })
+            vim.lsp.config.cssls({ capabilities = capabilities })
+            vim.lsp.config.dockerls({ capabilities = capabilities })
+            vim.lsp.config.html({ capabilities = capabilities })
+            vim.lsp.config.marksman({ capabilities = capabilities })
+            vim.lsp.config.svelte({ capabilities = capabilities })
+            vim.lsp.config.taplo({ capabilities = capabilities })
+            vim.lsp.config.vuels({ capabilities = capabilities })
+            vim.lsp.config.yamlls({ capabilities = capabilities })
         end,
     },
 }

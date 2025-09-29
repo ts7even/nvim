@@ -4,9 +4,8 @@ return {
         ft = "zig",
         config = function()
             local capabilities = require("cmp_nvim_lsp").default_capabilities()
-            local lspconfig = require("lspconfig")
             
-            lspconfig.zls.setup({
+            vim.lsp.config('zls', {
                 capabilities = capabilities,
                 settings = {
                     zls = {
