@@ -45,26 +45,5 @@ return {
 				use_default_prompts = true, -- Enable default prompts
 			},
 		},
-		config = function(_, opts)
-			require("codecompanion").setup(opts)
-
-			-- CodeCompanion keymaps
-			vim.keymap.set({ "n", "v" }, "<leader>cc", "<cmd>CodeCompanionChat Toggle<cr>", 
-				{ desc = "Toggle CodeCompanion Chat" })
-			vim.keymap.set({ "n", "v" }, "<leader>ca", "<cmd>CodeCompanionActions<cr>", 
-				{ desc = "Open CodeCompanion Actions" })
-			vim.keymap.set("n", "<leader>ci", "<cmd>CodeCompanion<cr>", 
-				{ desc = "Open CodeCompanion Inline" })
-			vim.keymap.set("v", "<leader>cq", "<cmd>CodeCompanion<cr>", 
-				{ desc = "Send selection to CodeCompanion" })
-
-			-- Add selection to chat buffer
-			vim.keymap.set("v", "ga", "<cmd>CodeCompanionChat Add<cr>", 
-				{ desc = "Add selection to chat" })
-
-			-- Command abbreviation for quick access
-			vim.cmd([[cab cc CodeCompanion]])
-
-		end,
 	},
 }

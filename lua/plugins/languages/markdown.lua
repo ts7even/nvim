@@ -59,4 +59,33 @@ return {
 			vim.keymap.set("n", "<leader>mc", ":PeekClose<CR>", { desc = "Markdown preview close" })
 		end,
 	},
+
+	-- Markdown folding - uses syntax-based folding that works with render-markdown
+	{
+		"preservim/vim-markdown",
+		ft = { "markdown" },
+		config = function()
+			-- Disable all features except folding
+			vim.g.vim_markdown_folding_disabled = 0 -- Enable folding
+			vim.g.vim_markdown_folding_style_pythonic = 1 -- Python-style folding
+			vim.g.vim_markdown_override_foldtext = 0
+			vim.g.vim_markdown_folding_level = 6 -- Fold all heading levels
+			
+			-- Disable other features to avoid conflicts with render-markdown
+			vim.g.vim_markdown_conceal = 0
+			vim.g.vim_markdown_conceal_code_blocks = 0
+			vim.g.vim_markdown_frontmatter = 1
+			vim.g.vim_markdown_no_default_key_mappings = 1
+			
+			vim.api.nvim_create_autocmd("FileType", {
+				pattern = "markdown",
+				callback = function()
+					vim.opt_local.foldmethod = "expr"
+					vim.opt_local.foldexpr = "MarkdownFold()"
+					vim.opt_local.foldenable = true
+					vim.opt_local.foldlevel = 99 -- Start with all folds open
+				end,
+			})
+		end,
+	},
 }

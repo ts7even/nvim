@@ -15,6 +15,9 @@ return {
 			},
 			picker = {
 				enabled = true,
+				select = {
+					enabled = true,
+				},
 				matchers = {
 					frecency = true,
 					cwd_bonus = false,
@@ -214,16 +217,18 @@ return {
 				},
 			},
 		},
-		-- Keybindings defined outside of opts to avoid conflicts
-		keys = {
-			-- Snacks Picker
-			{
-				"<leader>e",
-				function()
-					Snacks.explorer()
-				end,
-				desc = "Find Files (Snacks Picker)",
-			},
+		-- Keybindings defined outside of opts to avoid conflicts,
+	keys = {
+		-- Snacks Picker
+		{
+			"<leader>e",
+			function()
+				-- Include hidden files only for explorer
+				Snacks.explorer({ hidden = true })
+			end,
+			desc = "Find Files (Snacks Picker)",
+		},
+
 			{
 				"<leader>ff",
 				function()
@@ -343,12 +348,19 @@ return {
 				end,
 				desc = "Toggle Terminal",
 			},
-			{
+			{ -- Might delete this 
 				"<leader>bd",
 				function()
 					Snacks.bufdelete()
 				end,
 				desc = "Delete Buffer",
+			},
+			{
+				"<leader>s",
+				function()
+					Snacks.picker.spelling()
+				end,
+				desc = "Spelling Suggestions",
 			},
 		},
 	},
