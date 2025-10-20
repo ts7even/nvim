@@ -2,6 +2,7 @@ return {
 	{
 		"echasnovski/mini.nvim",
 		version = "*",
+		lazy = false, -- Load immediately to avoid lag
 		config = function()
 			-- Mini.pairs - replaces nvim-autopairs
 			require("mini.pairs").setup({
@@ -59,6 +60,21 @@ return {
 					textobject = 'gc',
 				},
 			})
+
+			-- Mini.extra for additional pickers including spelling
+			require("mini.extra").setup()
 		end,
+		keys = {
+			{
+				"<leader>ss",
+				function()
+					require("mini.extra").pickers.spellsuggest(
+						{ n_suggestions = 5 },
+						{ window = { config = { height = 7, width = 40 } } }
+					)
+				end,
+				desc = "Spelling Suggestions",
+			},
+		},
 	}
 }

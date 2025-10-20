@@ -355,13 +355,6 @@ return {
 				end,
 				desc = "Delete Buffer",
 			},
-			{
-				"<leader>s",
-				function()
-					Snacks.picker.spelling()
-				end,
-				desc = "Spelling Suggestions",
-			},
 		},
 	},
 }
