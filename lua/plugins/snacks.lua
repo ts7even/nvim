@@ -319,6 +319,13 @@ return {
 				desc = "Search Keymaps (Snacks Picker)",
 			},
 			{
+				"<leader>qf",
+				function()
+					Snacks.picker.qflist()
+				end,
+				desc = "Quickfix List (Snacks Picker)",
+			},
+			{
 				"<leader>lg",
 				function()
 					Snacks.lazygit()
