@@ -59,8 +59,10 @@ return {
                         "--tab-width", "2", 
                         "--use-tabs", "false", 
                         "--print-width", "81", 
-                        "--prose-wrap", "preserve",
-                        "--embedded-language-formatting", "auto"
+                        "--prose-wrap", "always",
+                        "--embedded-language-formatting", "auto",
+                        -- Preserve table formatting
+                        "--single-attribute-per-line", "false"
                     },
                 },
             },
