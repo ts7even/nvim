@@ -1,0 +1,10 @@
+[
+    {
+        "url": "duckdb:/home/bourbon/databases/homelab.duckdb",
+        "name": "homelab"
+    },
+    {
+        "url": "duckdb:/home/bourbon/databases/home.duckdb",
+        "name": "home"
+    }
+]

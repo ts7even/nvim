@@ -1,0 +1,75 @@
+# rest.nvim Examples
+# Place cursor on any request and press <leader>rr to execute
+
+### Simple GET request
+GET https://api.github.com/users/octocat
+Accept: application/json
+
+### GET with query parameters
+GET https://httpbin.org/get?name=John&age=30
+User-Agent: rest.nvim
+
+### POST request with JSON body
+POST https://httpbin.org/post
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "active": true
+}
+
+### PUT request
+PUT https://httpbin.org/put
+Content-Type: application/json
+
+{
+  "id": 123,
+  "status": "updated"
+}
+
+### DELETE request
+DELETE https://httpbin.org/delete
+Authorization: Bearer your-token-here
+
+### Request with headers
+GET https://httpbin.org/headers
+Accept: application/json
+Authorization: Bearer token123
+X-Custom-Header: custom-value
+
+### Using variables (define at top of file)
+@baseUrl = https://jsonplaceholder.typicode.com
+@userId = 1
+
+GET {{baseUrl}}/users/{{userId}}
+
+### POST with form data
+POST https://httpbin.org/post
+Content-Type: application/x-www-form-urlencoded
+
+name=John&email=john@example.com&age=30
+
+### Multiple requests separated by ###
+GET https://api.github.com/zen
+
+###
+
+GET https://httpbin.org/uuid
+
+###
+
+# Example: Authentication flow
+POST https://api.example.com/auth/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "password123"
+}
+
+###
+
+# Use the token from above response
+GET https://api.example.com/protected
+Authorization: Bearer eyJhbGc...token-from-login
