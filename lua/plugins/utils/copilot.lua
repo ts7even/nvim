@@ -43,6 +43,7 @@ return {
 	-- CodeCompanion.nvim - AI coding assistant with multiple LLM and agent support
 	{
 		"olimorris/codecompanion.nvim",
+		version = "v17.33.0", -- Pin to avoid breaking changes
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"nvim-treesitter/nvim-treesitter",
