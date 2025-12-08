@@ -18,6 +18,7 @@ return {
                     },
                 },
             })
+            vim.lsp.enable('zls')
         end,
     },
     -- Zig Formatter (built-in zig fmt)

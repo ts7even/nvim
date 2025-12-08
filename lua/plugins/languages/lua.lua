@@ -6,7 +6,7 @@ return {
         config = function()
             local capabilities = require("cmp_nvim_lsp").default_capabilities()
             
-            vim.lsp.config.lua_ls({
+            vim.lsp.config('lua_ls', {
                 capabilities = capabilities,
                 settings = {
                     Lua = {
@@ -26,6 +26,7 @@ return {
                     },
                 },
             })
+            vim.lsp.enable('lua_ls')
         end,
     },
     -- Lua Formatter

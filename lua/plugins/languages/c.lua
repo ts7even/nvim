@@ -6,7 +6,7 @@ return {
         config = function()
             local capabilities = require("cmp_nvim_lsp").default_capabilities()
             
-            vim.lsp.config.clangd({
+            vim.lsp.config('clangd', {
                 capabilities = capabilities,
                 cmd = {
                     "clangd",
@@ -24,6 +24,7 @@ return {
                 },
                 filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
             })
+            vim.lsp.enable('clangd')
         end,
     },
     -- C/C++ Formatter
@@ -39,7 +40,7 @@ return {
             
             opts.formatters["clang-format"] = {
                 prepend_args = {
-                    "--style={IndentWidth: 4, UseTab: Never, TabWidth: 4, BreakBeforeBraces: Allman, ColumnLimit: 100, IndentCaseLabels: true, AlignConsecutiveAssignments: false, AlignConsecutiveDeclarations: false}",
+                    "--style={IndentWidth: 4, UseTab: Never, TabWidth: 4, BreakBeforeBraces: Attach, ColumnLimit: 80, IndentCaseLabels: true, AlignConsecutiveAssignments: false, AlignConsecutiveDeclarations: false, AllowShortFunctionsOnASingleLine: None, BinPackParameters: false, AlignAfterOpenBracket: AlwaysBreak, AllowAllParametersOfDeclarationOnNextLine: false}",
                 },
             }
         end,

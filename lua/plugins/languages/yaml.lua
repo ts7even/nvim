@@ -6,7 +6,7 @@ return {
         config = function()
             local capabilities = require("cmp_nvim_lsp").default_capabilities()
             
-            vim.lsp.config.yamlls({
+            vim.lsp.config('yamlls', {
                 capabilities = capabilities,
                 settings = {
                     yaml = {
@@ -17,6 +17,7 @@ return {
                     },
                 },
             })
+            vim.lsp.enable('yamlls')
         end,
     },
     -- YAML Formatter

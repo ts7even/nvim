@@ -6,7 +6,7 @@ return {
         config = function()
             local capabilities = require("cmp_nvim_lsp").default_capabilities()
             
-            vim.lsp.config.gopls({
+            vim.lsp.config('gopls', {
                 capabilities = capabilities,
                 settings = {
                     gopls = {
@@ -22,6 +22,7 @@ return {
                     },
                 },
             })
+            vim.lsp.enable('gopls')
         end,
     },
     -- Go Formatter

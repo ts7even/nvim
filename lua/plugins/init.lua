@@ -22,9 +22,6 @@ require("lazy").setup({
     -- Language plugins
     { import = "plugins.languages" },
     
-    -- Notes plugins
-    { import = "plugins.notes" },
-    
     -- UI plugins
     { import = "plugins.ui" },
     

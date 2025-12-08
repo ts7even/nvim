@@ -7,7 +7,7 @@ return {
             local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
             -- HTML LSP
-            vim.lsp.config.html({
+            vim.lsp.config('html', {
                 capabilities = capabilities,
                 filetypes = { "html" },
                 settings = {
@@ -20,7 +20,7 @@ return {
             })
 
             -- CSS LSP
-            vim.lsp.config.cssls({
+            vim.lsp.config('cssls', {
                 capabilities = capabilities,
                 filetypes = { "css", "scss", "less" },
                 settings = {
@@ -46,7 +46,7 @@ return {
             })
 
             -- Tailwind CSS LSP
-            vim.lsp.config.tailwindcss({
+            vim.lsp.config('tailwindcss', {
                 capabilities = capabilities,
                 filetypes = {
                     "html",
@@ -70,6 +70,10 @@ return {
                     },
                 },
             })
+            
+            vim.lsp.enable('html')
+            vim.lsp.enable('cssls')
+            vim.lsp.enable('tailwindcss')
         end,
     },
     -- HTML/CSS Formatter

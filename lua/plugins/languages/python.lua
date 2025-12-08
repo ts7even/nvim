@@ -15,7 +15,7 @@ return {
             end
 
             -- Python LSP setup (dual setup for linting + type checking)
-            vim.lsp.config.pyright({
+            vim.lsp.config('pyright', {
                 capabilities = capabilities,
                 on_attach = on_attach,
                 settings = {
@@ -33,7 +33,7 @@ return {
                 },
             })
 
-            vim.lsp.config.ruff({
+            vim.lsp.config('ruff', {
                 capabilities = capabilities,
                 on_attach = on_attach,
                 settings = {
@@ -44,6 +44,9 @@ return {
                     },
                 },
             })
+            
+            vim.lsp.enable('pyright')
+            vim.lsp.enable('ruff')
         end,
     },
     -- Python Formatter

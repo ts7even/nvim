@@ -1,4 +1,45 @@
 return {
+	-- Copilot.lua - Inline code suggestions (ghost text autocompletion)
+	{
+		"zbirenbaum/copilot.lua",
+		cmd = "Copilot",
+		event = "InsertEnter",
+		opts = {
+			suggestion = {
+				enabled = true,
+				auto_trigger = true,
+				debounce = 75,
+				keymap = {
+					accept = "<Tab>",
+					accept_word = false,
+					accept_line = false,
+					next = "<M-]>",
+					prev = "<M-[>",
+					dismiss = "<C-]>",
+				},
+			},
+			panel = {
+				enabled = true,
+				auto_refresh = false,
+				keymap = {
+					jump_prev = "[[",
+					jump_next = "]]",
+					accept = "<CR>",
+					refresh = "gr",
+					open = "<M-CR>",
+				},
+			},
+			filetypes = {
+				yaml = false,
+				markdown = false,
+				help = false,
+				gitcommit = false,
+				gitrebase = false,
+				["."] = false,
+			},
+		},
+	},
+
 	-- CodeCompanion.nvim - AI coding assistant with multiple LLM and agent support
 	{
 		"olimorris/codecompanion.nvim",
@@ -9,31 +50,20 @@ return {
 		keys = {
 			{ "<leader>cc", "<cmd>CodeCompanionChat Toggle<cr>", desc = "Toggle CodeCompanion Chat", mode = { "n", "v" } },
 		},
+		cmd = { "CodeCompanion", "CodeCompanionChat", "CodeCompanionCmd", "CodeCompanionActions" },
 		opts = {
-		-- Adapter configuration
-		adapters = {
-			http = {
-				anthropic = function()
-					return require("codecompanion.adapters").extend("anthropic", {
-						schema = {
-							model = {
-								default = "claude-sonnet-4-20250514", -- Claude Sonnet 4.5
-							},
-						},
-					})
-				end,
+			-- Default strategies for different use cases
+			strategies = {
+				chat = {
+					adapter = "copilot", -- Default to Copilot for chat
+					model = "claude-opus-4.5"
+				},
+				inline = {
+					adapter = "copilot", -- Default to Copilot for inline assistance
+					model = "gemini-3-pro-preview"
+				},
 			},
-		},
-		
-		-- Default strategies for different use cases
-		strategies = {
-			chat = {
-				adapter = "anthropic", -- Default to Anthropic for chat
-			},
-			inline = {
-				adapter = "copilot", -- Default to Copilot for inline assistance
-			},
-		},			-- Display configuration
+			-- Display configuration
 			display = {
 				action_palette = {
 					provider = "telescope", -- Options: 'default', 'telescope', 'mini_pick', 'snacks'
@@ -51,7 +81,6 @@ return {
 					show_token_count = true, -- Show token count
 				},
 			},
-
 			-- Options configuration
 			opts = {
 				log_level = "INFO", -- Options: 'ERROR', 'WARN', 'INFO', 'DEBUG', 'TRACE'
