@@ -35,14 +35,18 @@ return {
   },
 
 		config = function()
-			-- load mason-nvim-dap here, after all adapters have been setup
-			if LazyVim.has("mason-nvim-dap.nvim") then
-				require("mason-nvim-dap").setup(LazyVim.opts("mason-nvim-dap.nvim"))
-			end
-
 			vim.api.nvim_set_hl(0, "DapStoppedLine", { default = true, link = "Visual" })
 
-			for name, sign in pairs(LazyVim.config.icons.dap) do
+			-- DAP signs
+			local dap_icons = {
+				Stopped = { "󰁕 ", "DiagnosticWarn", "DapStoppedLine" },
+				Breakpoint = " ",
+				BreakpointCondition = " ",
+				BreakpointRejected = { " ", "DiagnosticError" },
+				LogPoint = ".>",
+			}
+
+			for name, sign in pairs(dap_icons) do
 				sign = type(sign) == "table" and sign or { sign }
 				vim.fn.sign_define(
 					"Dap" .. name,

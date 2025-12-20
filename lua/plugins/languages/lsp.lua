@@ -192,7 +192,7 @@ return {
 	{
         "stevearc/conform.nvim",
         event = { "BufWritePre" },
-        cmd = { "ConformInfo" },
+        cmd = { "ConformInfo", "ConformEnable", "ConformDisable" },
         keys = {
             {
                 "<leader>fc",
@@ -208,13 +208,9 @@ return {
             formatters_by_ft = {},
             formatters = {},
             
-            -- Set up format on save
-            format_on_save = function(bufnr)
-                return {
-                    timeout_ms = 500,
-                    lsp_fallback = true,
-                }
-            end,
+            -- Format on save disabled
+            -- Use <leader>fc to format manually
+            -- Or enable with :ConformEnable
         },
         init = function()
             -- If you want to use conform for gq formatting

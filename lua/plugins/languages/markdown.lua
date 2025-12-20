@@ -15,6 +15,7 @@ return {
 	},
 
 	-- Markdown Formatter
+	-- Disable with :ConformDisable, re-enable with :ConformEnable
 	{
 		"stevearc/conform.nvim",
 		optional = true,
@@ -22,7 +23,6 @@ return {
 			opts.formatters_by_ft = opts.formatters_by_ft or {}
 			opts.formatters_by_ft.markdown = { "prettier" }
 
-			-- Prettier config shared with javascript.lua
 			opts.formatters = opts.formatters or {}
 			opts.formatters.prettier = opts.formatters.prettier or {
 				prepend_args = {
@@ -31,7 +31,7 @@ return {
 					"--use-tabs",
 					"false",
 					"--print-width",
-					"81",
+					"80",
 					"--prose-wrap",
 					"preserve",
 					"--embedded-language-formatting",

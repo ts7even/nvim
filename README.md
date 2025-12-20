@@ -314,7 +314,14 @@ A                       # Append at end of block
 c                       # Change block
 r                       # Replace all characters in block
 ```
-|:---:|:---|
-|`<leader>cc`|Toggle Copilot Chat|
-|`<leader>ca`|Copilot Actions|
 
+### Conform (Formatter)
+
+|Command|Action|
+|:---:|:---|
+|`:ConformDisable`|Disable formatting (current buffer)|
+|`:ConformDisable!`|Disable formatting (globally)|
+|`:ConformEnable`|Re-enable formatting (current buffer)|
+|`:ConformEnable!`|Re-enable formatting (globally)|
+
+When opening MkDocs files, run `:ConformDisable` to turn off formatting for that buffer.
