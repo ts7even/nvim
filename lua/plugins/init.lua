@@ -11,35 +11,23 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- Setup lazy.nvim and load all plugin configurations
 require("lazy").setup({
-    -- Snacks 
-    { import = "plugins.snacks"},
-    
-    -- Mini.nvim - text manipulation
+    -- Core plugins
+    { import = "plugins.snacks" },
     { import = "plugins.mini" },
-    
-    -- Language plugins
+
+    -- Languages (unified: C/C++, Python, Rust, Zig, Markdown, Org, TOML, YAML, JSON, Make/CMake)
     { import = "plugins.languages" },
-    
-    -- UI plugins
+
+    -- UI
     { import = "plugins.ui" },
-    
-    -- Utility plugins
+
+    -- Utilities (debug, database, rest, snippets, copilot)
     { import = "plugins.utils" },
 }, {
-    -- Lazy.nvim configuration options
-    ui = {
-        border = "rounded",
-    },
-    change_detection = {
-        notify = false,
-    },
-    -- Increase timeout for slow connections
-    git = {
-        timeout = 300, -- 5 minutes timeout (default is 120 seconds)
-        url_format = "https://github.com/%s.git",
-    },
+    ui = { border = "rounded" },
+    change_detection = { notify = false },
+    git = { timeout = 300 },
     install = {
         missing = true,
         colorscheme = { "habamax" },

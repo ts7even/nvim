@@ -1,42 +1,45 @@
--- Set leader key (must be set before lazy.nvim)
+-- Leader key (must be set before lazy.nvim)
 vim.g.mapleader = " "
 
--- Indentation settings
-vim.opt.expandtab = true -- Use spaces instead of tabs
-vim.opt.tabstop = 4 -- Number of spaces that a tab counts for
-vim.opt.softtabstop = 4 -- Number of spaces for tab in insert mode
-vim.opt.shiftwidth = 4 -- Number of spaces for each step of autoindent
+-- Indentation
+vim.opt.expandtab = true
+vim.opt.tabstop = 4
+vim.opt.softtabstop = 4
+vim.opt.shiftwidth = 4
 
--- Enable Spell checking
+-- Spell checking
 vim.opt.spell = true
 vim.opt.spelllang = "en_us"
 
 -- Editor behavior
-vim.opt.relativenumber = true -- Show relative line numbers
-vim.opt.number = true -- Show absolute line number on current line
-vim.opt.clipboard = "unnamedplus" -- Use system clipboard
-vim.opt.textwidth = 81 -- Automatically wrap text at 120 characters
-vim.opt.conceallevel = 1 -- Conceal level for special characters
-vim.opt.ignorecase = true -- Ignore case in search patterns
-vim.opt.smartcase = true -- Override ignore case if search contains uppercase
-vim.opt.scrolloff = 8 -- Keep 8 lines visible above/below cursor
-vim.opt.sidescrolloff = 8 -- Keep 8 columns visible left/right of cursor
-vim.opt.splitright = true -- Open vertical splits to the right
-vim.opt.splitbelow = true -- Open horizontal splits below
-vim.opt_local.colorcolumn = "100" -- Highlight column at 100 characters
+vim.opt.relativenumber = true
+vim.opt.number = true
+vim.opt.clipboard = "unnamedplus"
+vim.opt.conceallevel = 1
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
+vim.opt.scrolloff = 8
+vim.opt.sidescrolloff = 8
+vim.opt.splitright = true
+vim.opt.splitbelow = true
+vim.opt_local.colorcolumn = "100"
+vim.opt.foldenable = false -- Don't auto-fold files
 
--- Tab navigation with Ctrl + Alt + hl
-vim.keymap.set('n', '<C-M-h>', 'gT', { desc = 'Previous tab' })
-vim.keymap.set('n', '<C-M-l>', 'gt', { desc = 'Next tab' })
+-- Tab navigation
+vim.keymap.set("n", "<C-M-h>", "gT", { desc = "Previous tab" })
+vim.keymap.set("n", "<C-M-l>", "gt", { desc = "Next tab" })
 
--- Reload Neovim config
-vim.keymap.set('n', '<leader>cr', ':source $MYVIMRC<CR>', { desc = 'Reload config' })
+-- Reload config
+vim.keymap.set("n", "<leader>cr", ":source $MYVIMRC<CR>", { desc = "Reload config" })
 
--- Auto format on save for various file types
+-- Auto format on save (supported languages only)
 vim.api.nvim_create_autocmd("BufWritePre", {
-	pattern = { "*.lua", "*.js", "*.ts", "*.md", "*.rs", "*.c", "*.toml", "*.yaml", "*.py", "*.org" },
-	callback = function()
-		vim.lsp.buf.format({ async = false })
-	end,
+    pattern = {
+        "*.lua", "*.c", "*.cpp", "*.h", "*.hpp",
+        "*.py", "*.rs", "*.zig",
+        "*.md", "*.toml", "*.yaml", "*.yml", "*.json",
+    },
+    callback = function()
+        vim.lsp.buf.format({ async = false })
+    end,
 })
-
