@@ -30,7 +30,7 @@ vim.keymap.set("n", "<C-M-h>", "gT", { desc = "Previous tab" })
 vim.keymap.set("n", "<C-M-l>", "gt", { desc = "Next tab" })
 
 -- Reload config
-vim.keymap.set("n", "<leader>cr", ":source $MYVIMRC<CR>", { desc = "Reload config" })
+vim.keymap.set("n", "<leader>vr", ":source $MYVIMRC<CR>", { desc = "Reload config" })
 
 -- Auto format on save (supported languages only)
 vim.api.nvim_create_autocmd("BufWritePre", {

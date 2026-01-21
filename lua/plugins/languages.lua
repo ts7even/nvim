@@ -275,26 +275,11 @@ return {
         end,
     },
 
-    -- Treesitter
+    -- Treesitter (parsers installed via :TSInstall or build hook)
     {
         "nvim-treesitter/nvim-treesitter",
-        build = ":TSUpdate",
-        event = { "BufReadPost", "BufNewFile" },
-        config = function()
-            -- Install parsers
-            local parsers = {
-                "lua", "c", "cpp", "python", "rust", "zig",
-                "markdown", "markdown_inline",
-                "make", "cmake", "toml", "yaml", "json",
-            }
-            local installed = require("nvim-treesitter").get_installed()
-            local to_install = vim.tbl_filter(function(p)
-                return not vim.tbl_contains(installed, p)
-            end, parsers)
-            if #to_install > 0 then
-                require("nvim-treesitter").install(to_install)
-            end
-        end,
+        build = ":TSInstall lua c cpp python rust zig markdown markdown_inline make cmake toml yaml json",
+        lazy = false,
     },
 
     -- Completion engine

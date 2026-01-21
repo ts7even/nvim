@@ -54,7 +54,7 @@ Neovim configuration for multi-tasking and development.
 |`<leader>di`|Step Into|
 |`<leader>dj`|Down|
 |`<leader>dk`|Up|
-|`<leader>dl`|Run Last|
+|`<leader>dL`|Run Last|
 |`<leader>do`|Step Out|
 |`<leader>dO`|Step Over|
 |`<leader>dP`|Pause|
@@ -105,12 +105,33 @@ Neovim configuration for multi-tasking and development.
 |`<leader>ch`|Toggle Checkbox|
 |`<cr>`|Smart Action (follow link or toggle checkbox)|
 
-### Copilot (CodeCompanion)
+### AI (CodeCompanion)
 
 |Key|Description|
 |:---:|:---|
-|`<leader>cc`|Toggle Copilot Chat|
-|`<leader>ca`|Copilot Actions|
+|`<leader>aic`|AI Chat|
+|`<leader>aii`|AI Inline - select code first|
+|`<leader>aia`|AI Actions|
+
+### AI (Claude Code)
+
+|Key|Description|
+|:---:|:---|
+|`<leader>ait`|Toggle Claude Code|
+|`<leader>aif`|Focus Claude Code|
+|`<leader>air`|Resume Claude|
+|`<leader>aiR`|Continue Claude|
+|`<leader>aim`|Select Model|
+|`<leader>aib`|Add Buffer to Claude|
+|`<leader>ais`|Send Selection to Claude (visual)|
+|`<leader>aid`|Accept Diff|
+|`<leader>aix`|Reject Diff|
+
+### Vim
+
+|Key|Description|
+|:---:|:---|
+|`<leader>vr`|Reload Config|
 
 ## Usage Guide
 
@@ -129,6 +150,41 @@ Neovim configuration for multi-tasking and development.
 - `<leader>du` - Open debug UI
 - `<leader>de` - Evaluate expression under cursor
 - `<leader>dt` - Stop debugging
+
+### Claude Code
+
+**Getting Started:**
+1. Install Claude Code CLI: `npm install -g @anthropic-ai/claude-code`
+2. Authenticate: `claude login`
+3. Press `<leader>ait` to open Claude Code terminal
+
+**Basic Workflow:**
+- `<leader>ait` - Toggle Claude Code terminal
+- `<leader>aif` - Focus/unfocus the terminal
+- `<leader>aib` - Add current buffer to Claude's context
+
+**Working with Code:**
+1. Select code in visual mode
+2. Press `<leader>ais` to send selection to Claude
+3. Claude will analyze and suggest changes
+4. Use `<leader>aid` to accept or `<leader>aix` to reject diffs
+
+**Session Management:**
+- `<leader>air` - Resume previous session
+- `<leader>aiR` - Continue current session
+- `<leader>aim` - Switch between Claude models
+
+**Commands:**
+
+|Command|Action|
+|:---:|:---|
+|`:ClaudeCode`|Toggle terminal window|
+|`:ClaudeCodeFocus`|Smart focus/toggle|
+|`:ClaudeCodeSend`|Send visual selection|
+|`:ClaudeCodeAdd <file>`|Add file to context|
+|`:ClaudeCodeSelectModel`|Choose model variant|
+|`:ClaudeCodeDiffAccept`|Accept changes|
+|`:ClaudeCodeDiffDeny`|Reject changes|
 
 ### REST Client (Kulala)
 
