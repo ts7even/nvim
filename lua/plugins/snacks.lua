@@ -41,18 +41,13 @@ return {
                 width = 60,
                 preset = {
                     header = [[
-         O
-        _|_
-   ,_.-_' _ '_-._,
-    \ (.)(.)(.) /
- _,  `\_-===-_/`  ,_
->  |----"""""----|  <
-`""`--/   _-@-\--`""`
-     |===L_I===|
-      \       /
-      _\__|__/_
-     `""""`""""`
-]],
+    ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗
+    ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║
+    ██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║
+    ██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║
+    ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║
+    ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝]],
+
                 },
                 sections = { { section = "header" } },
             },
@@ -89,7 +84,7 @@ return {
             { "<leader>tt",  function() Snacks.terminal() end,                                                     desc = "Toggle terminal (float)" },
             { "<leader>tv",  function() Snacks.terminal(nil, { win = { position = "right", width = 0.4 } }) end,   desc = "Terminal (vsplit)" },
             { "<leader>ts",  function() Snacks.terminal(nil, { win = { position = "bottom", height = 0.3 } }) end, desc = "Terminal (split)" },
-            { "<leader>bd", function() Snacks.bufdelete() end, desc = "Delete Buffer" },
+            { "<leader>bd",  function() Snacks.bufdelete() end,                                                    desc = "Delete Buffer" },
         },
     },
 }
