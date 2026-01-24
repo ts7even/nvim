@@ -30,6 +30,9 @@ vim.opt.autoread = true    -- Auto-reload files changed outside of Neovim
 vim.keymap.set("n", "<C-M-h>", "gT", { desc = "Previous tab" })
 vim.keymap.set("n", "<C-M-l>", "gt", { desc = "Next tab" })
 
+-- Terminal: escape to normal mode
+vim.keymap.set("t", "<esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
+
 -- Auto format on save (supported languages only)
 vim.api.nvim_create_autocmd("BufWritePre", {
     pattern = {

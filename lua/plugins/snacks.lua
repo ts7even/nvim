@@ -68,23 +68,64 @@ return {
         },
         keys = {
             -- File operations
-            { "<leader>e",   function() Snacks.explorer({ hidden = true }) end,                                    desc = "Explorer" },
-            { "<leader>ff",  function() Snacks.picker.files() end,                                                 desc = "Find Files" },
-            { "<leader>fg",  function() Snacks.picker.grep() end,                                                  desc = "Grep" },
-            { "<leader>fb",  function() Snacks.picker.buffers() end,                                               desc = "Buffers" },
-            { "<leader>fr",  function() Snacks.picker.recent() end,                                                desc = "Recent Files" },
-            { "<leader>fs",  function() Snacks.picker.grep_word() end,                                             desc = "Search Word",            mode = { "n", "x" } },
-            { "<leader>pk",  function() Snacks.picker.keymaps({ layout = "ivy" }) end,                             desc = "Keymaps" },
-            { "<leader>qf",  function() Snacks.picker.qflist() end,                                                desc = "Quickfix" },
+            { "<leader>e",   function() Snacks.explorer({ hidden = true }) end,                                                 desc = "Explorer" },
+            { "<leader>ff",  function() Snacks.picker.files() end,                                                              desc = "Find Files" },
+            { "<leader>fg",  function() Snacks.picker.grep() end,                                                               desc = "Grep" },
+            { "<leader>fb",  function() Snacks.picker.buffers() end,                                                            desc = "Buffers" },
+            { "<leader>fr",  function() Snacks.picker.recent() end,                                                             desc = "Recent Files" },
+            { "<leader>fs",  function() Snacks.picker.grep_word() end,                                                          desc = "Search Word",        mode = { "n", "x" } },
+            { "<leader>pk",  function() Snacks.picker.keymaps({ layout = "ivy" }) end,                                          desc = "Keymaps" },
+            { "<leader>qf",  function() Snacks.picker.qflist() end,                                                             desc = "Quickfix" },
             -- Git
-            { "<leader>lg",  function() Snacks.lazygit() end,                                                      desc = "Lazygit" },
-            { "<leader>gl",  function() Snacks.lazygit.log() end,                                                  desc = "Git Log" },
-            { "<leader>gbr", function() Snacks.picker.git_branches({ layout = "select" }) end,                     desc = "Git Branches" },
-            -- Terminals
-            { "<leader>tt",  function() Snacks.terminal() end,                                                     desc = "Toggle terminal (float)" },
-            { "<leader>tv",  function() Snacks.terminal(nil, { win = { position = "right", width = 0.4 } }) end,   desc = "Terminal (vsplit)" },
-            { "<leader>ts",  function() Snacks.terminal(nil, { win = { position = "bottom", height = 0.3 } }) end, desc = "Terminal (split)" },
-            { "<leader>bd",  function() Snacks.bufdelete() end,                                                    desc = "Delete Buffer" },
+            { "<leader>lg",  function() Snacks.lazygit() end,                                                                   desc = "Lazygit" },
+            { "<leader>gl",  function() Snacks.lazygit.log() end,                                                               desc = "Git Log" },
+            { "<leader>gbr", function() Snacks.picker.git_branches({ layout = "select" }) end,                                  desc = "Git Branches" },
+            -- Terminals with toggle support
+            {
+                "<leader>tv",
+                function()
+                    local term_buf = vim.g.term_vsplit_buf
+                    -- Check if terminal buffer exists and is valid
+                    if term_buf and vim.api.nvim_buf_is_valid(term_buf) then
+                        -- Find window displaying this buffer
+                        for _, win in ipairs(vim.api.nvim_list_wins()) do
+                            if vim.api.nvim_win_get_buf(win) == term_buf then
+                                vim.api.nvim_win_close(win, true)
+                                return
+                            end
+                        end
+                        -- Buffer exists but not visible, show it
+                        vim.cmd("vsplit")
+                        vim.api.nvim_set_current_buf(term_buf)
+                    else
+                        -- Create new terminal
+                        vim.cmd("vsplit | terminal")
+                        vim.g.term_vsplit_buf = vim.api.nvim_get_current_buf()
+                    end
+                end,
+                desc = "Terminal (vertical)"
+            },
+            {
+                "<leader>th",
+                function()
+                    local term_buf = vim.g.term_hsplit_buf
+                    if term_buf and vim.api.nvim_buf_is_valid(term_buf) then
+                        for _, win in ipairs(vim.api.nvim_list_wins()) do
+                            if vim.api.nvim_win_get_buf(win) == term_buf then
+                                vim.api.nvim_win_close(win, true)
+                                return
+                            end
+                        end
+                        vim.cmd("split")
+                        vim.api.nvim_set_current_buf(term_buf)
+                    else
+                        vim.cmd("split | terminal")
+                        vim.g.term_hsplit_buf = vim.api.nvim_get_current_buf()
+                    end
+                end,
+                desc = "Terminal (horizontal)"
+            },
+            { "<leader>bd", function() Snacks.bufdelete() end, desc = "Delete Buffer" },
         },
     },
 }

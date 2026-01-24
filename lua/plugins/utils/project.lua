@@ -22,7 +22,7 @@ return {
             desc = "Add current dir as project",
         },
         {
-            "<leader>fp",
+            "<leader>fpp",
             function()
                 local projects = require("project_nvim").get_recent_projects()
                 Snacks.picker.pick({
