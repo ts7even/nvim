@@ -40,35 +40,6 @@ return {
         },
     },
 
-    -- Claude Code - AI coding agent with terminal integration
-    {
-        "coder/claudecode.nvim",
-        dependencies = { "folke/snacks.nvim" },
-        keys = {
-            { "<leader>ait", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude Code" },
-            { "<leader>aif", "<cmd>ClaudeCodeFocus<cr>", desc = "Focus Claude Code" },
-            { "<leader>air", "<cmd>ClaudeCode --resume<cr>", desc = "Resume Claude" },
-            { "<leader>aiR", "<cmd>ClaudeCode --continue<cr>", desc = "Continue Claude" },
-            { "<leader>aim", "<cmd>ClaudeCodeSelectModel<cr>", desc = "Select Model" },
-            { "<leader>aib", "<cmd>ClaudeCodeAdd %<cr>", desc = "Add Buffer to Claude" },
-            { "<leader>ais", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "Send Selection to Claude" },
-            { "<leader>aid", "<cmd>ClaudeCodeDiffAccept<cr>", desc = "Accept Diff" },
-            { "<leader>aix", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "Reject Diff" },
-        },
-        cmd = { "ClaudeCode", "ClaudeCodeFocus", "ClaudeCodeSend", "ClaudeCodeAdd", "ClaudeCodeSelectModel", "ClaudeCodeDiffAccept", "ClaudeCodeDiffDeny" },
-        opts = {
-            terminal = {
-                split_side = "right",
-                split_width_percentage = 0.40,
-                provider = "snacks",
-            },
-            diff_opts = {
-                auto_close_on_accept = true,
-                vertical_split = true,
-            },
-        },
-    },
-
     -- CodeCompanion.nvim - AI coding assistant with multiple LLM and agent support
     {
         "olimorris/codecompanion.nvim",

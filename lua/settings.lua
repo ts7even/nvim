@@ -24,13 +24,11 @@ vim.opt.splitright = true
 vim.opt.splitbelow = true
 vim.opt_local.colorcolumn = "100"
 vim.opt.foldenable = false -- Don't auto-fold files
+vim.opt.autoread = true    -- Auto-reload files changed outside of Neovim
 
 -- Tab navigation
 vim.keymap.set("n", "<C-M-h>", "gT", { desc = "Previous tab" })
 vim.keymap.set("n", "<C-M-l>", "gt", { desc = "Next tab" })
-
--- Reload config
-vim.keymap.set("n", "<leader>vr", ":source $MYVIMRC<CR>", { desc = "Reload config" })
 
 -- Auto format on save (supported languages only)
 vim.api.nvim_create_autocmd("BufWritePre", {

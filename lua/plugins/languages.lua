@@ -1,4 +1,3 @@
--- Unified language support for: C, C++, Python, Rust, Zig, Markdown, TOML, YAML, JSON, Lua
 return {
     -- Mason: LSP/Formatter installer
     {
@@ -14,15 +13,15 @@ return {
         config = function()
             require("mason-lspconfig").setup({
                 ensure_installed = {
-                    "lua_ls",   -- Lua (for Neovim config)
-                    -- clangd: use system clang package (pacman -S clang)
-                    "pyright",  -- Python type checking
-                    "ruff",     -- Python linting/formatting
-                    "zls",      -- Zig
-                    "marksman", -- Markdown
-                    "taplo",    -- TOML
-                    "yamlls",   -- YAML
-                    "jsonls",   -- JSON
+                    "lua_ls",         -- Lua (for Neovim config)
+                    "clangd",         -- C and CPP
+                    "ruff",           -- Python linting/formatting
+                    "rust_analyzer",  -- Rust
+                    "zls",            -- Zig
+                    "marksman",       -- Markdown
+                    "taplo",          -- TOML
+                    "yamlls",         -- YAML
+                    "jsonls",         -- JSON
                     -- cmake: requires Python <3.14, install via pipx if needed
                 },
                 automatic_installation = true,
@@ -36,9 +35,10 @@ return {
         dependencies = {
             "mason.nvim",
             "williamboman/mason-lspconfig.nvim",
+            "saghen/blink.cmp",
         },
         config = function()
-            local capabilities = require("cmp_nvim_lsp").default_capabilities()
+            local capabilities = require("blink.cmp").get_lsp_capabilities()
 
             -- Diagnostics configuration
             vim.diagnostic.config({
@@ -55,7 +55,7 @@ return {
 
             -- Global LSP keymaps
             local function setup_keymaps()
-                vim.keymap.set("n", "<leader>cl", function() Snacks.picker.lsp_config() end, { desc = "LSP Info" })
+                vim.keymap.set("n", "<leader>li", function() Snacks.picker.lsp_config() end, { desc = "LSP Info" })
                 vim.keymap.set("n", "<leader>gd", function() Snacks.picker.lsp_definitions() end,
                     { desc = "Goto Definition" })
                 vim.keymap.set("n", "<leader>gr", function() Snacks.picker.lsp_references() end, { desc = "References" })
@@ -65,10 +65,10 @@ return {
                 vim.keymap.set("n", "<leader>k", vim.lsp.buf.hover, { desc = "Hover Documentation" })
                 vim.keymap.set("n", "<leader>gk", vim.lsp.buf.signature_help, { desc = "Signature Help" })
                 vim.keymap.set("i", "<C-k>", vim.lsp.buf.signature_help, { desc = "Signature Help" })
-                vim.keymap.set({ "n", "x" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Action" })
-                vim.keymap.set({ "n", "x" }, "<leader>cc", vim.lsp.codelens.run, { desc = "Run Codelens" })
-                vim.keymap.set("n", "<leader>cC", vim.lsp.codelens.refresh, { desc = "Refresh Codelens" })
-                vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, { desc = "Rename" })
+                vim.keymap.set({ "n", "x" }, "<leader>la", vim.lsp.buf.code_action, { desc = "Code Action" })
+                vim.keymap.set({ "n", "x" }, "<leader>lc", vim.lsp.codelens.run, { desc = "Run Codelens" })
+                vim.keymap.set("n", "<leader>lC", vim.lsp.codelens.refresh, { desc = "Refresh Codelens" })
+                vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, { desc = "Rename" })
                 vim.keymap.set("n", "<leader>dl", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
                 vim.keymap.set("n", "<leader>df", vim.diagnostic.setqflist, { desc = "All Diagnostics" })
             end
@@ -136,10 +136,10 @@ return {
             vim.lsp.config("ruff", {
                 capabilities = capabilities,
                 on_attach = python_on_attach,
-                settings = {
-                    ruff = {
-                        format = { enable = true },
-                        lint = { enable = true },
+                init_options = {
+                    settings = {
+                        format = { preview = true },
+                        lint = { preview = true },
                         organizeImports = true,
                     },
                 },
@@ -160,6 +160,33 @@ return {
                 },
             })
             vim.lsp.enable("zls")
+
+            -- Rust
+            vim.lsp.config("rust_analyzer", {
+                capabilities = capabilities,
+                settings = {
+                    ["rust-analyzer"] = {
+                        cargo = {
+                            allFeatures = true,
+                            loadOutDirsFromCheck = true,
+                        },
+                        checkOnSave = true,
+                        check = {
+                            command = "clippy",
+                        },
+                        procMacro = {
+                            enable = true,
+                        },
+                        inlayHints = {
+                            enable = true,
+                            chainingHints = true,
+                            parameterHints = true,
+                            typeHints = true,
+                        },
+                    },
+                },
+            })
+            vim.lsp.enable("rust_analyzer")
 
             -- Markdown
             vim.lsp.config("marksman", {
@@ -191,38 +218,11 @@ return {
                 capabilities = capabilities,
                 settings = {
                     json = {
-                        schemas = require("schemastore").json.schemas(),
                         validate = { enable = true },
                     },
                 },
             })
             vim.lsp.enable("jsonls")
-        end,
-    },
-
-    -- JSON schemas
-    { "b0o/schemastore.nvim", lazy = true },
-
-    -- Rust (rustaceanvim handles LSP internally)
-    {
-        "mrcjkb/rustaceanvim",
-        version = "^5",
-        lazy = false,
-        ft = "rust",
-        config = function()
-            vim.g.rustaceanvim = {
-                server = {
-                    on_attach = function(client, bufnr)
-                        vim.keymap.set("n", "<leader>ca", function()
-                            vim.cmd.RustLsp("codeAction")
-                        end, { buffer = bufnr, desc = "Rust code actions" })
-                    end,
-                    capabilities = require("cmp_nvim_lsp").default_capabilities(),
-                },
-                tools = {
-                    hover_actions = { auto_focus = true },
-                },
-            }
         end,
     },
 
@@ -284,49 +284,41 @@ return {
 
     -- Completion engine
     {
-        "hrsh7th/nvim-cmp",
-        dependencies = {
-            "hrsh7th/cmp-nvim-lsp",
-            "hrsh7th/cmp-buffer",
-            "hrsh7th/cmp-path",
-        },
-        config = function()
-            local cmp = require("cmp")
+        'saghen/blink.cmp',
+        version = '1.*',
 
-            cmp.setup({
-                window = {
-                    completion = cmp.config.window.bordered(),
-                    documentation = cmp.config.window.bordered(),
-                },
-                mapping = {
-                    ["<Tab>"] = cmp.mapping(function(fallback)
-                        if cmp.visible() then
-                            cmp.select_next_item()
-                        else
-                            fallback()
-                        end
-                    end, { "i", "s" }),
-                    ["<S-Tab>"] = cmp.mapping(function(fallback)
-                        if cmp.visible() then
-                            cmp.select_prev_item()
-                        else
-                            fallback()
-                        end
-                    end, { "i", "s" }),
-                    ["<C-b>"] = cmp.mapping.scroll_docs(-4),
-                    ["<C-f>"] = cmp.mapping.scroll_docs(4),
-                    ["<C-Space>"] = cmp.mapping.complete(),
-                    ["<C-e>"] = cmp.mapping.abort(),
-                    ["<CR>"] = cmp.mapping.confirm({ select = true }),
-                },
-                sources = cmp.config.sources({
-                    { name = "nvim_lsp" },
-                }, {
-                    { name = "buffer" },
-                    { name = "path" },
-                }),
-            })
-        end,
+        opts = {
+            -- 'default' (recommended) for mappings similar to built-in completions (C-y to accept)
+            -- 'super-tab' for mappings similar to vscode (tab to accept)
+            -- 'enter' for enter to accept
+            -- 'none' for no mappings
+            --
+            -- All presets have the following mappings:
+            -- C-space: Open menu or open docs if already open
+            -- C-n/C-p or Up/Down: Select next/previous item
+            -- C-e: Hide menu
+            -- C-k: Toggle signature help (if signature.enabled = true)
+            --
+            -- See :h blink-cmp-config-keymap for defining your own keymap
+            keymap = { preset = 'super-tab' },
+
+            appearance = {
+                -- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
+                nerd_font_variant = 'mono'
+            },
+
+            -- (Default) Only show the documentation popup when manually triggered
+            completion = { documentation = { auto_show = false } },
+
+            -- Default list of enabled providers defined so that you can extend it
+            -- elsewhere in your config, without redefining it, due to `opts_extend`
+            sources = {
+                default = { 'lsp', 'path', 'snippets', 'buffer' },
+            },
+
+            fuzzy = { implementation = "prefer_rust_with_warning" }
+        },
+        opts_extend = { "sources.default" }
     },
 
     -- Markdown rendering
@@ -371,8 +363,8 @@ return {
             require("peek").setup()
             vim.api.nvim_create_user_command("PeekOpen", require("peek").open, {})
             vim.api.nvim_create_user_command("PeekClose", require("peek").close, {})
-            vim.keymap.set("n", "<leader>mp", ":PeekOpen<CR>", { desc = "Markdown preview" })
-            vim.keymap.set("n", "<leader>mc", ":PeekClose<CR>", { desc = "Close preview" })
+            vim.keymap.set("n", "<leader>ump", ":PeekOpen<CR>", { desc = "Markdown preview" })
+            vim.keymap.set("n", "<leader>umc", ":PeekClose<CR>", { desc = "Close preview" })
         end,
     },
 

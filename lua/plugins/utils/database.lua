@@ -53,9 +53,9 @@ return {
 			end
 
 			-- Database keymaps
-			vim.keymap.set("n", "<leader>ddb", open_dbui_fullscreen, { desc = "Open Database UI in Full Window" })
-			vim.keymap.set("n", "<leader>ddc", ":DBUIAddConnection<CR>", { desc = "Add Database Connection" })
-			vim.keymap.set("n", "<leader>ddq", ":DBUIFindBuffer<CR>", { desc = "Find Database Buffer" })
+			vim.keymap.set("n", "<leader>udb", open_dbui_fullscreen, { desc = "Open Database UI" })
+			vim.keymap.set("n", "<leader>udc", ":DBUIAddConnection<CR>", { desc = "Add DB Connection" })
+			vim.keymap.set("n", "<leader>udq", ":DBUIFindBuffer<CR>", { desc = "Find DB Buffer" })
 		end,
 	},
 
