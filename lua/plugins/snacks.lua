@@ -101,6 +101,7 @@ return {
                         -- Create new terminal
                         vim.cmd("vsplit | terminal")
                         vim.g.term_vsplit_buf = vim.api.nvim_get_current_buf()
+                        vim.wo.spell = false
                     end
                 end,
                 desc = "Terminal (vertical)"
@@ -121,6 +122,7 @@ return {
                     else
                         vim.cmd("split | terminal")
                         vim.g.term_hsplit_buf = vim.api.nvim_get_current_buf()
+                        vim.wo.spell = false
                     end
                 end,
                 desc = "Terminal (horizontal)"
