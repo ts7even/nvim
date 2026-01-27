@@ -3,7 +3,15 @@ return {
     dependencies = { "nvim-tree/nvim-web-devicons" },
     keys = {
         { "-", "<cmd>Oil<cr>", desc = "Open parent directory" },
-        { "<leader>o", "<cmd>Oil --float<cr>", desc = "Oil (float)" },
+        {
+            "<leader>E",
+            function()
+                vim.cmd("topleft vsplit")
+                vim.cmd("vertical resize 40")
+                require("oil").open()
+            end,
+            desc = "Oil (sidebar)",
+        },
     },
     cmd = "Oil",
     opts = {
