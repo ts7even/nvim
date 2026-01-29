@@ -6,12 +6,10 @@ return {
             "nvim-lua/plenary.nvim",
             "sindrets/diffview.nvim",
         },
+        -- Only need gg to open Neogit - use its built-in keys after:
+        -- s=stage, u=unstage, c=commit, P=push, F=pull, b=branch, ?=help
         keys = {
             { "<leader>gg", "<cmd>Neogit<cr>", desc = "Neogit status" },
-            { "<leader>gC", "<cmd>Neogit commit<cr>", desc = "Neogit commit" },
-            { "<leader>gP", "<cmd>Neogit push<cr>", desc = "Neogit push" },
-            { "<leader>gF", "<cmd>Neogit pull<cr>", desc = "Neogit pull (fetch)" },
-            { "<leader>gB", "<cmd>Neogit branch<cr>", desc = "Neogit branch" },
         },
         cmd = "Neogit",
         opts = {

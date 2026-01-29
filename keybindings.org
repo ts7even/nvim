@@ -1,0 +1,277 @@
+#+TITLE: Neovim & Emacs Unified Keybindings
+#+AUTHOR: bourbon
+#+DESCRIPTION: Leader key reference for Neovim and Doom Emacs
+#+STARTUP: overview
+
+* Introduction
+
+This document describes the unified keybinding scheme used across both Neovim
+and Doom Emacs. The leader key is =SPC= (Space) in both editors.
+
+The philosophy is *mnemonic grouping*:
+- =f= for *find/file* operations
+- =g= for *git* operations
+- =c= for *code* operations (LSP navigation, actions, format)
+- =t= for *terminal* operations
+- =o= for *org* mode
+- =ss= for *spelling* 
+- =ql= for *quickfix* 
+
+- etc.
+
+* Top Level Bindings
+
+| Key       | Action          | Description                        |
+|-----------+-----------------+------------------------------------|
+| =SPC SPC= | M-x / Commands  | Command palette                    |
+| =SPC e=   | Explorer        | File tree (Treemacs/Snacks)        |
+| =SPC k=   | Hover docs      | Show documentation at point        |
+| =-=       | Parent dir      | Open parent directory (Oil/Dired)  |
+
+* AI (=SPC ai=)
+
+AI-powered coding assistance (Copilot/CodeCompanion).
+
+| Key        | Action         | Description                   |
+|------------+----------------+-------------------------------|
+| =SPC ai c= | AI Chat        | Open AI chat window           |
+| =SPC ai i= | AI Inline      | Inline AI completion          |
+| =SPC ai e= | Toggle Copilot | Enable/disable Copilot        |
+
+* Buffer (=SPC b=)
+
+Buffer management operations.
+
+| Key       | Action          | Description                   |
+|-----------+-----------------+-------------------------------|
+| =SPC b b= | Switch buffer   | Fuzzy find and switch buffer  |
+| =SPC b d= | Delete buffer   | Kill current buffer           |
+| =SPC b i= | IBuffer         | Interactive buffer list       |
+| =SPC b n= | Next buffer     | Go to next buffer             |
+| =SPC b p= | Previous buffer | Go to previous buffer         |
+| =SPC b r= | Revert buffer   | Reload buffer from disk       |
+| =SPC b s= | Save buffer     | Save current buffer           |
+
+* Diagnostics (=SPC d=)
+
+Error and warning navigation.
+
+| Key       | Action            | Description                 |
+|-----------+-------------------+-----------------------------|
+| =SPC d l= | Line diagnostics  | Show diagnostics for line   |
+| =SPC d f= | All diagnostics   | Show all project diagnostics|
+| =SPC d n= | Next error        | Jump to next error          |
+| =SPC d p= | Previous error    | Jump to previous error      |
+
+* Code (=SPC c=)
+
+Code navigation and LSP operations. This is the primary code prefix.
+
+| Key       | Action              | Description                    |
+|-----------+---------------------+--------------------------------|
+| =SPC c d= | Goto definition     | Jump to symbol definition      |
+| =SPC c r= | References          | Find all references            |
+| =SPC c i= | Goto implementation | Jump to implementation         |
+| =SPC c y= | Goto type def       | Jump to type definition        |
+| =SPC c D= | Goto declaration    | Jump to declaration            |
+| =SPC c k= | Hover docs          | Show documentation at point    |
+| =SPC c s= | Signature help      | Show function signature        |
+| =SPC c a= | Code action         | Show available code actions    |
+| =SPC c l= | Run codelens        | Execute codelens action        |
+| =SPC c L= | Refresh codelens    | Refresh codelens display       |
+| =SPC c f= | Format code         | Format current buffer          |
+| =C-k=     | Signature help      | Show function signature (insert mode)|
+
+* File/Find (=SPC f=)
+
+File operations and searching. This is the primary search prefix.
+
+| Key       | Action         | Description                      |
+|-----------+----------------+----------------------------------|
+| =SPC f f= | Find files     | Fuzzy find files in project      |
+| =SPC f g= | Grep           | Search text in project (ripgrep) |
+| =SPC f b= | Buffers        | Switch between open buffers      |
+| =SPC f r= | Recent files   | Open recently edited files       |
+| =SPC f s= | Search word    | Search word under cursor         |
+| =SPC f p= | Projects       | Switch to a project              |
+| =SPC f m= | Bookmarks      | Open bookmarked files            |
+
+* Git (=SPC g=)
+
+Git operations. Once inside Neogit, use built-in keys (no leader needed):
+- =s= stage, =u= unstage, =c= commit, =P= push, =F= pull, =b= branch, =?= help
+
+| Key        | Action         | Description                     |
+|------------+----------------+---------------------------------|
+| =SPC g g=  | Git status     | Open Neogit (main entry)        |
+| =SPC g d=  | Diffview       | Open diff viewer                |
+| =SPC g h=  | File history   | View file's commit history      |
+| =SPC g H=  | Branch history | View branch commit history      |
+| =SPC g q=  | Close diffview | Close the diff viewer           |
+| =SPC g l=  | Lazygit        | Open Lazygit TUI                |
+| =SPC g br= | Git branches   | Switch git branch               |
+
+* Help (=SPC h=)
+
+Documentation and help system.
+
+| Key       | Action            | Description                  |
+|-----------+-------------------+------------------------------|
+| =SPC h f= | Describe function | Show function documentation  |
+| =SPC h v= | Describe variable | Show variable documentation  |
+| =SPC h k= | Describe key      | Show what a key does         |
+| =SPC h m= | Describe mode     | Show current mode info       |
+| =SPC h t= | Load theme        | Switch color theme           |
+
+* LSP (=SPC l=)
+
+Language Server Protocol management (code actions moved to =SPC c=).
+
+| Key       | Action   | Description              |
+|-----------+----------+--------------------------|
+| =SPC l i= | LSP info | Show LSP server status   |
+
+* Org (=SPC o=)
+
+Org-mode operations and quick file access.
+
+| Key       | Action         | Description                    |
+|-----------+----------------+--------------------------------|
+| =SPC o a= | Org agenda     | Open org agenda view           |
+| =SPC o c= | Org capture    | Quick capture a note/task      |
+| =SPC o f= | Open orgfiles  | Browse orgfiles directory      |
+| =SPC o t= | Open tasks.org | Quick access to tasks          |
+| =SPC o p= | Open parametric| Open work notes                |
+| =SPC o r= | Open refile    | Open refile/inbox              |
+| =SPC o l= | Open learn dir | Browse learning notes          |
+
+** Org Local Keys (in org buffers)
+
+| Key       | Action           | Description                  |
+|-----------+------------------+------------------------------|
+| =, s=     | Schedule         | Set scheduled date           |
+| =, d=     | Deadline         | Set deadline date            |
+| =, t=     | Timestamp        | Insert timestamp             |
+| =C-SPC=   | Toggle checkbox  | Check/uncheck checkbox       |
+| =cit=     | Cycle TODO       | Cycle through TODO states    |
+
+* Project (=SPC p=)
+
+Project-wide operations.
+
+| Key       | Action      | Description            |
+|-----------+-------------+------------------------|
+| =SPC p k= | Keymaps     | Show all keybindings   |
+
+* Spelling (=SPC s=)
+
+Spell checking.
+
+| Key       | Action              | Description               |
+|-----------+---------------------+---------------------------|
+| =SPC s s= | Spelling suggestions| Fix spelling at cursor    |
+
+* Quickfix (=SPC q=)
+
+Quickfix list and quit operations.
+
+| Key       | Action         | Description                    |
+|-----------+----------------+--------------------------------|
+| =SPC q f= | Quickfix list  | Show error/quickfix list       |
+| =SPC q q= | Quit           | Save and quit editor           |
+| =SPC q Q= | Quit (no save) | Force quit without saving      |
+| =SPC q r= | Restart        | Restart editor                 |
+
+* Terminal (=SPC t=)
+
+Terminal/shell operations.
+
+| Key       | Action              | Description                |
+|-----------+---------------------+----------------------------|
+| =SPC t t= | Toggle terminal     | Show/hide terminal popup   |
+| =SPC t v= | Terminal vertical   | Open terminal in vsplit    |
+| =SPC t h= | Terminal horizontal | Open terminal in hsplit    |
+
+* Utilities (=SPC u=)
+
+Toggle features and utility commands.
+
+| Key         | Action           | Description               |
+|-------------+------------------+---------------------------|
+| =SPC u f=   | Fullscreen       | Toggle fullscreen         |
+| =SPC u l=   | Line numbers     | Toggle line numbers       |
+| =SPC u t=   | Theme            | Switch color theme        |
+| =SPC u w=   | Whitespace       | Show whitespace chars     |
+| =SPC u z=   | Zen mode         | Distraction-free writing  |
+| =SPC u m p= | Markdown preview | Preview markdown file     |
+| =SPC u m c= | Close preview    | Close markdown preview    |
+
+* Window (=SPC w= and =C-w=)
+
+Window/split management. Use standard vim =C-w= for splits.
+
+| Key       | Action         | Description                   |
+|-----------+----------------+-------------------------------|
+| =C-w v=   | Split vert     | Split window vertically       |
+| =C-w s=   | Split horiz    | Split window horizontally     |
+| =C-w h/j/k/l= | Navigate   | Move between windows          |
+| =C-w ==   | Balance        | Make windows equal size       |
+| =C-w o=   | Only           | Close all other windows       |
+| =C-w c=   | Close          | Close current window          |
+| =SPC w w= | Other window   | Cycle to next window          |
+| =SPC w d= | Delete window  | Close current window          |
+| =SPC w D= | Delete others  | Close all other windows       |
+| =SPC w == | Balance        | Make windows equal size       |
+| =SPC w m= | Maximize       | Maximize current window       |
+
+* Text Objects & Motions
+
+These work without the leader key.
+
+** Surround (sa/sd/sr)
+
+| Key  | Action          | Example                        |
+|------+-----------------+--------------------------------|
+| =sa= | Surround add    | =saW"= surrounds Word with "   |
+| =sd= | Surround delete | =sd"= deletes surrounding "    |
+| =sr= | Surround replace| =sr"'= changes " to '          |
+
+** Comment (gc)
+
+| Key   | Action        | Description                    |
+|-------+---------------+--------------------------------|
+| =gc=  | Comment       | Toggle comment (motion/visual) |
+| =gcc= | Comment line  | Toggle comment on current line |
+
+** General Vim Motions
+
+| Key  | Action              | Description                  |
+|------+---------------------+------------------------------|
+| =gd= | Goto definition     | Jump to definition (no SPC)  |
+| =K=  | Hover documentation | Show docs (no SPC)           |
+| =]d= | Next diagnostic     | Jump to next error           |
+| =[d= | Prev diagnostic     | Jump to previous error       |
+
+* Copilot Keybindings
+
+These work in insert mode when Copilot suggests completions.
+
+| Key   | Action               | Description                  |
+|-------+----------------------+------------------------------|
+| =C-j= | Accept completion    | Accept full suggestion       |
+| =C-l= | Accept word          | Accept next word only        |
+| =C-n= | Next suggestion      | Cycle to next suggestion     |
+| =C-p= | Previous suggestion  | Cycle to previous suggestion |
+
+* Quick Reference Card
+
+#+BEGIN_EXAMPLE
+CODE          SPC c d/r/i/a/f    definition/references/impl/action/format
+FIND          SPC f f/g/b/r/p    files/grep/buffers/recent/projects
+GIT           SPC g g/d/l        status/diffview/lazygit
+TERMINAL      SPC t v/h          vsplit/hsplit
+ORG           SPC o a/c/t/r      agenda/capture/tasks/refile
+DIAGNOSTICS   SPC d l/n/p        list/next/prev
+BUFFER        SPC b b/d          switch/delete
+WINDOW        C-w v/s/h/j/k/l    splits/navigation (standard vim)
+#+END_EXAMPLE

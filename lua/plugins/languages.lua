@@ -13,15 +13,15 @@ return {
         config = function()
             require("mason-lspconfig").setup({
                 ensure_installed = {
-                    "lua_ls",         -- Lua (for Neovim config)
-                    "clangd",         -- C and CPP
-                    "ruff",           -- Python linting/formatting
-                    "rust_analyzer",  -- Rust
-                    "zls",            -- Zig
-                    "marksman",       -- Markdown
-                    "taplo",          -- TOML
-                    "yamlls",         -- YAML
-                    "jsonls",         -- JSON
+                    "lua_ls",        -- Lua (for Neovim config)
+                    "clangd",        -- C and CPP
+                    "ruff",          -- Python linting/formatting
+                    "rust_analyzer", -- Rust
+                    "zls",           -- Zig
+                    "marksman",      -- Markdown
+                    "taplo",         -- TOML
+                    "yamlls",        -- YAML
+                    "jsonls",        -- JSON
                     -- cmake: requires Python <3.14, install via pipx if needed
                 },
                 automatic_installation = true,
@@ -56,21 +56,18 @@ return {
             -- Global LSP keymaps
             local function setup_keymaps()
                 vim.keymap.set("n", "<leader>li", function() Snacks.picker.lsp_config() end, { desc = "LSP Info" })
-                vim.keymap.set("n", "<leader>gd", function() Snacks.picker.lsp_definitions() end,
+                vim.keymap.set("n", "<leader>cd", function() Snacks.picker.lsp_definitions() end,
                     { desc = "Goto Definition" })
-                vim.keymap.set("n", "<leader>gr", function() Snacks.picker.lsp_references() end, { desc = "References" })
-                vim.keymap.set("n", "<leader>gi", vim.lsp.buf.implementation, { desc = "Goto Implementation" })
-                vim.keymap.set("n", "<leader>gy", vim.lsp.buf.type_definition, { desc = "Goto Type Definition" })
-                vim.keymap.set("n", "<leader>gD", vim.lsp.buf.declaration, { desc = "Goto Declaration" })
-                vim.keymap.set("n", "<leader>k", vim.lsp.buf.hover, { desc = "Hover Documentation" })
-                vim.keymap.set("n", "<leader>gk", vim.lsp.buf.signature_help, { desc = "Signature Help" })
+                vim.keymap.set("n", "<leader>cr", function() Snacks.picker.lsp_references() end, { desc = "References" })
+                vim.keymap.set("n", "<leader>ci", vim.lsp.buf.implementation, { desc = "Goto Implementation" })
+                vim.keymap.set("n", "<leader>cy", vim.lsp.buf.type_definition, { desc = "Goto Type Definition" })
+                vim.keymap.set("n", "<leader>cD", vim.lsp.buf.declaration, { desc = "Goto Declaration" })
+                vim.keymap.set("n", "<leader>ck", vim.lsp.buf.hover, { desc = "Hover Documentation" })
+                vim.keymap.set("n", "<leader>cs", vim.lsp.buf.signature_help, { desc = "Signature Help" })
                 vim.keymap.set("i", "<C-k>", vim.lsp.buf.signature_help, { desc = "Signature Help" })
-                vim.keymap.set({ "n", "x" }, "<leader>la", vim.lsp.buf.code_action, { desc = "Code Action" })
-                vim.keymap.set({ "n", "x" }, "<leader>lc", vim.lsp.codelens.run, { desc = "Run Codelens" })
-                vim.keymap.set("n", "<leader>lC", vim.lsp.codelens.refresh, { desc = "Refresh Codelens" })
-                vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, { desc = "Rename" })
-                vim.keymap.set("n", "<leader>dl", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
-                vim.keymap.set("n", "<leader>df", vim.diagnostic.setqflist, { desc = "All Diagnostics" })
+                vim.keymap.set({ "n", "x" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Action" })
+                vim.keymap.set({ "n", "x" }, "<leader>cl", vim.lsp.codelens.run, { desc = "Run Codelens" })
+                vim.keymap.set("n", "<leader>cL", vim.lsp.codelens.refresh, { desc = "Refresh Codelens" })
             end
             setup_keymaps()
 
@@ -233,7 +230,7 @@ return {
         cmd = { "ConformInfo", "ConformEnable", "ConformDisable" },
         keys = {
             {
-                "<leader>fc",
+                "<leader>cf",
                 function()
                     require("conform").format({ async = true, lsp_fallback = true })
                 end,
@@ -263,7 +260,7 @@ return {
                 },
                 prettier = {
                     prepend_args = {
-                        "--tab-width", "2",
+                        "--tab-width", "4",
                         "--print-width", "80",
                         "--prose-wrap", "preserve",
                     },
