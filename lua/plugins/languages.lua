@@ -55,7 +55,6 @@ return {
 
             -- Global LSP keymaps
             local function setup_keymaps()
-                vim.keymap.set("n", "<leader>li", function() Snacks.picker.lsp_config() end, { desc = "LSP Info" })
                 vim.keymap.set("n", "<leader>cd", function() Snacks.picker.lsp_definitions() end,
                     { desc = "Goto Definition" })
                 vim.keymap.set("n", "<leader>cr", function() Snacks.picker.lsp_references() end, { desc = "References" })
@@ -260,7 +259,7 @@ return {
                 },
                 prettier = {
                     prepend_args = {
-                        "--tab-width", "4",
+                        "--tab-width", "2",
                         "--print-width", "80",
                         "--prose-wrap", "preserve",
                     },

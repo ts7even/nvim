@@ -28,6 +28,46 @@ The philosophy is *mnemonic grouping*:
 | =SPC k=   | Hover docs      | Show documentation at point        |
 | =-=       | Parent dir      | Open parent directory (Oil/Dired)  |
 
+* Oil File Explorer
+
+Oil is a buffer-based file explorer. You edit the directory listing like text.
+
+** Navigation
+
+| Key     | Action           | Description                        |
+|---------+------------------+------------------------------------|
+| =-=     | Parent directory | Open parent dir / go up            |
+| =<CR>=  | Select           | Open file or enter directory       |
+| =q=     | Close            | Close oil, return to prev buffer   |
+
+** Opening Files
+
+| Key     | Action           | Description                        |
+|---------+------------------+------------------------------------|
+| =<CR>=  | Open             | Open in current window             |
+| =<C-s>= | Horizontal split | Open in horizontal split           |
+| =<C-v>= | Vertical split   | Open in vertical split             |
+| =<C-t>= | New tab          | Open in new tab                    |
+| =<C-p>= | Preview          | Preview file without opening       |
+
+** File Operations
+
+Edit the buffer like text, then =:w= to apply changes.
+
+| Key     | Action           | Description                        |
+|---------+------------------+------------------------------------|
+| =dd=    | Delete           | Mark file for deletion             |
+| =yy/p=  | Copy             | Yank and paste to copy files       |
+| =cw=    | Rename           | Edit filename to rename            |
+| =:w=    | Apply            | Execute all pending operations     |
+
+** Toggles
+
+| Key     | Action           | Description                        |
+|---------+------------------+------------------------------------|
+| =g.=    | Hidden files     | Toggle hidden file visibility      |
+| =g?=    | Help             | Show all oil keybindings           |
+
 * AI (=SPC ai=)
 
 AI-powered coding assistance (Copilot/CodeCompanion).
