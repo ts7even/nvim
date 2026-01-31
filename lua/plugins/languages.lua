@@ -238,6 +238,10 @@ return {
             },
         },
         opts = {
+            format_on_save = {
+                timeout_ms = 500,
+                lsp_fallback = false,
+            },
             formatters_by_ft = {
                 lua = { "stylua" },
                 c = { "clang-format" },
@@ -254,7 +258,7 @@ return {
             formatters = {
                 ["clang-format"] = {
                     prepend_args = {
-                        "--style={IndentWidth: 4, UseTab: Never, TabWidth: 4, BreakBeforeBraces: Attach, ColumnLimit: 80, IndentCaseLabels: true}",
+                        "--style={BasedOnStyle: LLVM, IndentWidth: 4, ColumnLimit: 80, BinPackParameters: false, AllowAllParametersOfDeclarationOnNextLine: false, AlignAfterOpenBracket: AlwaysBreak, BreakAfterReturnType: None, PenaltyReturnTypeOnItsOwnLine: 1000}",
                     },
                 },
                 prettier = {
