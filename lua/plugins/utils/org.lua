@@ -60,6 +60,7 @@ return {
         },
         { "<leader>ot", "<cmd>e ~/Notes/orgfiles/tasks.org<cr>",               desc = "Open tasks.org" },
         { "<leader>op", "<cmd>e ~/Notes/orgfiles/business/parametric.org<cr>", desc = "Open Parametric Docs" },
+        { "<leader>oc", "<cmd>e ~/Notes/orgfiles/languages/c.org<cr>",         desc = "Open C Learning Guide" },
         { "<leader>or", "<cmd>e ~/Notes/orgfiles/refile.org<cr>",              desc = "Open refile.org" },
         {
             "<leader>ol",

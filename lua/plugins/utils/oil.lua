@@ -2,7 +2,7 @@ return {
     "stevearc/oil.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     keys = {
-        { "<leader>e", "<cmd>Oil<cr>", desc = "Open parent directory" },
+        { "<leader>-", "<cmd>Oil<cr>", desc = "Open parent directory" },
     },
     cmd = "Oil",
     opts = {
