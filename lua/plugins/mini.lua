@@ -5,22 +5,6 @@ return {
         version = "*",
         lazy = false,
         config = function()
-            -- Auto-pairs for brackets, quotes, etc.
-            require("mini.pairs").setup({
-                modes = { insert = true, command = false, terminal = false },
-                mappings = {
-                    ["("] = { action = "open", pair = "()", neigh_pattern = "[^\\]." },
-                    ["["] = { action = "open", pair = "[]", neigh_pattern = "[^\\]." },
-                    ["{"] = { action = "open", pair = "{}", neigh_pattern = "[^\\]." },
-                    [")"] = { action = "close", pair = "()", neigh_pattern = "[^\\]." },
-                    ["]"] = { action = "close", pair = "[]", neigh_pattern = "[^\\]." },
-                    ["}"] = { action = "close", pair = "{}", neigh_pattern = "[^\\]." },
-                    ['"'] = { action = "closeopen", pair = '""', neigh_pattern = "[^\\].", register = { cr = false } },
-                    ["'"] = { action = "closeopen", pair = "''", neigh_pattern = "[^%a\\].", register = { cr = false } },
-                    ["`"] = { action = "closeopen", pair = "``", neigh_pattern = "[^\\].", register = { cr = false } },
-                },
-            })
-
             -- Surround text (sa=add, sd=delete, sr=replace)
             require("mini.surround").setup({
                 mappings = {
@@ -42,6 +26,26 @@ return {
                     comment_visual = "gc",
                     textobject = "gc",
                 },
+            })
+        end,
+    },
+
+    -- Auto-pairs
+    {
+        "windwp/nvim-autopairs",
+        event = "InsertEnter",
+        config = function()
+            local npairs = require("nvim-autopairs")
+            local Rule = require("nvim-autopairs.rule")
+            local cond = require("nvim-autopairs.conds")
+
+            npairs.setup({
+                check_ts = true,
+            })
+
+            -- Auto-close /* to /**/  with cursor between
+            npairs.add_rules({
+                Rule("/*", "*/", { "c", "cpp", "java", "javascript", "typescript", "css", "svelte" }),
             })
         end,
     },
