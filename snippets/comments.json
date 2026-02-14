@@ -1,0 +1,39 @@
+{
+  "Block Comment": {
+    "prefix": "/*",
+    "body": "/* ${1} */",
+    "description": "C-style block comment"
+  },
+  "Multiline Block Comment": {
+    "prefix": "/**",
+    "body": [
+      "/**",
+      " * ${1}",
+      " */"
+    ],
+    "description": "C-style multiline block comment"
+  },
+  "Rust Doc Comment": {
+    "prefix": "///",
+    "body": [
+      "/// ${1}"
+    ],
+    "description": "Rust doc comment"
+  },
+  "Rust Multiline Doc Comment": {
+    "prefix": "//!",
+    "body": [
+      "//! ${1}"
+    ],
+    "description": "Rust module-level doc comment"
+  },
+  "Python Docstring": {
+    "prefix": "\"\"\"",
+    "body": [
+      "\"\"\"",
+      "${1}",
+      "\"\"\""
+    ],
+    "description": "Python multiline docstring"
+  }
+}

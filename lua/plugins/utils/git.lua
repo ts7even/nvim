@@ -52,4 +52,13 @@ return {
             },
         },
     },
+
+    --  git signs - Show git signs in the gutter
+    {
+        "lewis6991/gitsigns.nvim",
+        config = function()
+            require("gitsigns").setup()
+        vim.keymap.set("n", "<leader>gi", "<cmd>Gitsigns preview_hunk_inline<cr>", { desc = "Stage hunk" })
+        end,
+    },
 }

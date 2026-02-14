@@ -16,7 +16,6 @@ return {
                 { "<leader>d",  group = "debug/diagnostics" },
                 { "<leader>f",  group = "file/search" },
                 { "<leader>g",  group = "git" },
-                { "<leader>l",  group = "lsp" },
                 { "<leader>o",  group = "org" },
                 { "<leader>q",  group = "quickfix" },
                 { "<leader>s",  group = "spelling" },
@@ -37,6 +36,14 @@ return {
                 enabled = true,
                 matchers = { frecency = true },
                 layout = { preset = "telescope" },
+                win = {
+                    input = {
+                        keys = {
+                            ["<Tab>"] = { "list_up", mode = { "i", "n" } },
+                            ["<S-Tab>"] = { "list_down", mode = { "i", "n" } },
+                        },
+                    },
+                },
             },
             explorer = { enabled = true },
             dashboard = {

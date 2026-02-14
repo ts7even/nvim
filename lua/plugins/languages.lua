@@ -1,5 +1,5 @@
 return {
-    -- Mason: LSP/Formatter installer
+    -- Mason: LSP installer
     {
         "williamboman/mason.nvim",
         config = function()
@@ -22,7 +22,8 @@ return {
                     "taplo",         -- TOML
                     "yamlls",        -- YAML
                     "jsonls",        -- JSON
-                    -- cmake: requires Python <3.14, install via pipx if needed
+                    "ts_ls",         -- TypeScript (needed by Svelte)
+                    "svelte",        -- Svelte
                 },
                 automatic_installation = true,
             })
@@ -184,6 +185,25 @@ return {
             })
             vim.lsp.enable("rust_analyzer")
 
+            -- TypeScript
+            vim.lsp.config("ts_ls", {
+                capabilities = capabilities,
+                init_options = {
+                    plugins = {
+                        {
+                            name = "typescript-svelte-plugin",
+                            location = vim.fn.stdpath("data") ..
+                                "/mason/packages/svelte-language-server/node_modules/typescript-svelte-plugin",
+                        },
+                    },
+                },
+            })
+            vim.lsp.enable("ts_ls")
+
+            -- Svelte
+            vim.lsp.config("svelte", { capabilities = capabilities })
+            vim.lsp.enable("svelte")
+
             -- Markdown
             vim.lsp.config("marksman", {
                 capabilities = capabilities,
@@ -254,6 +274,11 @@ return {
                 yaml = { "yamlfmt" },
                 yml = { "yamlfmt" },
                 json = { "prettier" },
+                svelte = { "prettier" },
+                javascript = { "prettier" },
+                typescript = { "prettier" },
+                html = { "prettier" },
+                css = { "prettier" },
             },
             formatters = {
                 ["clang-format"] = {
@@ -262,11 +287,22 @@ return {
                     },
                 },
                 prettier = {
-                    prepend_args = {
-                        "--tab-width", "2",
-                        "--print-width", "80",
-                        "--prose-wrap", "preserve",
-                    },
+                    prepend_args = function(_, ctx)
+                        local args = {
+                            "--tab-width", "2",
+                            "--print-width", "80",
+                            "--prose-wrap", "always",
+                        }
+                        -- Add svelte plugin when formatting svelte files
+                        if vim.bo[ctx.buf].filetype == "svelte" then
+                            local root = vim.fs.root(ctx.buf, { "package.json" }) or "."
+                            local plugin_path = root .. "/node_modules/prettier-plugin-svelte"
+                            if vim.uv.fs_stat(plugin_path) then
+                                vim.list_extend(args, { "--plugin", "prettier-plugin-svelte" })
+                            end
+                        end
+                        return args
+                    end,
                 },
             },
         },
@@ -278,8 +314,35 @@ return {
     -- Treesitter (parsers installed via :TSInstall or build hook)
     {
         "nvim-treesitter/nvim-treesitter",
-        build = ":TSInstall lua c cpp python rust zig markdown markdown_inline make cmake toml yaml json",
+        build = ":TSUpdate",
         lazy = false,
+        config = function()
+            require("nvim-treesitter").setup()
+
+            -- Install parsers if missing
+            local langs = {
+                "lua", "c", "cpp", "python", "rust", "zig",
+                "markdown", "markdown_inline", "make", "cmake",
+                "toml", "yaml", "json", "svelte", "typescript",
+                "javascript", "html", "css",
+            }
+            local installed = require("nvim-treesitter.config").get_installed()
+            local to_install = vim.tbl_filter(function(lang)
+                return not vim.list_contains(installed, lang)
+            end, langs)
+            if #to_install > 0 then
+                require("nvim-treesitter").install(to_install)
+            end
+
+            -- Enable treesitter highlighting and indentation
+            vim.api.nvim_create_autocmd("FileType", {
+                callback = function()
+                    if pcall(vim.treesitter.start) then
+                        vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+                    end
+                end,
+            })
+        end,
     },
 
     -- Completion engine

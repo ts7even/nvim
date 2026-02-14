@@ -33,18 +33,6 @@ vim.keymap.set("n", "<C-M-l>", "gt", { desc = "Next tab" })
 -- Terminal: escape to normal mode
 vim.keymap.set("t", "<esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 
--- Auto format on save (supported languages only)
-vim.api.nvim_create_autocmd("BufWritePre", {
-    pattern = {
-        "*.lua", "*.c", "*.cpp", "*.h", "*.hpp",
-        "*.py", "*.rs", "*.zig",
-        "*.md", "*.toml", "*.yaml", "*.yml", "*.json",
-    },
-    callback = function()
-        vim.lsp.buf.format({ async = false })
-    end,
-})
-
 -- Spell suggestions: small floating window, bottom-left, 5 choices
 vim.keymap.set("n", "<leader>ss", function()
     local word = vim.fn.expand("<cword>")

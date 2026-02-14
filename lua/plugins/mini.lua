@@ -43,7 +43,6 @@ return {
                     textobject = "gc",
                 },
             })
-
         end,
     },
 }

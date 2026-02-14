@@ -1,0 +1,10 @@
+{
+  "contributes": {
+    "snippets": [
+      {
+        "language": ["c", "cpp", "java", "javascript", "typescript", "css", "svelte", "rust", "python"],
+        "path": "./comments.json"
+      }
+    ]
+  }
+}
