@@ -40,17 +40,12 @@ return {
             },
         })
 
-        -- Format org files to 80 char width with <leader>cf
+        vim.lsp.enable("org")
+
         vim.api.nvim_create_autocmd("FileType", {
             pattern = "org",
             callback = function(ev)
                 vim.bo[ev.buf].textwidth = 80
-                vim.keymap.set({ "n", "x" }, "<leader>cf", function()
-                    local cursor = vim.api.nvim_win_get_cursor(0)
-                    vim.cmd("normal! gggqG")
-                    vim.api.nvim_win_get_cursor(0)
-                    pcall(vim.api.nvim_win_set_cursor, 0, cursor)
-                end, { buffer = ev.buf, desc = "Format org to 80 cols" })
             end,
         })
 

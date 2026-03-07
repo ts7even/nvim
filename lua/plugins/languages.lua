@@ -159,20 +159,37 @@ return {
             vim.lsp.enable("zls")
 
             -- Rust
+            local ra_capabilities = vim.deepcopy(capabilities)
+            ra_capabilities.workspace = ra_capabilities.workspace or {}
+            ra_capabilities.workspace.didChangeWatchedFiles = ra_capabilities.workspace.didChangeWatchedFiles or {}
+            ra_capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = false
+
             vim.lsp.config("rust_analyzer", {
-                capabilities = capabilities,
+                capabilities = ra_capabilities,
                 settings = {
                     ["rust-analyzer"] = {
                         cargo = {
-                            allFeatures = true,
+                            allFeatures = false,
                             loadOutDirsFromCheck = true,
                         },
+                        numThreads = 4,
                         checkOnSave = true,
                         check = {
                             command = "clippy",
+                            extraArgs = { "--no-deps" },
                         },
                         procMacro = {
                             enable = true,
+                        },
+                        files = {
+                            excludeDirs = {
+                                ".direnv",
+                                ".git",
+                                ".github",
+                                ".gitlab",
+                                "node_modules",
+                                "target",
+                            },
                         },
                         inlayHints = {
                             enable = true,
@@ -279,6 +296,7 @@ return {
                 typescript = { "prettier" },
                 html = { "prettier" },
                 css = { "prettier" },
+                org = { "injected" },
             },
             formatters = {
                 ["clang-format"] = {
