@@ -14,6 +14,20 @@ vim.opt.spelllang = "en_us"
 -- Editor behavior
 vim.opt.relativenumber = true
 vim.opt.number = true
+-- Allows you to use clipboard in ssh
+vim.g.clipboard = {
+  name = 'OSC 52',
+  copy = {
+    ['+'] = require('vim.ui.clipboard.osc52').copy('+'),
+    ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
+  },
+  paste = {
+    ['+'] = require('vim.ui.clipboard.osc52').paste('+'),
+    ['*'] = require('vim.ui.clipboard.osc52').paste('*'),
+  },
+}
+
+vim.opt.clipboard = 'unnamedplus'
 vim.opt.clipboard = "unnamedplus"
 vim.opt.conceallevel = 1
 vim.opt.ignorecase = true
