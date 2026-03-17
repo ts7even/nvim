@@ -40,6 +40,13 @@ vim.opt_local.colorcolumn = "100"
 vim.opt.foldenable = false -- Don't auto-fold files
 vim.opt.autoread = true    -- Auto-reload files changed outside of Neovim
 
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = "markdown",
+    callback = function(ev)
+        vim.bo[ev.buf].textwidth = 80
+    end,
+})
+
 -- Tab navigation
 vim.keymap.set("n", "<C-M-h>", "gT", { desc = "Previous tab" })
 vim.keymap.set("n", "<C-M-l>", "gt", { desc = "Next tab" })

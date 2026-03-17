@@ -86,7 +86,23 @@ return {
             {
                 "<leader>fp",
                 function()
-                    Snacks.picker.projects({
+                    local projects = {
+                        { name = "Neovim Config", path = "~/.config/nvim" },
+                        { name = "Dotfiles",      path = "~/.config/cli-dots" },
+                        -- Add more projects here
+                    }
+                    Snacks.picker.pick({
+                        title = "Projects",
+                        items = vim.tbl_map(function(p)
+                            local expanded = vim.fn.expand(p.path)
+                            return { text = p.name .. "  " .. p.path, file = expanded, name = p.name }
+                        end, projects),
+                        format = function(item)
+                            return {
+                                { item.name .. "  ", "SnacksPickerLabel" },
+                                { item.file,         "SnacksPickerComment" },
+                            }
+                        end,
                         confirm = function(picker, item)
                             picker:close()
                             if item and item.file then
@@ -135,53 +151,6 @@ return {
             -- Git
             { "<leader>gl",  function() Snacks.lazygit() end,                                  desc = "Lazygit" },
             { "<leader>gbr", function() Snacks.picker.git_branches({ layout = "select" }) end, desc = "Git Branches" },
-            -- Terminals with toggle support
-            {
-                "<leader>tv",
-                function()
-                    local term_buf = vim.g.term_vsplit_buf
-                    -- Check if terminal buffer exists and is valid
-                    if term_buf and vim.api.nvim_buf_is_valid(term_buf) then
-                        -- Find window displaying this buffer
-                        for _, win in ipairs(vim.api.nvim_list_wins()) do
-                            if vim.api.nvim_win_get_buf(win) == term_buf then
-                                vim.api.nvim_win_close(win, true)
-                                return
-                            end
-                        end
-                        -- Buffer exists but not visible, show it
-                        vim.cmd("vsplit")
-                        vim.api.nvim_set_current_buf(term_buf)
-                    else
-                        -- Create new terminal
-                        vim.cmd("vsplit | terminal")
-                        vim.g.term_vsplit_buf = vim.api.nvim_get_current_buf()
-                        vim.wo.spell = false
-                    end
-                end,
-                desc = "Terminal (vertical)"
-            },
-            {
-                "<leader>th",
-                function()
-                    local term_buf = vim.g.term_hsplit_buf
-                    if term_buf and vim.api.nvim_buf_is_valid(term_buf) then
-                        for _, win in ipairs(vim.api.nvim_list_wins()) do
-                            if vim.api.nvim_win_get_buf(win) == term_buf then
-                                vim.api.nvim_win_close(win, true)
-                                return
-                            end
-                        end
-                        vim.cmd("split")
-                        vim.api.nvim_set_current_buf(term_buf)
-                    else
-                        vim.cmd("split | terminal")
-                        vim.g.term_hsplit_buf = vim.api.nvim_get_current_buf()
-                        vim.wo.spell = false
-                    end
-                end,
-                desc = "Terminal (horizontal)"
-            },
             { "<leader>bd", function() Snacks.bufdelete() end, desc = "Delete Buffer" },
         },
     },

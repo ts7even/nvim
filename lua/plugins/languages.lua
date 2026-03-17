@@ -275,10 +275,7 @@ return {
             },
         },
         opts = {
-            format_on_save = {
-                timeout_ms = 500,
-                lsp_fallback = false,
-            },
+            format_on_save = false,
             formatters_by_ft = {
                 lua = { "stylua" },
                 c = { "clang-format" },
@@ -286,7 +283,7 @@ return {
                 python = { "ruff_format", "ruff_organize_imports" },
                 rust = { "rustfmt" },
                 zig = { "zigfmt" },
-                markdown = { "prettier" },
+                markdown = { "injected" },
                 toml = { "taplo" },
                 yaml = { "yamlfmt" },
                 yml = { "yamlfmt" },
