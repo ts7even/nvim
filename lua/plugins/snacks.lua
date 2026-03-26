@@ -86,11 +86,8 @@ return {
             {
                 "<leader>fp",
                 function()
-                    local projects = {
-                        { name = "Neovim Config", path = "~/.config/nvim" },
-                        { name = "Dotfiles",      path = "~/.config/cli-dots" },
-                        -- Add more projects here
-                    }
+                    local paths = require("paths")
+                    local projects = paths.projects()
                     Snacks.picker.pick({
                         title = "Projects",
                         items = vim.tbl_map(function(p)
@@ -107,7 +104,6 @@ return {
                             picker:close()
                             if item and item.file then
                                 vim.cmd("cd " .. item.file)
-                                -- Auto-activate Python venv if present
                                 local venv_path = item.file .. "/.venv"
                                 if vim.fn.isdirectory(venv_path) == 1 then
                                     vim.env.VIRTUAL_ENV = venv_path
@@ -121,15 +117,11 @@ return {
                 end,
                 desc = "Projects"
             },
-            -- Bookmarked files (harpoon replacement)
             {
                 "<leader>fm",
                 function()
-                    local bookmarks = {
-                        { name = "Neovim Keybinds", path = "~/.config/nvim/keybindings.org" },
-                        { name = "Ghostty Config",  path = "~/.config/ghostty/config" },
-                        -- Add more bookmarks here
-                    }
+                    local paths = require("paths")
+                    local bookmarks = paths.bookmarks()
                     Snacks.picker.pick({
                         title = "Bookmarks",
                         items = vim.tbl_map(function(b)
@@ -138,13 +130,30 @@ return {
                         format = function(item)
                             return { { item.text } }
                         end,
-                        confirm = function(picker, item)
-                            picker:close()
-                            if item then vim.cmd("edit " .. item.file) end
-                        end,
                     })
                 end,
                 desc = "Bookmarks"
+            },
+            {
+                "<leader>fo",
+                function()
+                    local paths = require("paths")
+                    local orgfiles = paths.orgfiles()
+                    Snacks.picker.pick({
+                        title = "Org / Notes",
+                        items = vim.tbl_map(function(o)
+                            local expanded = vim.fn.expand(o.path)
+                            return { text = o.name .. "  " .. o.path, file = expanded, name = o.name }
+                        end, orgfiles),
+                        format = function(item)
+                            return {
+                                { item.name .. "  ", "SnacksPickerLabel" },
+                                { item.file,         "SnacksPickerComment" },
+                            }
+                        end,
+                    })
+                end,
+                desc = "Org / Notes"
             },
             { "<leader>pk",  function() Snacks.picker.keymaps({ layout = "ivy" }) end,         desc = "Keymaps" },
             { "<leader>qf",  function() Snacks.picker.qflist() end,                            desc = "Quickfix" },

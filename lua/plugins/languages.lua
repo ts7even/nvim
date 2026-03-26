@@ -15,6 +15,7 @@ return {
                 ensure_installed = {
                     "lua_ls",        -- Lua (for Neovim config)
                     "clangd",        -- C and CPP
+                    "pyright",       -- Python types/completions
                     "ruff",          -- Python linting/formatting
                     "rust_analyzer", -- Rust
                     "zls",           -- Zig
@@ -106,21 +107,13 @@ return {
             })
             vim.lsp.enable("clangd")
 
-            -- Python (Pyright + Ruff)
-            local python_on_attach = function(client, bufnr)
-                if client.name == "ruff" then
-                    client.server_capabilities.hoverProvider = false
-                end
-            end
-
+            -- Python (Pyright for types/completions, Ruff for linting/formatting)
             vim.lsp.config("pyright", {
                 capabilities = capabilities,
-                on_attach = python_on_attach,
                 settings = {
                     pyright = { disableOrganizeImports = true },
                     python = {
                         analysis = {
-                            ignore = { "*" },
                             typeCheckingMode = "basic",
                             autoSearchPaths = true,
                             useLibraryCodeForTypes = true,
@@ -132,7 +125,9 @@ return {
 
             vim.lsp.config("ruff", {
                 capabilities = capabilities,
-                on_attach = python_on_attach,
+                on_attach = function(client)
+                    client.server_capabilities.hoverProvider = false
+                end,
                 init_options = {
                     settings = {
                         format = { preview = true },
@@ -268,7 +263,13 @@ return {
             {
                 "<leader>cf",
                 function()
-                    require("conform").format({ async = true, lsp_fallback = true })
+                    if vim.bo.filetype == "org" then
+                        local view = vim.fn.winsaveview()
+                        vim.cmd("normal! gggqG")
+                        vim.fn.winrestview(view)
+                    else
+                        require("conform").format({ async = true, lsp_fallback = true })
+                    end
                 end,
                 mode = "",
                 desc = "Format code",
@@ -366,18 +367,6 @@ return {
         version = '1.*',
 
         opts = {
-            -- 'default' (recommended) for mappings similar to built-in completions (C-y to accept)
-            -- 'super-tab' for mappings similar to vscode (tab to accept)
-            -- 'enter' for enter to accept
-            -- 'none' for no mappings
-            --
-            -- All presets have the following mappings:
-            -- C-space: Open menu or open docs if already open
-            -- C-n/C-p or Up/Down: Select next/previous item
-            -- C-e: Hide menu
-            -- C-k: Toggle signature help (if signature.enabled = true)
-            --
-            -- See :h blink-cmp-config-keymap for defining your own keymap
             keymap = { preset = 'super-tab' },
 
             appearance = {

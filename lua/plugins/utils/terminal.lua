@@ -5,13 +5,23 @@ return {
         { "<C-\\>",     function() require("toggleterm").toggle(0, nil, nil, "horizontal") end, mode = { "n", "t" }, desc = "Toggle Terminal" },
         { "<leader>tt", function() require("toggleterm").toggle(0, nil, nil, "horizontal") end, desc = "Toggle Terminal" },
         { "<leader>tn", function()
+            local Terminal = require("toggleterm.terminal")
+            local terms = Terminal.get_all()
+            -- Find direction of currently open terminal, close it first
+            local dir = "horizontal"
+            for _, t in ipairs(terms) do
+                if t:is_open() then
+                    dir = t.direction or "horizontal"
+                    t:close()
+                    break
+                end
+            end
             -- Create next terminal (find highest number + 1)
-            local terms = require("toggleterm.terminal").get_all()
             local next_id = 1
             for _, t in ipairs(terms) do
                 if t.id >= next_id then next_id = t.id + 1 end
             end
-            require("toggleterm").toggle(next_id, nil, nil, "horizontal")
+            require("toggleterm").toggle(next_id, nil, nil, dir)
         end, desc = "New Terminal" },
         { "<leader>tl", function()
             local Terminal = require("toggleterm.terminal")

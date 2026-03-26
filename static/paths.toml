@@ -1,0 +1,27 @@
+## Projects - directories to quick-switch into
+[[projects]]
+name = "Neovim Config"
+path = "~/.config/nvim"
+
+[[projects]]
+name = "Dotfiles"
+path = "~/.config/cli-dots"
+
+## Bookmarks - frequently accessed files
+[[bookmarks]]
+name = "Neovim Keybinds"
+path = "~/.config/nvim/keybindings.org"
+
+[[bookmarks]]
+name = "Ghostty Config"
+path = "~/.config/ghostty/config"
+
+[[bookmarks]]
+name = "Fish Config"
+path = "~/.config/fish/fish.conf"
+
+
+## Orgfiles / Notes
+[[orgfiles]]
+name = "Notes"
+path = "~/org"
