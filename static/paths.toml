@@ -7,10 +7,23 @@ path = "~/.config/nvim"
 name = "Dotfiles"
 path = "~/.config/cli-dots"
 
+[[projects]]
+name = "libparametric"
+path = "~/Development/parametric/libparametric"
+
+[[projects]]
+name = "Convexity API"
+path = "~/Development/parametric/convexity-api"
+
+[[projects]]
+name = "Convexbox"
+path = "~/Development/parametric/convexbox"
+
+[[projects]]
+name = "Business Docs"
+path = "~/Development/parametric/business-docs"
+
 ## Bookmarks - frequently accessed files
-[[bookmarks]]
-name = "Neovim Keybinds"
-path = "~/.config/nvim/keybindings.org"
 
 [[bookmarks]]
 name = "Ghostty Config"

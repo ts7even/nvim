@@ -353,6 +353,10 @@ return {
             -- Enable treesitter highlighting and indentation
             vim.api.nvim_create_autocmd("FileType", {
                 callback = function()
+                    local dominated_by_cindent = { c = true, cpp = true }
+                    if dominated_by_cindent[vim.bo.filetype] then
+                        return
+                    end
                     if pcall(vim.treesitter.start) then
                         vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
                     end
