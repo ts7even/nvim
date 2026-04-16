@@ -44,6 +44,22 @@ return {
                         },
                     },
                 },
+                sources = {
+                    buffers = {
+                        win = {
+                            input = {
+                                keys = {
+                                    ["<C-d>"] = { "bufdelete", mode = { "i", "n" } },
+                                },
+                            },
+                            list = {
+                                keys = {
+                                    ["<C-d>"] = "bufdelete",
+                                },
+                            },
+                        },
+                    },
+                },
             },
             explorer = { enabled = true },
             dashboard = {
