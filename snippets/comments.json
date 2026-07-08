@@ -1,0 +1,45 @@
+{
+  "Multiline Block Comment": {
+    "prefix": "/**",
+    "body": ["/**", " * ${1}", " */"],
+    "description": "C-style multiline block comment"
+  },
+  "Rust Doc Comment": {
+    "prefix": "///",
+    "body": ["/// ${1}"],
+    "description": "Rust doc comment"
+  },
+  "Rust Multiline Doc Comment": {
+    "prefix": "//!",
+    "body": ["//! ${1}"],
+    "description": "Rust module-level doc comment"
+  },
+  "Doxygen Function Doc": {
+    "prefix": "cfd",
+    "body": [
+      "/**",
+      " * @brief ${1:description}",
+      " * @param ${2:name} ${3:description}",
+      " * @return ${4:description}",
+      " */"
+    ],
+    "description": "Doxygen function documentation block"
+  },
+  "Doxygen File Header": {
+    "prefix": "ctl",
+    "body": [
+      "/**",
+      " * @file ${1:filename}",
+      " * @brief ${2:description}",
+      " * @author ${3:author}",
+      " * @date ${4:date}",
+      " */"
+    ],
+    "description": "Doxygen file header documentation block"
+  },
+  "Python Docstring": {
+    "prefix": "\"\"\"",
+    "body": ["\"\"\"", "${1}", "\"\"\""],
+    "description": "Python multiline docstring"
+  }
+}
