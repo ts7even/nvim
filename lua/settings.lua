@@ -131,22 +131,26 @@ vim.keymap.set("n", "<leader>ss", function()
 end, { desc = "Spelling suggestions" })
 
 
--- Project / bookmark cache (machine-local; see lua/paths.lua)
-vim.api.nvim_create_user_command("AddProject", function()
+-- Projects / bookmarks, shared with Emacs via ~/.projects and ~/.bookmarks
+-- (see lua/paths.lua)
+vim.api.nvim_create_user_command("ProjectAdd", function()
     require("paths").add_interactive("projects", vim.fn.getcwd())
-end, { desc = "Add cwd as a project" })
-vim.api.nvim_create_user_command("AddBookmark", function()
+end, { desc = "Append cwd to ~/.projects" })
+vim.api.nvim_create_user_command("BookmarkAdd", function()
     require("paths").add_interactive("bookmarks", vim.fn.expand("%:p"))
-end, { desc = "Bookmark the current file" })
+end, { desc = "Append the current file to ~/.bookmarks" })
 
 
 -- Activate Python Virtual Environment
 vim.api.nvim_create_user_command("VenvActivate", function(opts)
   local path = opts.args ~= "" and opts.args or (vim.fn.getcwd() .. "/.venv")
-  vim.env.VIRTUAL_ENV = path
-  vim.env.PATH = path .. "/bin:" .. vim.env.PATH
-  if vim.fn.exists(":LspRestart") == 2 then vim.cmd("LspRestart") end
-  print("Activated " .. path)
+  local venv = require("venv")
+  if venv.activate(path) then
+    print("Activated " .. path)
+  else
+    print("No venv at " .. path .. " (deactivated the previous one)")
+  end
+  venv.restart_python_lsp()
 end, { nargs = "?", complete = "dir" })
 
 

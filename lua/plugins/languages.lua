@@ -25,8 +25,13 @@ return {
                     "jsonls",        -- JSON
                     "ts_ls",         -- TypeScript (needed by Svelte)
                     "svelte",        -- Svelte
+                    "html",          -- HTML
+                    "cssls",         -- CSS/SCSS/LESS
+                    "emmet_language_server", -- Emmet abbreviations (html/css/svelte)
                 },
-                automatic_installation = true,
+                -- mason-lspconfig v2 auto-enables every installed server
+                -- (`automatic_enable`, on by default); the explicit
+                -- vim.lsp.enable() calls below just make that intent visible.
             })
         end,
     },
@@ -65,7 +70,9 @@ return {
                 vim.keymap.set("n", "<leader>cD", vim.lsp.buf.declaration, { desc = "Goto Declaration" })
                 vim.keymap.set("n", "<leader>ck", vim.lsp.buf.hover, { desc = "Hover Documentation" })
                 vim.keymap.set("n", "<leader>cs", vim.lsp.buf.signature_help, { desc = "Signature Help" })
-                vim.keymap.set("i", "<C-k>", vim.lsp.buf.signature_help, { desc = "Signature Help" })
+                -- No insert-mode <C-k> here: it would shadow blink.cmp's own
+                -- <C-k> (show_signature/hide_signature), which toggles rather
+                -- than only opening, and falls back when no server answers.
                 vim.keymap.set({ "n", "x" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Action" })
                 vim.keymap.set({ "n", "x" }, "<leader>cl", vim.lsp.codelens.run, { desc = "Run Codelens" })
                 vim.keymap.set("n", "<leader>cL", vim.lsp.codelens.refresh, { desc = "Refresh Codelens" })
@@ -97,6 +104,13 @@ return {
                     "--completion-style=detailed",
                     "--function-arg-placeholders",
                     "--fallback-style=llvm",
+                    -- Honour .clangd / compile_flags.txt in the project root,
+                    -- so a tree without compile_commands.json still resolves
+                    -- includes instead of silently completing nothing.
+                    "--enable-config",
+                    -- Complete symbols from headers that aren't included yet
+                    -- (paired with --header-insertion=iwyu above).
+                    "--all-scopes-completion",
                 },
                 init_options = {
                     usePlaceholders = true,
@@ -108,8 +122,42 @@ return {
             vim.lsp.enable("clangd")
 
             -- Python (Pyright for types/completions, Ruff for linting/formatting)
+            --
+            -- Pyright resolves imports against a single interpreter. Without
+            -- being told which one, it uses the first `python3` on $PATH and
+            -- therefore sees none of the project's site-packages -- the usual
+            -- reason completion for a third-party class comes up empty. Find
+            -- the venv per project root and hand over its interpreter.
+            --
+            -- The root's own venv wins over VIRTUAL_ENV. Both are consulted
+            -- because VIRTUAL_ENV covers the venv-outside-the-tree case (and
+            -- the shell having activated one before nvim started), but it is a
+            -- single session-wide value: with a client per root, checking it
+            -- first would give every project the interpreter of whichever one
+            -- was activated last.
+            local function python_path(root)
+                for _, name in ipairs({ ".venv", "venv", ".env" }) do
+                    local p = vim.fs.joinpath(root, name, "bin", "python")
+                    if vim.uv.fs_stat(p) then
+                        return p
+                    end
+                end
+                if vim.env.VIRTUAL_ENV then
+                    return vim.env.VIRTUAL_ENV .. "/bin/python"
+                end
+                return vim.fn.exepath("python3")
+            end
+
             vim.lsp.config("pyright", {
                 capabilities = capabilities,
+                before_init = function(_, config)
+                    -- Mutate the settings table in place. The client captures
+                    -- this exact table before before_init runs, so assigning a
+                    -- new one (config.settings = ...) is silently dropped.
+                    local settings = config.settings
+                    settings.python = settings.python or {}
+                    settings.python.pythonPath = python_path(config.root_dir or vim.fn.getcwd())
+                end,
                 settings = {
                     pyright = { disableOrganizeImports = true },
                     python = {
@@ -215,6 +263,21 @@ return {
             -- Svelte
             vim.lsp.config("svelte", { capabilities = capabilities })
             vim.lsp.enable("svelte")
+
+            -- HTML. vscode-html-language-server only returns completions when
+            -- the client advertises snippet support; blink's capabilities do.
+            -- Inside .svelte files the svelte server covers markup instead.
+            vim.lsp.config("html", { capabilities = capabilities })
+            vim.lsp.enable("html")
+
+            -- CSS / SCSS / LESS
+            vim.lsp.config("cssls", { capabilities = capabilities })
+            vim.lsp.enable("cssls")
+
+            -- Emmet abbreviations (div.foo>ul>li*3<Tab>) for markup filetypes,
+            -- including svelte.
+            vim.lsp.config("emmet_language_server", { capabilities = capabilities })
+            vim.lsp.enable("emmet_language_server")
 
             -- Markdown
             vim.lsp.config("marksman", {
@@ -447,6 +510,38 @@ return {
         cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
         ft = { "markdown" },
         build = function() vim.fn["mkdp#util#install"]() end,
+    },
+
+    -- Markdown preview #2: peek renders through Deno and scroll-syncs with the
+    -- buffer as you type. `app = "browser"` sends the page to $BROWSER instead
+    -- of peek's own webview window, which is the reason to pick it over the
+    -- webview default -- the webview build needs libwebkit2gtk at runtime.
+    --
+    -- Deno comes from mise. The build step runs in whatever environment lazy
+    -- was started in, so `deno` has to be on PATH there; the mise shim at
+    -- ~/.local/share/mise/shims/deno is the stable path if a desktop launcher
+    -- ever starts nvim without mise activated.
+    --
+    -- Defines no commands of its own, so they are created below.
+    {
+        "toppair/peek.nvim",
+        build = "deno task --quiet build:fast",
+        ft = { "markdown" },
+        cmd = { "PeekOpen", "PeekClose", "PeekToggle" },
+        config = function()
+            local peek = require("peek")
+            peek.setup({
+                app = "browser",
+                theme = "dark",       -- matches kanagawa-wave
+                update_on_change = true,
+                close_on_bdelete = true,
+            })
+            vim.api.nvim_create_user_command("PeekOpen", peek.open, { desc = "Peek: preview in browser" })
+            vim.api.nvim_create_user_command("PeekClose", peek.close, { desc = "Peek: close preview" })
+            vim.api.nvim_create_user_command("PeekToggle", function()
+                if peek.is_open() then peek.close() else peek.open() end
+            end, { desc = "Peek: toggle preview" })
+        end,
     },
 
     -- Markdown extras (folding disabled)

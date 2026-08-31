@@ -20,8 +20,18 @@ return {
                 nerd_font_variant = 'mono'
             },
 
-            -- (Default) Only show the documentation popup when manually triggered
-            completion = { documentation = { auto_show = false } },
+            -- Show the signature/docs for the selected item automatically, so
+            -- the completion list explains what each method takes instead of
+            -- needing <C-space> a second time. <C-b>/<C-f> scroll it.
+            completion = {
+                documentation = {
+                    auto_show = true,
+                    auto_show_delay_ms = 250,
+                },
+            },
+
+            -- Parameter hints while typing inside a call. <C-k> toggles it.
+            signature = { enabled = true },
 
             -- Default list of enabled providers defined so that you can extend it
             -- elsewhere in your config, without redefining it, due to `opts_extend`

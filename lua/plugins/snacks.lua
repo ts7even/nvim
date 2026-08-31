@@ -1,11 +1,12 @@
--- Curated pickers backed by the machine-local cache in lua/paths.lua.
--- <c-d> inside a picker deletes the highlighted entry from the cache.
+-- Curated pickers backed by the ~/.projects and ~/.bookmarks files that
+-- Emacs also reads; see lua/paths.lua. :ProjectAdd and :BookmarkAdd append to
+-- them; <leader>fP and <leader>fM open them to remove or rename by hand.
 local function project_picker()
     local paths = require("paths")
     Snacks.picker.pick({
         title = "Projects",
         items = vim.tbl_map(function(p)
-            return { text = p.name .. "  " .. p.path, file = vim.fn.expand(p.path), raw_path = p.path, name = p.name }
+            return { text = p.name .. "  " .. p.path, file = vim.fn.expand(p.path), name = p.name }
         end, paths.projects()),
         format = function(item)
             return {
@@ -16,26 +17,19 @@ local function project_picker()
         confirm = function(picker, item)
             picker:close()
             if item and item.file then
-                vim.cmd("cd " .. item.file)
-                local venv_path = item.file .. "/.venv"
-                if vim.fn.isdirectory(venv_path) == 1 then
-                    vim.env.VIRTUAL_ENV = venv_path
-                    vim.env.PATH = venv_path .. "/bin:" .. vim.env.PATH
-                    vim.notify("Activated venv: " .. venv_path, vim.log.levels.INFO)
+                vim.cmd("cd " .. vim.fn.fnameescape(item.file))
+                -- Swap the session venv over, even when the new project has
+                -- none: leaving the old one active would hand its interpreter
+                -- to this project's pyright. Restart the Python servers either
+                -- way, since they only read the interpreter at startup.
+                local venv = require("venv")
+                if venv.activate(item.file .. "/.venv") then
+                    vim.notify("Activated venv: " .. item.file .. "/.venv", vim.log.levels.INFO)
                 end
+                venv.restart_python_lsp()
                 Snacks.picker.files()
             end
         end,
-        actions = {
-            delete_entry = function(picker, item)
-                if item then
-                    require("paths").remove("projects", item.raw_path)
-                    picker:close()
-                    vim.schedule(project_picker)
-                end
-            end,
-        },
-        win = { input = { keys = { ["<c-d>"] = { "delete_entry", mode = { "n", "i" } } } } },
     })
 end
 
@@ -44,7 +38,7 @@ local function bookmark_picker()
     Snacks.picker.pick({
         title = "Bookmarks",
         items = vim.tbl_map(function(b)
-            return { text = b.name, file = vim.fn.expand(b.path), raw_path = b.path, name = b.name }
+            return { text = b.name, file = vim.fn.expand(b.path), name = b.name }
         end, paths.bookmarks()),
         format = function(item)
             return {
@@ -56,16 +50,6 @@ local function bookmark_picker()
             picker:close()
             if item and item.file then vim.cmd("edit " .. vim.fn.fnameescape(item.file)) end
         end,
-        actions = {
-            delete_entry = function(picker, item)
-                if item then
-                    require("paths").remove("bookmarks", item.raw_path)
-                    picker:close()
-                    vim.schedule(bookmark_picker)
-                end
-            end,
-        },
-        win = { input = { keys = { ["<c-d>"] = { "delete_entry", mode = { "n", "i" } } } } },
     })
 end
 
@@ -183,6 +167,18 @@ return {
             { "<leader>fs", function() Snacks.picker.grep_word() end,          desc = "Search Word", mode = { "n", "x" } },
             { "<leader>fp", project_picker, desc = "Projects" },
             { "<leader>fm", bookmark_picker, desc = "Bookmarks" },
+            -- Removing and renaming happen in the file itself; the pickers
+            -- re-read it every time they open, so no reload step.
+            {
+                "<leader>fP",
+                function() vim.cmd("edit " .. vim.fn.fnameescape(require("paths").file("projects"))) end,
+                desc = "Edit projects file",
+            },
+            {
+                "<leader>fM",
+                function() vim.cmd("edit " .. vim.fn.fnameescape(require("paths").file("bookmarks"))) end,
+                desc = "Edit bookmarks file",
+            },
             {
                 "<leader>fo",
                 function()
@@ -199,6 +195,12 @@ return {
                                 { item.name .. "  ", "SnacksPickerLabel" },
                                 { item.file,         "SnacksPickerComment" },
                             }
+                        end,
+                        confirm = function(picker, item)
+                            picker:close()
+                            if item and item.file then
+                                Snacks.picker.files({ cwd = item.file })
+                            end
                         end,
                     })
                 end,

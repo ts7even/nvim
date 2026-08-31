@@ -64,13 +64,19 @@ return {
 		config = function()
 			vim.api.nvim_set_hl(0, "DapStoppedLine", { default = true, link = "Visual" })
 
-			-- DAP signs
+			-- DAP signs. These previously held Nerd Font icons that got stripped
+			-- down to bare spaces: the signs were still defined and still placed,
+			-- but drew nothing, so a toggled breakpoint was invisible in the
+			-- gutter. Use plain geometric characters (the same set as the
+			-- markdown bullets in plugins/languages.lua) so they cannot silently
+			-- vanish again. Each entry is { text, texthl, linehl }; text is
+			-- padded to 2 cells to fill the sign column.
 			local dap_icons = {
 				Stopped = { "󰁕 ", "DiagnosticWarn", "DapStoppedLine" },
-				Breakpoint = " ",
-				BreakpointCondition = " ",
-				BreakpointRejected = { " ", "DiagnosticError" },
-				LogPoint = ".>",
+				Breakpoint = { "● ", "DiagnosticError" },
+				BreakpointCondition = { "◆ ", "DiagnosticWarn" },
+				BreakpointRejected = { "○ ", "DiagnosticError" },
+				LogPoint = { ".>", "DiagnosticInfo" },
 			}
 
 			for name, sign in pairs(dap_icons) do
