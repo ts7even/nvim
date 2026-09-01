@@ -375,7 +375,7 @@ return {
                 python = { "ruff_format", "ruff_organize_imports" },
                 rust = { "rustfmt" },
                 zig = { "zigfmt" },
-                markdown = { "injected" },
+                markdown = { "prettier", "injected" },
                 toml = { "taplo" },
                 yaml = { "yamlfmt" },
                 yml = { "yamlfmt" },
