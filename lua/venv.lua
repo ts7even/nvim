@@ -73,6 +73,13 @@ function M.restart_python_lsp()
     local timer = assert(vim.uv.new_timer())
     local waited = 0
     timer:start(50, 50, vim.schedule_wrap(function()
+        -- schedule_wrap defers each tick to the main loop, so several can be
+        -- queued before the first one runs and stops the timer. Without this
+        -- guard the second one closes an already-closed handle (an error) and
+        -- re-enables the servers a second time.
+        if timer:is_closing() then
+            return
+        end
         waited = waited + 50
         local stopped = true
         for _, c in ipairs(clients) do
