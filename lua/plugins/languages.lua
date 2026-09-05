@@ -504,12 +504,18 @@ return {
         end,
     },
 
-    -- Markdown preview
+    -- Markdown preview: needs a prebuilt server binary in app/bin, fetched by
+    -- app/install.sh. The vim.fn["mkdp#util#install"]() build form runs that
+    -- installer in an async terminal window and can report success while the
+    -- download never happened, leaving app/bin absent -- the commands then fail
+    -- silently because there is no server to start. The shell form below runs
+    -- it synchronously so lazy actually sees a non-zero exit. No argument means
+    -- install.sh resolves the latest release itself.
     {
         "iamcco/markdown-preview.nvim",
         cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
         ft = { "markdown" },
-        build = function() vim.fn["mkdp#util#install"]() end,
+        build = "cd app && ./install.sh",
     },
 
     -- Markdown preview #2: peek renders through Deno and scroll-syncs with the
