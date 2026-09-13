@@ -518,38 +518,6 @@ return {
         build = "cd app && ./install.sh",
     },
 
-    -- Markdown preview #2: peek renders through Deno and scroll-syncs with the
-    -- buffer as you type. `app = "browser"` sends the page to $BROWSER instead
-    -- of peek's own webview window, which is the reason to pick it over the
-    -- webview default -- the webview build needs libwebkit2gtk at runtime.
-    --
-    -- Deno comes from mise. The build step runs in whatever environment lazy
-    -- was started in, so `deno` has to be on PATH there; the mise shim at
-    -- ~/.local/share/mise/shims/deno is the stable path if a desktop launcher
-    -- ever starts nvim without mise activated.
-    --
-    -- Defines no commands of its own, so they are created below.
-    {
-        "toppair/peek.nvim",
-        build = "deno task --quiet build:fast",
-        ft = { "markdown" },
-        cmd = { "PeekOpen", "PeekClose", "PeekToggle" },
-        config = function()
-            local peek = require("peek")
-            peek.setup({
-                app = "browser",
-                theme = "dark",       -- matches kanagawa-wave
-                update_on_change = true,
-                close_on_bdelete = true,
-            })
-            vim.api.nvim_create_user_command("PeekOpen", peek.open, { desc = "Peek: preview in browser" })
-            vim.api.nvim_create_user_command("PeekClose", peek.close, { desc = "Peek: close preview" })
-            vim.api.nvim_create_user_command("PeekToggle", function()
-                if peek.is_open() then peek.close() else peek.open() end
-            end, { desc = "Peek: toggle preview" })
-        end,
-    },
-
     -- Markdown extras (folding disabled)
     {
         "preservim/vim-markdown",
