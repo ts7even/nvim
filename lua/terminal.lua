@@ -45,7 +45,7 @@ local function open_window(slot)
         vim.api.nvim_win_set_height(0, math.max(math.floor(vim.o.lines * 0.35), 8))
     elseif slot == "vertical" then
         vim.cmd("botright vsplit")
-        vim.api.nvim_win_set_width(0, math.max(math.floor(vim.o.columns * 0.4), 40))
+        vim.api.nvim_win_set_width(0, math.max(math.floor(vim.o.columns * 0.5), 40))
     end
 end
 
