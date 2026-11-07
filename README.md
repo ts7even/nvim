@@ -2,6 +2,7 @@
 
 My neovim configuration. 
 
+Sync to servers `rsync -a --delete --exclude .git ~/.config/nvim/ threadripper:~/.config/nvim`
 
 ## Requirements
 
