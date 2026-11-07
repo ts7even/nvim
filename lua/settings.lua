@@ -38,9 +38,12 @@ vim.opt.spelllang = "en_us"
 -- Editor behavior
 vim.opt.relativenumber = true
 vim.opt.number = true
--- Allows you to use clipboard in ssh
-
-if vim.env.SSH_TTY then
+-- Allows you to use clipboard in ssh.
+-- Rex remote sessions are spawned by the Rex server, not sshd, so SSH_TTY is
+-- unset there; detect them via TERM_PROGRAM (only off-Mac, since local macOS
+-- Neovim should keep using pbcopy/pbpaste).
+local remote_rex = vim.env.TERM_PROGRAM == "rex" and vim.fn.has("mac") == 0
+if vim.env.SSH_TTY or remote_rex then
   vim.g.clipboard = {
     name = 'OSC 52',
     copy = {
