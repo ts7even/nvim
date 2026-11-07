@@ -51,17 +51,81 @@ return {
             vim.diagnostic.config({
                 underline = true,
                 update_in_insert = false,
-                virtual_text = {
-                    spacing = 4,
-                    source = "if_many",
-                    prefix = "●",
-                },
+                -- No inline message text; just the underline + sign column.
+                -- <C-w>d shows the message in a popup.
+                virtual_text = false,
                 severity_sort = true,
                 signs = true,
             })
 
+            -- Every LSP/diagnostic float (K, <leader>ck, <leader>cs, <C-w>d)
+            -- opens centered at one fixed size. blink.cmp's completion
+            -- docs/signature windows are its own and are not affected.
+            local open_floating_preview = vim.lsp.util.open_floating_preview
+            ---@diagnostic disable-next-line: duplicate-set-field
+            vim.lsp.util.open_floating_preview = function(contents, syntax, opts)
+                opts = opts or {}
+                local cols, rows = vim.o.columns, vim.o.lines
+                local width = math.min(math.max(math.floor(cols * 0.3), 60), cols - 4)
+                local height = math.min(math.max(math.floor(rows * 0.3), 10), rows - 4)
+                opts.width, opts.height = width, height
+                opts.max_width, opts.max_height = width, height
+                opts.border = opts.border or "rounded"
+                local buf, win = open_floating_preview(contents, syntax, opts)
+                vim.api.nvim_win_set_config(win, {
+                    relative = "editor",
+                    row = math.floor((rows - height) / 2) - 1,
+                    col = math.floor((cols - width) / 2),
+                    width = width,
+                    height = height,
+                })
+                return buf, win
+            end
+
             -- Global LSP keymaps
             local function setup_keymaps()
+                -- LSP-backed gd (Vim's built-in gd is a text search for the
+                -- word in the current function, which is what jumped to the
+                -- wrong place / top of file).
+                vim.keymap.set("n", "gd", function() Snacks.picker.lsp_definitions() end,
+                    { desc = "Goto Definition" })
+                -- Project-wide: find where a class/function/method named like
+                -- the word under the cursor is defined, even when the LSP
+                -- can't infer the type at the call site (e.g. untyped obj.method()).
+                -- Jumps straight there when exactly one definition has that
+                -- exact name; opens the picker only if several do.
+                vim.keymap.set("n", "<leader>cS", function()
+                    local word = vim.fn.expand("<cword>")
+                    if word == "" then return end
+                    local kinds = { [5] = true, [6] = true, [9] = true, [10] = true,
+                        [11] = true, [12] = true, [23] = true } -- class/method/ctor/enum/interface/function/struct
+                    vim.lsp.buf_request_all(0, "workspace/symbol", { query = word }, function(results)
+                        local matches = {}
+                        for client_id, res in pairs(results) do
+                            local client = vim.lsp.get_client_by_id(client_id)
+                            for _, sym in ipairs(res.result or {}) do
+                                if sym.name == word and kinds[sym.kind] and sym.location then
+                                    table.insert(matches, { sym = sym, enc = client and client.offset_encoding or "utf-16" })
+                                end
+                            end
+                        end
+                        vim.schedule(function()
+                            if #matches == 0 then
+                                vim.notify("No definition named '" .. word .. "' in project", vim.log.levels.WARN)
+                            elseif #matches == 1 then
+                                local loc = matches[1].sym.location
+                                if not loc.range then -- WorkspaceSymbol without a range
+                                    loc = { uri = loc.uri, range = { start = { line = 0, character = 0 }, ["end"] = { line = 0, character = 0 } } }
+                                end
+                                vim.cmd("normal! m'") -- so <C-o> jumps back
+                                vim.lsp.util.show_document(loc, matches[1].enc, { focus = true })
+                                vim.cmd("normal! zz")
+                            else
+                                Snacks.picker.lsp_workspace_symbols({ search = word })
+                            end
+                        end)
+                    end)
+                end, { desc = "Find Definition in Project" })
                 vim.keymap.set("n", "<leader>cd", function() Snacks.picker.lsp_definitions() end,
                     { desc = "Goto Definition" })
                 vim.keymap.set("n", "<leader>cr", function() Snacks.picker.lsp_references() end, { desc = "References" })

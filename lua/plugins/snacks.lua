@@ -88,6 +88,9 @@ return {
         opts = {
             input = { enabled = true },
             quickfile = { enabled = true },
+            -- Renders image links inline (markdown, org, ...); Ghostty speaks the
+            -- kitty graphics protocol. Pasting images: lua/image_paste.lua.
+            image = { enabled = true },
             picker = {
                 enabled = true,
                 matchers = { frecency = true },

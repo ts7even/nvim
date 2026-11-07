@@ -169,10 +169,15 @@ vim.api.nvim_create_user_command("Scratch", function(opts)
 end, { nargs = "?", complete = "filetype", desc = "Open a scratch buffer (optional filetype)" })
 
 
--- Print Directory Path
-vim.keymap.set('n', '<leader>ud', function()
-  local dir = vim.fn.expand('%:p:h')
-  vim.fn.setreg('+', dir)        -- yank to system clipboard
-  print(dir)                      -- also show it
-end, { desc = 'Copy file directory' })
+-- Copy the current file's path to the system clipboard (and echo it)
+local function copy_path(modifier)
+  return function()
+    local path = vim.fn.expand('%' .. modifier)
+    if path == '' then return print('Buffer has no file') end
+    vim.fn.setreg('+', path)
+    print(path)
+  end
+end
+vim.keymap.set('n', '<leader>ud', copy_path(':.'), { desc = 'Copy file path (relative)' })
+vim.keymap.set('n', '<leader>uD', copy_path(':p'), { desc = 'Copy file path (full)' })
 
