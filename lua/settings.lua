@@ -38,6 +38,8 @@ vim.opt.spelllang = "en_us"
 -- Editor behavior
 vim.opt.relativenumber = true
 vim.opt.number = true
+-- Hide the "~" markers drawn on lines past the end of the buffer.
+vim.opt.fillchars:append({ eob = " " })
 -- Allows you to use clipboard in ssh.
 -- Rex remote sessions are spawned by the Rex server, not sshd, so SSH_TTY is
 -- unset there; detect them via TERM_PROGRAM (only off-Mac, since local macOS
